@@ -1,29 +1,4 @@
-@startuml
-
-CLASS objectA {
-    attribute1
-    attribute2
-}
-
-CLASS objectB {
-    attribute1
-    attribute2
-}
-
-'EXTENSION
-    objectA <|- objectB
-
-'SIMPLE ASSOCIATION
-    objectA - objectB : NAME_OF_ASSOCIATION
-
-'COMPOSITION
-    objectA *- objectB
-
-'AGGREGATION
-    objectA o- objectB
-
-classDiagram
-    direction LR
+@startuml Domain Model
 
     class Frase {
         +testo: String
@@ -35,7 +10,7 @@ classDiagram
     class Termine {
         +valore: String
     }
-
+    
     class TemplateFrase {
         +pattern: String
     }
