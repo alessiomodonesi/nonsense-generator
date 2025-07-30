@@ -12,7 +12,7 @@
     }
     
     class TemplateGenerator {
-        <<sentenceStructure>>
+         
     }
 
     class Template {
@@ -21,9 +21,7 @@
     }
 
     class Dictionary {
-        <<nouns>>
-        <<verbs>>
-        <<adjectives>>
+        
     }
 
     class WordPicker {
@@ -35,3 +33,28 @@
         <<results>>
         <<mode>>
     }
+    class Nouns {
+
+    }
+    class Verbs {
+
+    }
+    class Adjectives {
+
+    }
+    class SentenceStructures {
+
+    }
+    SentenceStructures o- TemplateGenerator
+    Nouns -* Dictionary
+    Verbs -* Dictionary
+    Adjectives -* Dictionary
+
+    User "1"--"*" Sentence
+    Analyzer "1"--"*" Sentence
+    SentenceGenerator "1"--"*" Sentence
+    Validator "1"--"*" Sentence
+    SentenceGenerator "1"--"1" Template
+    SentenceGenerator "1"--"1" WordPicker
+    TemplateGenerator "1"--"1" Template
+    Dictionary "1"--"1" WordPicker
