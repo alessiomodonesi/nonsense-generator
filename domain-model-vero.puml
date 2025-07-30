@@ -1,0 +1,37 @@
+@startuml Domain Model
+
+    class User {
+    }
+
+    class Sentence {
+        <<sentenceDescription>>
+        <<syntacticTree>>
+    }
+
+    class Analyzer {
+    }
+    
+    class TemplateGenerator {
+        <<sentenceStructure>>
+    }
+
+    class Template {
+        <<templateDescription>>
+        <<wordCount>>
+    }
+
+    class Dictionary {
+        <<nouns>>
+        <<verbs>>
+        <<adjectives>>
+    }
+
+    class WordPicker {
+    }
+    class SentenceGenerator {
+    }
+
+    class Validator {
+        <<results>>
+        <<mode>>
+    }
