@@ -1,0 +1,10 @@
+ title input
+ actor user
+ participant system
+ cashier->system: initiate sale
+ loop
+ cashier->system: insert item 
+note right of system: the cashier scans the barcode 
+end
+ cashier->system: close sale
+ system->cashier: display total
