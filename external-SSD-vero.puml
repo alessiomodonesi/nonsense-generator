@@ -5,11 +5,13 @@ title Input
 actor user
 participant system
 participant GoogleAPI
+
 loop
 user -> system: inputSentence
 system -> system: verifyInput
 system -> user: showInputError
 end
+
 system -> user: displayInput
 }}
 
@@ -18,6 +20,7 @@ title Analysis
 actor user
 participant system
 participant GoogleAPI
+
 loop
 user -> system: InputProcess
 system -> GoogleAPI: getSyntacticTree
@@ -30,9 +33,61 @@ opt
 user -> system: showSyntacticTree
 system --> user: 
 end opt
-
-
 }}
 
+{{
+title TemplateGeneration
+actor user
+participant system
+participant GoogleAPI
+
+system -> system: generateTemplate
+system -> system: handleTemplate
+}}
+
+{{
+title WordsExtraction
+actor user
+participant system
+participant GoogleAPI
+
+system -> system: handleTWordCount
+system -> system: handleSWordsCount
+system -> system: pickWords
+system -> system: handleWords
+}}
+
+{{
+title SentenceGeneration
+actor user
+participant system
+participant GoogleAPI
+
+system -> system: fillTemplate
+}}
+
+{{
+title ToxicityEvaluation
+actor user
+participant system
+participant GoogleAPI
+
+loop
+system -> system: sentenceGeneration
+system -> GoogleAPI: evaluateToxicity
+GoogleAPI --> system: 
+end
+
+system -> user: displayEvaluation
+}}
+
+{{
+title DisplaySentence
+actor user
+participant system
+participant GoogleAPI
+
+system -> user: showSentence
+}}
 ]
 @enduml
