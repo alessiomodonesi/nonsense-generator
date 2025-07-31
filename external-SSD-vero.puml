@@ -26,8 +26,10 @@ system -> system: validateSentence
 system -> user: showValidationError
 end
 
-opt user -> system: showSyntacticTree
-opt system --> user: 
+opt
+user -> system: showSyntacticTree
+system --> user: 
+end opt
 
 }}
 
