@@ -1,0 +1,11 @@
+@startuml Input
+title Input
+actor user
+participant system
+loop
+user -> system: inputSentence
+system -> system: verifyInput
+system -> user: showInputError
+end
+system -> user: displayInput
+@enduml
