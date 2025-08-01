@@ -1,5 +1,6 @@
-@startuml Input
+@startuml external-ssd
 label l [
+
 {{
 title Input
 actor user
@@ -89,5 +90,6 @@ participant GoogleAPI
 
 system -> user: showSentence
 }}
+
 ]
 @enduml

@@ -7,7 +7,7 @@
         <<sentenceDescription>>
         <<syntacticTree>>
     }
-    
+
     class Analyzer {
     }
     
@@ -26,6 +26,7 @@
 
     class WordPicker {
     }
+    
     class SentenceGenerator {
     }
 
