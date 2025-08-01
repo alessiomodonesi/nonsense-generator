@@ -7,7 +7,7 @@
         <<sentenceDescription>>
         <<syntacticTree>>
     }
-
+    
     class Analyzer {
     }
     
