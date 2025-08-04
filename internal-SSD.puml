@@ -1,0 +1,27 @@
+@startuml internal-ssd
+label l [
+
+{{
+title Input
+
+actor user
+participant InputController
+participant InputValidator
+participant InputDisplayer
+
+loop Inserimento fino a input valido
+    user -> InputController: inputSentence
+    InputController -> InputValidator: verifyInput(input)
+    InputValidator --> InputController: boolean
+
+    alt input non valido
+        InputController -> InputDisplayer: showInputError()
+    end
+end
+
+InputController -> InputDisplayer: displayInput(input)
+user <- InputDisplayer: mostra frase
+}}
+
+]
+@enduml
