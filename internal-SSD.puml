@@ -5,24 +5,23 @@ label l [
 title Input
 
 actor user
-participant InputController
-participant InputValidator
-participant InputDisplayer
+participant InputHandler
+participant Validator
 
 loop Inserimento fino a input valido
-    user -> InputController: inputSentence
-    InputController -> InputValidator: verifyInput(input)
-    InputValidator --> InputController: boolean
+    user -> InputHandler: inputSentence
+    InputHandler -> Validator: verifyInput(input)
+    Validator --> InputHandler: boolean
 
     alt input non valido
-        InputController -> InputDisplayer: showInputError()
+        InputHandler -> user: showInputError()
     end
 end
 
-InputController -> InputDisplayer: displayInput(input)
-InputDisplayer -> user: mostra frase
+InputHandler --> user: mostra frase
 }}
 
+/' da rivedere '/
 {{
 title Analysis
 
@@ -34,7 +33,7 @@ participant GoogleAPI
 
 loop Processo di analisi
     user -> AnalysisController: InputProcess
-    AnalysisController -> GoogleAPI: getSyntacticTree(input)
+    AnalysisController -> GoogleAPI: analyzeSyntax(input)
     GoogleAPI --> AnalysisController: syntacticTree
     AnalysisController -> SentenceValidator: validateSentence(syntacticTree)
     SentenceValidator --> AnalysisController: boolean
@@ -51,18 +50,81 @@ opt Mostra struttura sintattica
 end
 }}
 
+
+/' da rivedere '/
 {{
 title TemplateGeneration
 
 actor user
 participant TemplateController
 participant TemplateGenerator
-participant TemplateStorage
+participant Template
+/'participant TemplateStorage'/
 
-TemplateController -> TemplateGenerator: generateTemplate(tree)
+TemplateController -> TemplateGenerator: generateTemplate()
+TemplateGenerator -> Template : create()
 TemplateGenerator --> TemplateController: template
-TemplateController -> TemplateStorage: handleTemplate(template)
+/'TemplateController -> TemplateStorage: handleTemplate(template)'/
+
 }}
 
+
+{{
+title WordsExtraction
+
+actor user
+participant WordPicker
+participant Dictionary
+participant Sentence
+
+WordPicker -> Dictionary : pickWords(nounce, verbs, adjectives)
+WordPicker -> Sentence : pickWords(nounce, verbs, adjectives)
+WordPicker -> WordPicker : handleWords(nounce, verbs, adjectives)
+}}
+
+{{
+title SentenceGeneration
+
+actor user
+participant SentenceBuilder
+participant WordPicker
+participant TemplateController
+
+SentenceBuilder -> TemplateController : getTemplate()
+TemplateController --> SentenceBuilder : template
+SentenceBuilder -> WordPicker : getWords()
+SentenceBuilder -> SentenceBuilder : fillTemplate()
+}}
+
+
+{{
+title ToxicityEvaluation
+
+actor user
+participant InputHandler
+participant SentenceBuilder
+participant GoogleAPI
+loop
+    SentenceBuilder -> GoogleAPI : moderateText()
+    GoogleAPI --> SentenceBuilder : result 
+end
+
+SentenceBuilder -> InputHandler : displayEvaluation()
+InputHandler --> user: toxicity evaluation
+
+}}
+
+
+{{
+title DisplaySentence
+
+actor user
+participant InputHandler
+participant SentenceBuilder
+
+SentenceBuilder -> InputHandler : showGeneratedSentence(sentence)
+InputHandler --> user: sentence
+
+}}
 ]
 @enduml
