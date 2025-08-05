@@ -20,7 +20,48 @@ loop Inserimento fino a input valido
 end
 
 InputController -> InputDisplayer: displayInput(input)
-user <- InputDisplayer: mostra frase
+InputDisplayer -> user: mostra frase
+}}
+
+{{
+title Analysis
+
+actor user
+participant AnalysisController
+participant SentenceValidator
+participant TreeDisplayer
+participant GoogleAPI
+
+loop Processo di analisi
+    user -> AnalysisController: InputProcess
+    AnalysisController -> GoogleAPI: getSyntacticTree(input)
+    GoogleAPI --> AnalysisController: syntacticTree
+    AnalysisController -> SentenceValidator: validateSentence(syntacticTree)
+    SentenceValidator --> AnalysisController: boolean
+
+    alt Frase non valida
+        AnalysisController -> user: showValidationError
+    end
+end
+
+opt Mostra struttura sintattica
+    user -> AnalysisController: showSyntacticTree
+    AnalysisController -> TreeDisplayer: getTree(syntacticTree)
+    TreeDisplayer --> user: syntacticStructure
+end
+}}
+
+{{
+title TemplateGeneration
+
+actor user
+participant TemplateController
+participant TemplateGenerator
+participant TemplateStorage
+
+TemplateController -> TemplateGenerator: generateTemplate(tree)
+TemplateGenerator --> TemplateController: template
+TemplateController -> TemplateStorage: handleTemplate(template)
 }}
 
 ]
