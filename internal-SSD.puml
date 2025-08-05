@@ -56,6 +56,7 @@ end
 title TemplateGeneration
 
 actor user
+participant WordPicker
 participant TemplateController
 participant TemplateGenerator
 participant Template
@@ -64,6 +65,7 @@ participant Template
 TemplateController -> TemplateGenerator: generateTemplate()
 TemplateGenerator -> Template : create()
 TemplateGenerator --> TemplateController: template
+TemplateController -> WordPicker : handleTemplate()
 /'TemplateController -> TemplateStorage: handleTemplate(template)'/
 
 }}
