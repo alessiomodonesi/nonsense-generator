@@ -1,69 +1,61 @@
 @startuml Domain Model
 
-    class Frase {
-        +testo: String
-        +punteggioTossicita: Float
-        +isValida: Boolean
-        +getTermini()
+    class User {
     }
 
-    class Termine {
-        +valore: String
+    class Sentence {
+        <<sentenceDescription>>
+        <<syntacticTree>>
+    }
+
+    class Analyzer {
     }
     
-    class TemplateFrase {
-        +pattern: String
+    class TemplateGenerator {
+         
     }
 
-    class AlberoSintattico {
-        +struttura: Object
+    class Template {
+        <<templateDescription>>
+        <<wordCount>>
     }
 
-    class Dizionario {
-        +getTerminiCasuali(n: int)
+    class Dictionary {
+        
     }
 
-    class Validatore {
-        <<Componente>>
-        +validaStruttura(frase: Frase)
-        +valutaTossicita(frase: Frase)
+    class WordPicker {
+    }
+    
+    class SentenceGenerator {
     }
 
-    class Analizzatore {
-        <<Componente>>
-        +estraiTermini(frase: Frase): Termine[]
-        +generaAlberoSintattico(frase: Frase): AlberoSintattico
+    class Validator {
+        <<results>>
+        <<mode>>
     }
+    class Nouns {
 
-    class GeneratoreTemplate {
-        <<Componente>>
-        +generaTemplate(frase: Frase): TemplateFrase
     }
+    class Verbs {
 
-    class SelettoreTermini {
-        <<Componente>>
-        +selezionaDaDizionario(dizionario: Dizionario): Termine[]
     }
+    class Adjectives {
 
-    class GeneratoreFrase {
-        <<Componente>>
-        +componiFrase(template: TemplateFrase, termini: Termine[]): Frase
     }
+    class SentenceStructures {
 
-    Frase "1" -- "1..*" Termine : contiene
-    Analizzatore ..> Frase : analizza
-    Analizzatore ..> AlberoSintattico : crea
-    Analizzatore ..> Termine : estrae
-    Validatore ..> Frase : valida
-    GeneratoreTemplate ..> Frase : usa
-    GeneratoreTemplate ..> TemplateFrase : crea
+    }
+    SentenceStructures o- TemplateGenerator
+    Nouns -* Dictionary
+    Verbs -* Dictionary
+    Adjectives -* Dictionary
 
-    Dizionario "1" -- "0..*" Termine : contiene
-    SelettoreTermini ..> Dizionario : seleziona da
-    SelettoreTermini ..> Termine : fornisce
-
-    GeneratoreFrase ..> TemplateFrase : usa
-    GeneratoreFrase ..> Termine : usa
-    GeneratoreFrase ..> Frase : crea
-
-@enduml
+    User "1"--"*" Sentence
+    Analyzer "1"--"*" Sentence
+    SentenceGenerator "1"--"*" Sentence
+    Validator "1"--"*" Sentence
+    SentenceGenerator "1"--"1" Template
+    SentenceGenerator "1"--"1" WordPicker
+    TemplateGenerator "1"--"1" Template
+    Dictionary "1"--"1" WordPicker
