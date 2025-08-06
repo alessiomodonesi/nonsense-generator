@@ -1,23 +1,41 @@
 @startuml Domain Model
 
-    class User {
+    class InputHandler { 
+        inputSentence(string)
+        showInputError() : string
+        showSentence() : string 
+        showValidationError() : string
+        showSyntacticTree() : string
     }
 
     class Sentence {
-        <<sentenceDescription>>
+        sentence : string
         <<syntacticTree>>
+        setSentece(string) 
+        getTree() : string
     }
 
     class Analyzer {
+        analyzeSentence(string)
+        validationError()
     }
-    
+
+    class ApiCaller{
+        callAnalyzeSyntax(string) : json
+    }
+
     class TemplateGenerator {
-         
+         createTemplate() : template
     }
 
     class Template {
         <<templateDescription>>
         <<wordCount>>
+        getWordCount() : int[]
+    }
+
+    class TemplateController{
+        generateTemplate() : Template
     }
 
     class Dictionary {
@@ -25,6 +43,7 @@
     }
 
     class WordPicker {
+        handleTamplate(Template)
     }
     
     class SentenceGenerator {
@@ -33,25 +52,31 @@
     class Validator {
         <<results>>
         <<mode>>
+        verifySentence(sentence) : boolean
+        validateSentence(syntacticTree) : boolean
     }
     class Nouns {
-
+        string[] nouns 
+        getNouns(int quantity)
     }
     class Verbs {
-
+        string[] verbs 
+        getVerbs(int quantity)
     }
     class Adjectives {
-
+        string[] adjectives 
+        getAdjectives(int quantity)
     }
     class SentenceStructures {
-
+        string[] SentenceStructures
+        getStructure()
     }
     SentenceStructures o- TemplateGenerator
     Nouns -* Dictionary
     Verbs -* Dictionary
     Adjectives -* Dictionary
 
-    User "1"--"*" Sentence
+    InputHandler "1"--"*" Sentence
     Analyzer "1"--"*" Sentence
     SentenceGenerator "1"--"*" Sentence
     Validator "1"--"*" Sentence

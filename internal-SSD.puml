@@ -28,6 +28,7 @@ InputHandler --> user: mostra frase
 title Analysis
 
 actor user
+participant InputHandler
 participant Sentence
 participant Validator
 participant Analyzer
@@ -40,18 +41,19 @@ loop Processo di analisi
     Analyzer -> ApiCaller: callanalyzeSyntax(input)
     GoogleAPI --> ApiCaller: syntacticTree
     ApiCaller --> Analyzer: syntacticTree
-    Analyzer -> Validator: validateSentence(syntacticTree)
-    Validator --> Analyzer: boolean
+    Analyzer --> Sentence: syntacticTree
+    Sentence -> Validator: validateSentence(syntacticTree)
+    Validator --> Sentence: boolean
 
     alt Frase non valida
-        Analyzer -> user: showValidationError
+        Sentence -> InputHandler: showValidationError()
     end
 end
 
 opt Mostra struttura sintattica
-    user -> Analyzer: showSyntacticTree
-    Analyzer -> ApiCaller: getTree(syntacticTree)
-    ApiCaller --> user: syntacticStructure
+    user -> InputHandler: showSyntacticTree()
+    InputHandler -> Sentence: getTree(syntacticTree)
+    InputHandler --> user: syntacticStructure
 end
 }}
 
