@@ -82,9 +82,18 @@ actor user
 participant WordPicker
 participant Dictionary
 participant Sentence
+participant Nouns
+participant Verbs
+participant Adjectives
 
 WordPicker -> WordPicker : countWordsTemplate()
 WordPicker -> Dictionary : pickWords(nounce, verbs, adjectives)
+Dictionary -> Nouns : getNouns()
+Nouns --> Dictionary : nouns[]
+Dictionary -> Verbs : getVerbs()
+Verbs --> Dictionary : verbs[]
+Dictionary -> Adjectives : getAdjectives()
+Adjectives --> Dictionary : adjectives[]
 WordPicker <-- Dictionary : wordsDictionary[]
 WordPicker -> Sentence : pickWords(nounce, verbs, adjectives)
 WordPicker <-- Sentence : wordsSentence[] 
@@ -100,7 +109,7 @@ participant SentenceGenerator
 participant WordPicker
 participant TemplateController
 
-SentenceGenerator <- WordPicker : giveWords(words[])
+SentenceGenerator <- WordPicker : setWords(words[])
 SentenceGenerator -> TemplateController : getTemplate()
 TemplateController --> SentenceGenerator : template
 SentenceGenerator -> SentenceGenerator : fillTemplate()
@@ -116,7 +125,7 @@ participant SentenceGenerator
 participant ApiCaller
 participant GoogleAPI
 loop
-    SentenceGenerator -> ApiCaller : verifyToxicitysentence(sentence) 
+    SentenceGenerator -> ApiCaller : callModerateText(sentence) 
     ApiCaller -> GoogleAPI : moderateText()
     ApiCaller --> SentenceGenerator : result
 end

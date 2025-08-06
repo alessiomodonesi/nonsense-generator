@@ -1,4 +1,4 @@
-@startuml Domain Model
+@startuml Design Model
 
     class InputHandler { 
         inputSentence(string)
@@ -6,6 +6,8 @@
         showSentence() : string 
         showValidationError() : string
         showSyntacticTree() : string
+        displayEvaluation(string)
+        showGeneratedSentence(string)
     }
 
     class Sentence {
@@ -13,6 +15,7 @@
         <<syntacticTree>>
         setSentece(string) 
         getTree() : string
+        pickWords(int, int, int) : string[]
     }
 
     class Analyzer {
@@ -21,11 +24,12 @@
     }
 
     class ApiCaller{
-        callAnalyzeSyntax(string) : json
+        callAnalyzeSyntax(string) : string
+        callModerateText(string) : string
     }
 
     class TemplateGenerator {
-         createTemplate() : template
+         createTemplate() : Template
     }
 
     class Template {
@@ -36,17 +40,21 @@
 
     class TemplateController{
         generateTemplate() : Template
+        getTemplate() : Template
     }
 
     class Dictionary {
-        
+        pickWords(int, int, int) : string[]
     }
 
     class WordPicker {
-        handleTamplate(Template)
+        handleTemplate(Template)
+        handleWords()
     }
     
     class SentenceGenerator {
+        setWords(words[])
+        fillTemplate() : string
     }
 
     class Validator {
@@ -71,6 +79,7 @@
         string[] SentenceStructures
         getStructure()
     }
+
     SentenceStructures o- TemplateGenerator
     Nouns -* Dictionary
     Verbs -* Dictionary
@@ -84,3 +93,5 @@
     SentenceGenerator "1"--"1" WordPicker
     TemplateGenerator "1"--"1" Template
     Dictionary "1"--"1" WordPicker
+
+@enduml
