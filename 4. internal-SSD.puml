@@ -2,150 +2,196 @@
 label l [
 
 {{
-title Input
+
+title Input /'OK'/
 
 actor user
-participant InputHandler
-participant Sentence
+participant IOController
 participant Validator
+participant SentenceProcessor
 
 loop Inserimento fino a input valido
-    user -> InputHandler: inputSentence()
-    InputHandler -> Sentence : setPhrase(input)
-    Sentence -> Validator: verifySentence(sentence)
-    Validator --> Sentence: boolean
-    Sentence --> InputHandler : returnValidation
+
+    user -> IOController: inputSentence(input)
+    IOController -> Validator: verifySentence(input)
     alt input non valido
-        InputHandler -> user: showInputError()
+        Validator -> IOController: showInputError()
+        IOController --> user : inputError 
     end
 end
 
-InputHandler --> user: mostra frase
+Validator -> SentenceProcessor : createSentence(input) 
+SentenceProcessor -> Sentence ++ : create(input)/'costruttore'/
+Sentence --> SentenceProcessor : sentenceDesc
+SentenceProcessor -> IOController : displaySentence(sentenceDesc)
+IOController --> user : sentenceDesc
+
 }}
 
-/' da rivedere '/
+
 {{
-title Analysis
+
+title Analysis /'OK'/
 
 actor user
-participant InputHandler
-participant Sentence
+participant IOController
 participant Validator
 participant Analyzer
-participant ApiCaller
-participant GoogleAPI
+participant SentenceProcessor
 
 loop Processo di analisi
-    user -> Sentence: InputProcess
-    Sentence -> Analyzer : analyzeSentence(sentence)
-    Analyzer -> ApiCaller: callanalyzeSyntax(input)
+
+    user -> Sentence ++ : inputProcess
+    participant ApiCaller
+    participant GoogleAPI
+
+    SentenceProcessor -> Analyzer : analyzeSentence(sentenceDesc)
+    Analyzer -> ApiCaller: getSyntaxAnalysis(sentenceDesc)
+    ApiCaller -> GoogleAPI: getSyntacticTree(sentenceDesc)
     GoogleAPI --> ApiCaller: syntacticTree
     ApiCaller --> Analyzer: syntacticTree
-    Analyzer --> Sentence: syntacticTree
-    Sentence -> Validator: validateSentence(syntacticTree)
-    Validator --> Sentence: boolean
-
+    Analyzer --> SentenceProcessor: syntacticTree
+    SentenceProcessor --> Sentence : syntacticTree
+    SentenceProcessor -> Validator: validateSentenceStructure(syntacticTree)
     alt Frase non valida
-        Sentence -> InputHandler: showValidationError()
+        Validator -> IOController: showValidationError()
+        IOController --> user : validationError
     end
 end
 
 opt Mostra struttura sintattica
-    user -> InputHandler: showSyntacticTree()
-    InputHandler -> Sentence: getTree(syntacticTree)
-    InputHandler --> user: syntacticStructure
+
+    user -> IOController: showSyntacticTree()
+    IOController -> SentenceProcessor: getSyntacticTree()
+    SentenceProcessor --> IOController: syntacticTree
+    IOController --> user : syntacticTree
+
 end
+
 }}
 
 
 {{
-title TemplateGeneration
+
+title TemplateGeneration /'OK'/
 
 actor user
-participant WordPicker
 participant TemplateController
 participant TemplateGenerator
-participant Template
+participant SentenceStructures
 
+user -> TemplateController : inputProcess
 TemplateController -> TemplateGenerator: generateTemplate()
-TemplateGenerator -> Template : create()
-TemplateGenerator --> TemplateController: template
-TemplateController -> WordPicker : handleTemplate(template)
+TemplateGenerator -> SentenceStructures: getRandomStructure()
+SentenceStructures --> TemplateGenerator: randomStructure
+TemplateGenerator -> Template ++: create(randomStructure)
+Template --> TemplateGenerator: templateDesc,templateWords[]
+TemplateGenerator --> TemplateController: templateDesc, templateWords[] 
 
 }}
 
 
 {{
-title WordsExtraction
 
-actor user
+title WordsExtraction /'OK'/
+
+participant TemplateController
 participant WordPicker
-participant Dictionary
-participant Sentence
+participant SentenceProcessor
+participant SystemDictionary
 participant Nouns
 participant Verbs
 participant Adjectives
 
-WordPicker -> WordPicker : countWordsTemplate()
-WordPicker -> Dictionary : pickWords(nounce, verbs, adjectives)
-Dictionary -> Nouns : getNouns()
-Nouns --> Dictionary : nouns[]
-Dictionary -> Verbs : getVerbs()
-Verbs --> Dictionary : verbs[]
-Dictionary -> Adjectives : getAdjectives()
-Adjectives --> Dictionary : adjectives[]
-WordPicker <-- Dictionary : wordsDictionary[]
-WordPicker -> Sentence : pickWords(nounce, verbs, adjectives)
-WordPicker <-- Sentence : wordsSentence[] 
-WordPicker -> WordPicker : handleWords(nounce, verbs, adjectives)
+WordPicker -> TemplateController : getWordCount()
+TemplateController --> WordPicker : templateWords[]
+WordPicker -> SentenceProcessor : getSyntacticTree()
+SentenceProcessor --> WordPicker : syntacticTree
+WordPicker -> WordPicker : pickSentenceWords(senWords[])
+WordPicker -> SystemDictionary : pickDictionaryWords(dicWords[])
+SystemDictionary -> Nouns : getNouns(nounsCount)
+SystemDictionary <-- Nouns : nouns[]
+SystemDictionary -> Verbs : getVerbs(verbsCount)
+SystemDictionary <-- Verbs : verbs[]
+SystemDictionary -> Adjectives : getAdjectives(adjectivesCount)
+SystemDictionary <-- Adjectives : adjectives[]
+SystemDictionary -> SystemDictionary : createDictionary(nouns[], verbs[], adjectives[])
+WordPicker <-- SystemDictionary : dictionary
+
 }}
 
-
+    
 {{
-title SentenceGeneration
 
-actor user
+title SentenceGeneration /'OK'/
+
 participant SentenceGenerator
 participant WordPicker
 participant TemplateController
+participant SentenceProcessor
 
-SentenceGenerator <- WordPicker : setWords(words[])
-SentenceGenerator -> TemplateController : getTemplate()
-TemplateController --> SentenceGenerator : template
-SentenceGenerator -> SentenceGenerator : fillTemplate()
+SentenceGenerator -> TemplateController : getTemplateDesc()
+SentenceGenerator <-- TemplateController : templateDesc
+SentenceGenerator -> WordPicker : getWords()
+SentenceGenerator <-- WordPicker : words[]
+SentenceGenerator -> SentenceGenerator : generateSentenceDesc(templateDesc,words[])
+SentenceGenerator -> SentenceProcessor : createSentence(sentenceDesc)
+SentenceProcessor -> Sentence ++ : create(sentenceDesc)/'costruttore'/
+SentenceProcessor <-- Sentence : sentenceDesc
+
 }}
 
 
 {{
-title ToxicityEvaluation
+
+title ToxicityEvaluation /'OK'/
 
 actor user
-participant InputHandler
+participant IOController
+participant WordPicker
 participant SentenceGenerator
+participant SentenceProcessor
+participant Validator 
 participant ApiCaller
 participant GoogleAPI
-loop
-    SentenceGenerator -> ApiCaller : callModerateText(sentence) 
-    ApiCaller -> GoogleAPI : moderateText()
-    ApiCaller --> SentenceGenerator : result
+
+loop Analisi tossicità
+
+WordPicker -> SentenceGenerator : WordPickingProcess
+SentenceGenerator -> SentenceProcessor : SentenceGenerationProcess
+SentenceProcessor -> Validator : verifyToxicity(sentenceDesc)
+Validator -> ApiCaller : getToxicityAnalysis(sentenceDesc)
+ApiCaller -> GoogleAPI : getAnalysis(sentenceDesc)
+ApiCaller <-- GoogleAPI : toxicityAnalysis
+Validator <-- ApiCaller : toxicityAnalysis
+alt Frase tossica
+
+Validator -> IOController : showToxicityError()
+IOController --> user : toxicityError
+
 end
 
-SentenceGenerator -> InputHandler : displayEvaluation()
-InputHandler --> user: toxicity evaluation
+end
+
+IOController <- Validator : showToxicityResults()
+IOController --> user : toxicityResults
 
 }}
 
 
 {{
-title DisplaySentence
+
+title DisplaySentence /'OK'/
 
 actor user
-participant InputHandler
-participant SentenceGenerator
+participant IOController
+participant SentenceProcessor
 
-SentenceGenerator -> InputHandler : showGeneratedSentence(sentence)
-InputHandler --> user: sentence
+
+SentenceProcessor -> IOController : displaySentence(sentenceDesc)
+IOController --> user: sentenceDesc
 
 }}
+
 ]
 @enduml

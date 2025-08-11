@@ -1,55 +1,44 @@
 @startuml Domain Model
 
-    class User {
-    }
+    class User {}
 
     class Sentence {
         <<sentenceDescription>>
         <<syntacticTree>>
     }
 
-    class Analyzer {
-    }
+    class Analyzer {}
     
-    class TemplateGenerator {
-         
-    }
+    class TemplateGenerator {}
 
     class Template {
         <<templateDescription>>
         <<wordCount>>
     }
 
-    class Dictionary {
-        
-    }
+    class SystemDictionary {}
 
-    class WordPicker {
-    }
+    class WordPicker {}
     
-    class SentenceGenerator {
-    }
+    class SentenceGenerator {}
 
     class Validator {
         <<results>>
         <<mode>>
     }
-    class Nouns {
 
-    }
-    class Verbs {
+    class Nouns {}
 
-    }
-    class Adjectives {
+    class Verbs {}
 
-    }
-    class SentenceStructures {
+    class Adjectives {}
 
-    }
+    class SentenceStructures {}
+
     SentenceStructures o- TemplateGenerator
-    Nouns -* Dictionary
-    Verbs -* Dictionary
-    Adjectives -* Dictionary
+    Nouns -* SystemDictionary
+    Verbs -* SystemDictionary
+    Adjectives -* SystemDictionary
 
     User "1"--"*" Sentence
     Analyzer "1"--"*" Sentence
@@ -58,4 +47,6 @@
     SentenceGenerator "1"--"1" Template
     SentenceGenerator "1"--"1" WordPicker
     TemplateGenerator "1"--"1" Template
-    Dictionary "1"--"1" WordPicker
+    SystemDictionary "1"--"1" WordPicker
+
+@enduml

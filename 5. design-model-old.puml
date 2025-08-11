@@ -1,0 +1,101 @@
+@startuml Design Model
+
+    class InputHandler { 
+        inputSentence(string)
+        showInputError() : string
+        showSentence() : string 
+        showValidationError() : string
+        showSyntacticTree() : string
+        displayEvaluation(string)
+        showGeneratedSentence(string)
+    }
+
+    class Sentence {
+        sentence : string
+        <<syntacticTree>>
+        setSentece(string) 
+        getTree() : string
+        pickWords(int, int, int) : string[]
+    }
+
+    class Analyzer {
+        analyzeSentence(string)
+        validationError()
+    }
+
+    class ApiCaller {
+        callAnalyzeSyntax(string) : string
+        callModerateText(string) : string
+    }
+
+    class TemplateGenerator {
+         createTemplate() : Template
+    }
+
+    class Template {
+        <<templateDescription>>
+        <<wordCount>>
+        getWordCount() : int[]
+    }
+
+    class TemplateController {
+        generateTemplate() : Template
+        getTemplate() : Template
+    }
+
+    class SystemDictionary {
+        pickWords(int, int, int) : string[]
+    }
+
+    class WordPicker {
+        handleTemplate(Template)
+        handleWords()
+    }
+    
+    class SentenceGenerator {
+        setWords(words[])
+        fillTemplate() : string
+    }
+
+    class Validator {
+        <<results>>
+        <<mode>>
+        verifySentence(sentence) : boolean
+        validateSentence(syntacticTree) : boolean
+    }
+
+    class Nouns {
+        string[] nouns 
+        getNouns(int quantity)
+    }
+
+    class Verbs {
+        string[] verbs 
+        getVerbs(int quantity)
+    }
+
+    class Adjectives {
+        string[] adjectives 
+        getAdjectives(int quantity)
+    }
+    
+    class SentenceStructures {
+        string[] SentenceStructures
+        getStructure()
+    }
+
+    SentenceStructures o- TemplateGenerator
+    Nouns -* SystemDictionary
+    Verbs -* SystemDictionary
+    Adjectives -* SystemDictionary
+
+    InputHandler "1"--"*" Sentence
+    Analyzer "1"--"*" Sentence
+    SentenceGenerator "1"--"*" Sentence
+    Validator "1"--"*" Sentence
+    SentenceGenerator "1"--"1" Template
+    SentenceGenerator "1"--"1" WordPicker
+    TemplateGenerator "1"--"1" Template
+    SystemDictionary "1"--"1" WordPicker
+
+@enduml

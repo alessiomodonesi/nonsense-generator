@@ -2,6 +2,7 @@
 label l [
 
 {{
+
 title Input
 actor user
 participant system
@@ -14,9 +15,12 @@ system -> user: showInputError
 end
 
 system -> user: displayInput
+
 }}
 
+
 {{
+
 title Analysis
 actor user
 participant system
@@ -34,9 +38,12 @@ opt
 user -> system: showSyntacticTree
 system --> user: 
 end opt
+
 }}
 
+
 {{
+
 title TemplateGeneration
 actor user
 participant system
@@ -44,9 +51,12 @@ participant GoogleAPI
 
 system -> system: generateTemplate
 system -> system: handleTemplate
+
 }}
 
+
 {{
+
 title WordsExtraction
 actor user
 participant system
@@ -56,18 +66,24 @@ system -> system: handleTWordCount
 system -> system: handleSWordsCount
 system -> system: pickWords
 system -> system: handleWords
+
 }}
 
+
 {{
+
 title SentenceGeneration
 actor user
 participant system
 participant GoogleAPI
 
 system -> system: fillTemplate
+
 }}
 
+
 {{
+
 title ToxicityEvaluation
 actor user
 participant system
@@ -80,15 +96,19 @@ GoogleAPI --> system:
 end
 
 system -> user: displayEvaluation
+
 }}
 
+
 {{
+
 title DisplaySentence
 actor user
 participant system
 participant GoogleAPI
 
 system -> user: showSentence
+
 }}
 
 ]

@@ -1,97 +1,116 @@
 @startuml Design Model
 
-    class InputHandler { 
-        inputSentence(string)
-        showInputError() : string
-        showSentence() : string 
-        showValidationError() : string
-        showSyntacticTree() : string
-        displayEvaluation(string)
-        showGeneratedSentence(string)
+    class IOController { /'OK'/
+        inputSentence(input : String) : void
+        showInputError() : void
+        displaySentence(sentenceDesc : String) : void
+        showValidationError() : void
+        showSyntacticTree() : void
+        showToxicityError() : void
+        showToxicityResults() : void
     }
 
-    class Sentence {
-        sentence : string
+    class Sentence { /'OK'/
+        sentenceDesc : String
         <<syntacticTree>>
-        setSentece(string) 
-        getTree() : string
-        pickWords(int, int, int) : string[]
+        create(sentenceDesc : String) : Sentence
     }
 
-    class Analyzer {
-        analyzeSentence(string)
-        validationError()
-    }
-
-    class ApiCaller{
-        callAnalyzeSyntax(string) : string
-        callModerateText(string) : string
-    }
-
-    class TemplateGenerator {
-         createTemplate() : Template
-    }
-
-    class Template {
-        <<templateDescription>>
-        <<wordCount>>
-        getWordCount() : int[]
-    }
-
-    class TemplateController{
-        generateTemplate() : Template
-        getTemplate() : Template
-    }
-
-    class Dictionary {
-        pickWords(int, int, int) : string[]
-    }
-
-    class WordPicker {
-        handleTemplate(Template)
-        handleWords()
+    class SentenceProcessor { /'OK'/
+        inputSentence : Sentence
+        nonSenseSentence : Sentence
+        createSentence(sentenceDesc : String) : Sentence
+        getSyntacticTree() : <<syntacticTree>>
     }
     
-    class SentenceGenerator {
-        setWords(words[])
-        fillTemplate() : string
+    class Validator { /'OK'/
+        verifySentence(sentenceDesc : String) : void
+        validateSentenceStructure(syntacticTree : <<syntacticTree>>) : void
+        verifyToxicity(sentenceDesc : String) : void
     }
 
-    class Validator {
-        <<results>>
-        <<mode>>
-        verifySentence(sentence) : boolean
-        validateSentence(syntacticTree) : boolean
+    class Analyzer { /'OK'/
+        analyzeSentence(sentenceDesc : String) : <<syntacticTree>>
     }
-    class Nouns {
-        string[] nouns 
-        getNouns(int quantity)
+
+    class ApiCaller { /'OK'/
+        getSyntaxAnalysis(sentenceDesc : String) : <<syntacticTree>>
+        getToxicityAnalysis(sentenceDesc : String) : <<toxicityAnalysis>>
     }
-    class Verbs {
-        string[] verbs 
-        getVerbs(int quantity)
+
+    /'GoogleAPI non è realmente una classe del nostro sistema'/
+
+    class Template { /'OK'/
+        templateDesc : String
+        templateWords : int[]
+        create(randomStructure : <<structures>>) : Template
     }
-    class Adjectives {
-        string[] adjectives 
-        getAdjectives(int quantity)
+
+    class TemplateController { /'OK'/
+        template : Template
+        getWordCount() : int[]
+        getTemplateDesc() : String
     }
-    class SentenceStructures {
-        string[] SentenceStructures
-        getStructure()
+
+    class TemplateGenerator { /'OK'/
+        generateTemplate() : Template
+    }
+
+    class SentenceStructures { /'OK'/
+        <<structures>>
+        getRandomStructure() : <<structures>>
+    }
+    
+    class Nouns { /'OK'/
+        nouns : String[]
+        getNouns(nounsCount : int) : String[]
+    }
+
+    class Verbs { /'OK'/
+        verbs : String[]
+        getVerbs(verbsCount : int) : String[]
+    }
+
+    class Adjectives { /'OK'/
+        adjectives : String[]
+        getAdjectives(adjectivesCount : int) : String[]
+    }
+
+    class SystemDictionary { /'OK'/
+        nouns : Nouns
+        verbs : Verbs
+        adjectives : Adjectives
+        dictionary : Dictionary<K,V>
+        createDictionary(nouns : String[], verbs : String[], adjectives : String[]) : Dictionary<K,V>
+        pickDictionaryWords(dicWords : int[]) : Dictionary<K,V>
+    }
+    
+    class WordPicker { /'OK'/
+        pickSentenceWords(senWords : int[]) : String[]
+        getWords() : Dictionary<K,V>
+    }
+
+    class SentenceGenerator { /'OK'/
+        generateSentenceDesc(templateDesc : String, words : Dictionary<K,V>) : String
     }
 
     SentenceStructures o- TemplateGenerator
-    Nouns -* Dictionary
-    Verbs -* Dictionary
-    Adjectives -* Dictionary
+    Nouns -* SystemDictionary
+    Verbs -* SystemDictionary
+    Adjectives -* SystemDictionary
 
-    InputHandler "1"--"*" Sentence
-    Analyzer "1"--"*" Sentence
-    SentenceGenerator "1"--"*" Sentence
-    Validator "1"--"*" Sentence
-    SentenceGenerator "1"--"1" Template
-    SentenceGenerator "1"--"1" WordPicker
-    TemplateGenerator "1"--"1" Template
-    Dictionary "1"--"1" WordPicker
+    IOController "1" -- "1" Validator
+    IOController "1" -- "1" SentenceProcessor
+    Sentence "*"--"1" SentenceProcessor
+    SentenceProcessor "1" -- "1" Validator
+    SentenceProcessor "1" -- "1" Analyzer
+    SentenceProcessor "1" -- "1" SentenceGenerator
+    TemplateGenerator "1" -- "1" Template
+    TemplateController "1" -- "1" TemplateGenerator
+    TemplateController "1" -- "1" WordPicker
+    WordPicker "1" -- "1" SystemDictionary
+    WordPicker "1" -- "1" SentenceProcessor
+    ApiCaller "1" -- "1" Validator
+    ApiCaller "1" -- "1" Analyzer
 
 @enduml
