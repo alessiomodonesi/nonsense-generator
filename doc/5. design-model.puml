@@ -80,7 +80,6 @@
         nouns : Nouns
         verbs : Verbs
         adjectives : Adjectives
-        dictionary : Dictionary<K,V>
         createDictionary(nouns : String[], verbs : String[], adjectives : String[]) : Dictionary<K,V>
         pickDictionaryWords(dicWords : int[]) : Dictionary<K,V>
     }
