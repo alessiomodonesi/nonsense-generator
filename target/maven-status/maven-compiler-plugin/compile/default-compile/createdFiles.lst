@@ -1,0 +1,17 @@
+com/gmms/Adjectives.class
+com/gmms/ApiCaller.class
+com/gmms/TemplateController.class
+com/gmms/SentenceStructures.class
+com/gmms/Nouns.class
+com/gmms/TemplateGenerator.class
+com/gmms/SentenceGenerator.class
+com/gmms/Sentence.class
+com/gmms/Analyzer.class
+com/gmms/WordPicker.class
+com/gmms/App.class
+com/gmms/IOController.class
+com/gmms/SentenceProcessor.class
+com/gmms/Verbs.class
+com/gmms/Template.class
+com/gmms/SystemDictionary.class
+com/gmms/Validator.class
