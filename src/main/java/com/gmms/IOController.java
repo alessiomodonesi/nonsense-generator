@@ -1,6 +1,17 @@
 package com.gmms;
 // Tommaso Silvestrin
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class IOController {
 
     // Dipendenze necessarie per l'IOController per comunicare con il resto del
@@ -14,7 +25,6 @@ public class IOController {
     }
 
     // riceve una frase e avvia il processo di validazione chiamando il Validator
-
     public void inputSentence(String input) {
         validator.verifySentence(input);
     }
@@ -25,7 +35,8 @@ public class IOController {
     }
 
     public void displaySentence(String sentenceDesc) {
-
+        System.out.println("Frase:");
+        System.out.println(sentenceDesc);
     }
 
     // mostra errore relativo alla validazione della struttura della frase
@@ -35,7 +46,9 @@ public class IOController {
 
     // mostra l'albero sintattico della frase
     public void showSyntacticTree() {
-
+        Gson gson = new Gson().newBuilder().setPrettyPrinting().create();
+        String prettyJsonResult = gson.toJson(syntacticTree);
+        System.out.println(prettyJsonResult);
     }
 
     // mostra errore se la frase generata è tossica
@@ -44,6 +57,6 @@ public class IOController {
     }
 
     public static void showToxicityResults(double toxicityLevel) {
-        // DA FARE
+        System.out.println("Livello di tossicità della frase generata: " + toxicityLevel);
     }
 }
