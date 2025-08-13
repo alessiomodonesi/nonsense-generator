@@ -12,13 +12,9 @@ public class IOController {
         this.sentenceProcessor = sentenceProcessor;
     }
 
-    /**
-     * Riceve una frase e avvia il processo di validazione chiamando il Validator.
-     * Questo metodo corrisponde esattamente a 'inputSentence' del Design Model.
-     * @param input La stringa della frase da processare.
-     */
+    // riceve una frase e avvia il processo di validazione chiamando il Validator
+    
     public void inputSentence(String input) {
-        // Come da diagramma SSD, l'IOController riceve l'input e lo passa al Validator.
         validator.verifySentence(input);
     }
 
@@ -27,15 +23,9 @@ public class IOController {
         System.err.println("ERRORE: L'input inserito non è valido");
     }
 
-    /**
-     * Mostra la frase finale generata dal sistema.
-     * @param sentenceDesc La stringa della frase da mostrare.
-     */
+    
     public void displaySentence(String sentenceDesc) {
-        System.out.println("\n✨ Frase 'Nonsense' Generata:");
-        System.out.println("------------------------------------");
-        System.out.println(sentenceDesc);
-        System.out.println("------------------------------------");
+
     }
 
     // mostra errore relativo alla validazione della struttura della frase
