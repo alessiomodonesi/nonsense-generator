@@ -22,11 +22,9 @@ public class IOController {
         validator.verifySentence(input);
     }
 
-    /**
-     * Mostra un errore generico per un input non valido.
-     */
+    // mostra errore per input non valido
     public void showInputError() {
-        System.err.println(" ERRORE: L'input inserito non è valido. Riprova.");
+        System.err.println("ERRORE: L'input inserito non è valido");
     }
 
     /**
@@ -40,38 +38,22 @@ public class IOController {
         System.out.println("------------------------------------");
     }
 
-    /**
-     * Mostra un errore relativo alla validazione della struttura della frase.
-     */
+    // mostra errore relativo alla validazione della struttura della frase
     public void showValidationError() {
-        System.err.println(" ERRORE: La struttura della frase analizzata non è valida.");
+        System.err.println("ERRORE: La struttura della frase analizzata non è valida");
     }
 
-    /**
-     * Recupera l'albero sintattico dal SentenceProcessor e lo mostra all'utente.
-     */
+    // mostra l'albero sintattico della frase
     public void showSyntacticTree() {
-        // La logica del TODO è stata completata: il metodo ora chiama il sentenceProcessor.
-        String tree = sentenceProcessor.getSyntacticTree();
         
-        System.out.println("\n Albero Sintattico:");
-        System.out.println(tree);
     }
 
-    /**
-     * Mostra un errore se la frase generata è stata classificata come tossica.
-     */
+    // mostra errore se la frase generata è tossica
     public void showToxicityError() {
-        System.err.println("ATTENZIONE: La frase generata potrebbe contenere linguaggio non appropriato.");
+        System.err.println("ERRORE: La frase generata ha un livello di tossicità non accettabile");
     }
 
-    /**
-     * Mostra i risultati finali dell'analisi di tossicità.
-     */
     public void showToxicityResults() {
-        // La logica del TODO è stata completata con un messaggio di successo.
-        // Nota: per mostrare risultati dettagliati, questo metodo dovrebbe ricevere dei parametri,
-        // ma ci atteniamo al Design Model che non ne prevede.
-        System.out.println("Analisi di tossicità completata. Risultati nella norma.");
+        // DA FARE
     }
 }
