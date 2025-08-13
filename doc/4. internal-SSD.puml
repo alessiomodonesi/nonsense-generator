@@ -173,7 +173,7 @@ end
 
 end
 
-IOController <- Validator : showToxicityResults()
+IOController <- Validator : showToxicityResults(toxicityLevel)
 IOController --> user : toxicityResults
 
 }}

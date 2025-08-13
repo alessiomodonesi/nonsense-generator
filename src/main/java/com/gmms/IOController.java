@@ -3,7 +3,8 @@ package com.gmms;
 
 public class IOController {
 
-    // Dipendenze necessarie per l'IOController per comunicare con il resto del sistema.
+    // Dipendenze necessarie per l'IOController per comunicare con il resto del
+    // sistema.
     private final Validator validator;
     private final SentenceProcessor sentenceProcessor;
 
@@ -13,17 +14,16 @@ public class IOController {
     }
 
     // riceve una frase e avvia il processo di validazione chiamando il Validator
-    
-    public void inputSentence(String input) {
-        validator.verifySentence(input);
-    }
+
+    // public void inputSentence(String input) {
+    // validator.verifySentence(input);
+    // }
 
     // mostra errore per input non valido
     public void showInputError() {
         System.err.println("ERRORE: L'input inserito non è valido");
     }
 
-    
     public void displaySentence(String sentenceDesc) {
 
     }
@@ -35,7 +35,7 @@ public class IOController {
 
     // mostra l'albero sintattico della frase
     public void showSyntacticTree() {
-        
+
     }
 
     // mostra errore se la frase generata è tossica
@@ -43,7 +43,7 @@ public class IOController {
         System.err.println("ERRORE: La frase generata ha un livello di tossicità non accettabile");
     }
 
-    public void showToxicityResults() {
+    public void showToxicityResults(double toxicityLevel) {
         // DA FARE
     }
 }

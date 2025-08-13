@@ -12,10 +12,14 @@ public class Template {
     public static final int ADJECTIVE_TYPE = 2;
     public static final int UNKNOWN_TYPE = -1;
 
-    public String templateDesc; // descrizione del template con %s nei posti in cui andranno nomi, verbi, aggettivi
-    public int[] templateWords; // array di interi che rappresenta i tipi di parola richiesti dal template in ogni posizione %s
+    public String templateDesc; // descrizione del template con %s nei posti in cui andranno nomi, verbi,
+                                // aggettivi
+    public int[] templateWords; // array di interi che rappresenta i tipi di parola richiesti dal template in
+                                // ogni posizione %s
+    // templateWords = [2, 1, 1] 2 nomi, 1 verbo, 1 aggettivo
 
-    // costruttore che riceve una struttura di frase casuale e crea un oggetto Template
+    // costruttore che riceve una struttura di frase casuale e crea un oggetto
+    // Template
     public Template(String randomStructure) {
         List<Integer> wordTypesList = new ArrayList<>();
         StringBuilder templateBuilder = new StringBuilder();
@@ -24,7 +28,7 @@ public class Template {
         int lastIndex = 0; // fine dell'ultimo segnaposto trovato
 
         while ((currentIndex = randomStructure.indexOf('[', currentIndex)) != -1) {
-            
+
             // aggiunge la parte di stringa tra il segnaposto precedente e attuale
             templateBuilder.append(randomStructure, lastIndex, currentIndex);
 
@@ -61,7 +65,6 @@ public class Template {
             lastIndex = currentIndex;
         }
 
-
         // aggiunge la parte finale della stringa dopo l'ultimo segnaposto
         templateBuilder.append(randomStructure.substring(lastIndex));
 
@@ -72,6 +75,6 @@ public class Template {
         this.templateWords = new int[wordTypesList.size()];
         for (int i = 0; i < wordTypesList.size(); i++) {
             this.templateWords[i] = wordTypesList.get(i);
-        }   
+        }
     }
 }

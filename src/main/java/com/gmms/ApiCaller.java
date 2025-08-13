@@ -10,69 +10,69 @@ import java.nio.file.Path;
 import java.io.IOException;
 
 public class ApiCaller {
-    public static String getApiKey() {
-        String apiKey = "";
-        try {
-            // Specifica il percorso del file
-            Path filePath = Path.of(".api_key");
+  public static String getApiKey() {
+    String apiKey = "";
+    try {
+      // Specifica il percorso del file
+      Path filePath = Path.of(".api_key");
 
-            // Leggi il contenuto del file in una stringa
-            apiKey = Files.readString(filePath);
+      // Leggi il contenuto del file in una stringa
+      apiKey = Files.readString(filePath);
 
-            // Rimuovi eventuali spazi bianchi o interruzioni di riga
-            apiKey = apiKey.trim();
+      // Rimuovi eventuali spazi bianchi o interruzioni di riga
+      apiKey = apiKey.trim();
 
-            return apiKey;
+      return apiKey;
 
-        } catch (IOException e) {
-            // Gestisci l'errore se il file non viene trovato
-            System.err.println("Errore durante la lettura del file della chiave API: " + e.getMessage());
-            return e.toString(); // Termina il programma se la chiave non può essere letta
+    } catch (IOException e) {
+      // Gestisci l'errore se il file non viene trovato
+      System.err.println("Errore durante la lettura del file della chiave API: " + e.getMessage());
+      return e.toString(); // Termina il programma se la chiave non può essere letta
+    }
+  }
+
+  public static String getSyntaxAnalysis(String sentenceDesc) throws Exception {
+    String url = "https://language.googleapis.com/v1/documents:analyzeSyntax?key=" + getApiKey();
+    String jsonPayload = String.format("""
+        {
+          "document": {
+            "type": "PLAIN_TEXT",
+            "content": "%s"
+          },
+          "encodingType": "UTF8"
         }
-    }
+        """, sentenceDesc);
 
-    public static String getSyntaxAnalysis(String sentenceDesc) throws Exception {
-        String url = "https://language.googleapis.com/v1/documents:analyzeSyntax?key=" + getApiKey();
-        String jsonPayload = String.format("""
-                {
-                  "document": {
-                    "type": "PLAIN_TEXT",
-                    "content": "%s"
-                  },
-                  "encodingType": "UTF8"
-                }
-                """, sentenceDesc);
+    String syntacticTree = makeCall(url, jsonPayload);
+    return syntacticTree;
+  }
 
-        String syntacticTree = makeCall(url, jsonPayload);
-        return syntacticTree;
-    }
+  public static String getToxicityAnalysis(String sentenceDesc) throws Exception {
+    String url = "https://language.googleapis.com/v1/documents:moderateText?key=" + getApiKey();
+    String jsonPayload = String.format("""
+        {
+          "document": {
+            "type": "PLAIN_TEXT",
+            "content": "%s"
+          }
+        }
+        """, sentenceDesc);
 
-    public static String getToxicityAnalysis(String sentenceDesc) throws Exception {
-        String url = "https://language.googleapis.com/v1/documents:moderateText?key=" + getApiKey();
-        String jsonPayload = String.format("""
-                {
-                  "document": {
-                    "type": "PLAIN_TEXT",
-                    "content": "%s"
-                  }
-                }
-                """, sentenceDesc);
+    String toxicityAnalysis = makeCall(url, jsonPayload);
+    return toxicityAnalysis;
+  }
 
-        String toxicityAnalysis = makeCall(url, jsonPayload);
-        return toxicityAnalysis;
-    }
+  public static String makeCall(String url, String payload) throws Exception {
+    HttpClient client = HttpClient.newHttpClient();
+    HttpRequest request = HttpRequest.newBuilder()
+        .uri(URI.create(url))
+        .header("Content-Type", "application/json") // Imposta l'header richiesto per il JSON
+        .POST(HttpRequest.BodyPublishers.ofString(
+            payload))
+        .build();
 
-    public static String makeCall(String url, String payload) throws Exception {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .header("Content-Type", "application/json") // Imposta l'header richiesto per il JSON
-                .POST(HttpRequest.BodyPublishers.ofString(
-                        payload))
-                .build();
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        // System.out.println(response.body());
-        return response.body();
-    }
+    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+    // System.out.println(response.body());
+    return response.body();
+  }
 }

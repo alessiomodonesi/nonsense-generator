@@ -8,6 +8,7 @@ import java.util.Scanner;
  */
 public class App {
     public static void main(String[] args) throws Exception {
+        // questa parte va nel IOController
         Scanner scanner = new Scanner(System.in);
         System.out.println("Inserisci una frase:");
         String input = scanner.nextLine();

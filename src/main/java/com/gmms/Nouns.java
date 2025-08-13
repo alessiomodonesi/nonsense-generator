@@ -1,30 +1,26 @@
 package com.gmms;
 
 import java.util.List;
-import java.util.Random;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Arrays;
+
 // Mattia Gallinaro
 public class Nouns {
-    List<String> words;
-    Random random;
+    List<String> nouns = null;
 
-    //da testare
-    public String Nouns(){
-        return words.get(random.nextInt(words.size()));
+    public Nouns(String[] words, StringBuilder sb) {
+        nouns = new ArrayList<>(Arrays.asList(words));
+        Collections.shuffle(nouns);
+        if (nouns.size() > 0)
+            sb.append("Nome generato : " + nouns.get(0));
     }
 
-    public Nouns(String[] words){
-        random = new Random();
-    }
-    
-    public String[] getNouns(int count){
-        String[] pickedWords = new String[count];
-        List<String> copyList = new ArrayList<String>(words);
-        for(int i  = 0; i < count ; i++){
-            int pos = random.nextInt(copyList.size());
-            pickedWords[i] = copyList.get(pos);
-            copyList.remove(pos);
-        } 
+    public List<String> getNouns(int count) {
+        if (count > nouns.size())
+            count = nouns.size();
+        Collections.shuffle(nouns);
+        List<String> pickedWords = nouns.subList(0, count);
         return pickedWords;
     }
 }

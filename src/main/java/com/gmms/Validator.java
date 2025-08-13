@@ -9,8 +9,8 @@ public class Validator {
     public static void verifyToxicity(String sentenceDesc) throws Exception {
         // Invocazione della funzione getToxicityAnalysis dalla classe ApiCaller
         String toxicityAnalysis = ApiCaller.getToxicityAnalysis(sentenceDesc);
-        double toxicityLevel = 0.0;
-        // System.out.println(toxicityAnalysis);
+        double toxicityLevel = 0.0; // media dei valori restituiti
+        System.out.println(toxicityAnalysis);
 
         // Analizza la stringa JSON per ottenere l'oggetto principale
         JsonObject rootObject = JsonParser.parseString(toxicityAnalysis).getAsJsonObject();
