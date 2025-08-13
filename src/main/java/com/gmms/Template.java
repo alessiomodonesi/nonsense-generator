@@ -3,8 +3,6 @@ package com.gmms;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Template {
 
@@ -20,12 +18,27 @@ public class Template {
     // costruttore che riceve una struttura di frase casuale e crea un oggetto Template
     public Template(String randomStructure) {
         List<Integer> wordTypesList = new ArrayList<>();
+        StringBuilder templateBuilder = new StringBuilder();
 
-        Pattern pattern = Pattern.compile("\\[(.*?)\\]");
-        Matcher matcher = pattern.matcher(randomStructure);
+        int currentIndex = 0; // attuale posizione nella stringa
+        int lastIndex = 0; // fine dell'ultimo segnaposto trovato
 
-        while (matcher.find()) {
-            String type = matcher.group(1).toUpperCase();
+        while ((currentIndex = randomStructure.indexOf('[', currentIndex)) != -1) {
+            
+            // aggiunge la parte di stringa tra il segnaposto precedente e attuale
+            templateBuilder.append(randomStructure, lastIndex, currentIndex);
+
+            // cerca la [ di chiusura del segnaposto
+            int endIndex = randomStructure.indexOf(']', currentIndex);
+
+            // se non c'è ] la stringa non è valida
+            if (endIndex == -1) {
+                break;
+            }
+
+            // estrae il tipo di parola tra le parentesi quadre
+            String type = randomStructure.substring(currentIndex + 1, endIndex).toUpperCase();
+
             switch (type) {
                 case "NOUN":
                     wordTypesList.add(NOUN_TYPE);
@@ -40,14 +53,25 @@ public class Template {
                     wordTypesList.add(UNKNOWN_TYPE);
                     break;
             }
+            // aggiunge il segnaposto %s al template
+            templateBuilder.append("%s");
+
+            // aggiornamento indici
+            currentIndex = endIndex + 1;
+            lastIndex = currentIndex;
         }
 
-        // converte la lista di interi in un array di int
+
+        // aggiunge la parte finale della stringa dopo l'ultimo segnaposto
+        templateBuilder.append(randomStructure.substring(lastIndex));
+
+        // imposta la descrizione del template
+        this.templateDesc = templateBuilder.toString();
+
+        // converte la lista nell'array di interi
         this.templateWords = new int[wordTypesList.size()];
         for (int i = 0; i < wordTypesList.size(); i++) {
             this.templateWords[i] = wordTypesList.get(i);
-        }
-
-        this.templateDesc = randomStructure.replaceAll("\\[(.*?)\\]", "%s");
+        }   
     }
 }
