@@ -39,11 +39,11 @@ public class IOController {
     }
 
     // mostra errore se la frase generata è tossica
-    public void showToxicityError() {
+    public static void showToxicityError() {
         System.err.println("ERRORE: La frase generata ha un livello di tossicità non accettabile");
     }
 
-    public void showToxicityResults(double toxicityLevel) {
+    public static void showToxicityResults(double toxicityLevel) {
         // DA FARE
     }
 }
