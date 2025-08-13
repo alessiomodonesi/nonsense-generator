@@ -15,8 +15,7 @@ public class App {
         scanner.close();
 
         // chiamate di SentenceProcessor
-        String syntacticTree = Analyzer.analyzeSentence(input);
-        System.out.println(syntacticTree);
+        Analyzer.analyzeSentence(input);
         Validator.verifyToxicity(input);
     }
 }

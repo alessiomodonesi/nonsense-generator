@@ -2,6 +2,7 @@ package com.gmms;
 // Alessio Modonesi
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -9,34 +10,38 @@ public class Validator {
     public static void verifyToxicity(String sentenceDesc) throws Exception {
         // Invocazione della funzione getToxicityAnalysis dalla classe ApiCaller
         String toxicityAnalysis = ApiCaller.getToxicityAnalysis(sentenceDesc);
-        double toxicityLevel = 0.0; // media dei valori restituiti
         System.out.println(toxicityAnalysis);
 
-        // Analizza la stringa JSON per ottenere l'oggetto principale
+        // 1. Analizza la stringa JSON e ottieni l'oggetto radice
         JsonObject rootObject = JsonParser.parseString(toxicityAnalysis).getAsJsonObject();
 
-        // Estrai l'array "moderationCategories"
-        JsonArray moderationCategories = rootObject.getAsJsonArray("moderationCategories");
+        // 2. Estrai l'array di 'moderationCategories'
+        JsonArray categories = rootObject.getAsJsonArray("moderationCategories");
 
-        // Itera sull'array per trovare l'oggetto con il nome "Toxic"
-        if (moderationCategories != null) {
-            for (int i = 0; i < moderationCategories.size(); i++) {
-                JsonObject category = moderationCategories.get(i).getAsJsonObject();
+        // 3. Inizializza le variabili per il calcolo
+        double sum = 0.0;
+        int count = categories.size();
 
-                // Controlla se il nome è "Toxic"
-                if ("Toxic".equals(category.get("name").getAsString())) {
-                    toxicityLevel = category.get("confidence").getAsDouble();
-                    break;
-                }
-            }
+        // 4. Itera su ogni elemento dell'array
+        for (JsonElement categoryElement : categories) {
+            JsonObject categoryObject = categoryElement.getAsJsonObject();
+
+            // Estrai il valore di 'confidence' e sommalo al totale
+            double confidence = categoryObject.get("confidence").getAsDouble();
+            sum += confidence;
         }
 
-        if (toxicityLevel >= 0.50) {
-            System.out.println("error: toxicity level is too high");
-            // IOController.showToxicityError();
-        } else {
-            System.out.println("toxicity level is: " + toxicityLevel);
-            // IOController.showToxicityResults(toxicityLevel);
-        }
+        // 5. Calcola la media (con un controllo per evitare la divisione per zero)
+        double toxicityLevel = 0.0;
+        double criticValue = 0.5;
+        if (count > 0)
+            toxicityLevel = sum / count;
+
+        System.out.println("toxicity level is: " + toxicityLevel);
+
+        if (toxicityLevel >= criticValue)
+            IOController.showToxicityError();
+        else
+            IOController.showToxicityResults(toxicityLevel);
     }
 }
