@@ -1,23 +1,14 @@
 package com.gmms;
 // Tommaso Silvestrin
 
-/**
- * Gestisce tutte le interazioni di Input/Output (I/O) con l'utente.
- * Stampa messaggi, errori e risultati sulla console.
- */
 public class IOController {
 
     // Dipendenze necessarie per l'IOController per comunicare con il resto del sistema.
     private final Validator validator;
     private final SentenceProcessor sentenceProcessor;
 
-    /**
-     * Costruttore che inizializza il controller con le sue dipendenze.
-     * @param validator Il validatore da usare per verificare l'input.
-     * @param sentenceProcessor Il processore da cui ottenere informazioni.
-     */
     public IOController(Validator validator, SentenceProcessor sentenceProcessor) {
-        this.validator = validator;
+        this.validator = validator; // validator da usare per verificare l'input
         this.sentenceProcessor = sentenceProcessor;
     }
 
@@ -35,7 +26,7 @@ public class IOController {
      * Mostra un errore generico per un input non valido.
      */
     public void showInputError() {
-        System.err.println("❌ ERRORE: L'input inserito non è valido. Riprova.");
+        System.err.println(" ERRORE: L'input inserito non è valido. Riprova.");
     }
 
     /**
@@ -53,7 +44,7 @@ public class IOController {
      * Mostra un errore relativo alla validazione della struttura della frase.
      */
     public void showValidationError() {
-        System.err.println("❌ ERRORE: La struttura della frase analizzata non è valida.");
+        System.err.println(" ERRORE: La struttura della frase analizzata non è valida.");
     }
 
     /**
@@ -63,7 +54,7 @@ public class IOController {
         // La logica del TODO è stata completata: il metodo ora chiama il sentenceProcessor.
         String tree = sentenceProcessor.getSyntacticTree();
         
-        System.out.println("\n🌳 Albero Sintattico:");
+        System.out.println("\n Albero Sintattico:");
         System.out.println(tree);
     }
 
@@ -71,7 +62,7 @@ public class IOController {
      * Mostra un errore se la frase generata è stata classificata come tossica.
      */
     public void showToxicityError() {
-        System.err.println("⚠️ ATTENZIONE: La frase generata potrebbe contenere linguaggio non appropriato.");
+        System.err.println("ATTENZIONE: La frase generata potrebbe contenere linguaggio non appropriato.");
     }
 
     /**
@@ -81,6 +72,6 @@ public class IOController {
         // La logica del TODO è stata completata con un messaggio di successo.
         // Nota: per mostrare risultati dettagliati, questo metodo dovrebbe ricevere dei parametri,
         // ma ci atteniamo al Design Model che non ne prevede.
-        System.out.println("✅ Analisi di tossicità completata. Risultati nella norma.");
+        System.out.println("Analisi di tossicità completata. Risultati nella norma.");
     }
 }
