@@ -14,15 +14,15 @@ public class Sentence {
         this.sentenceDesc = sentenceDesc;
     }
 
-    // public void setSentenceTree(SyntacticTree syntacticTree) {
-    // this.syntacticTree = syntacticTree;
-    // }
+    public void setSentenceTree(Map<String, List<String>> syntacticTree) {
+        this.syntacticTree = syntacticTree;
+    }
 
     public String getSentenceDesc() {
         return this.sentenceDesc;
     }
 
-    // public SyntacticTree getSentenceTree() {
-    // return this.syntacticTree;
-    // }
+    public Map<String, List<String>> getSentenceTree() {
+        return this.syntacticTree;
+    }
 }

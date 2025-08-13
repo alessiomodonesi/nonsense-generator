@@ -11,9 +11,9 @@ public class SentenceStructures {
     private File structures;
     private int dimension;
 
-    public SentenceStructures(String path) {
+    public SentenceStructures() {
         dimension = 0;
-        this.structures = new File(path);
+        this.structures = new File("data/SentenceStructures.txt");
         try {
             Scanner sc = new Scanner(structures);
             while (sc.hasNextLine())

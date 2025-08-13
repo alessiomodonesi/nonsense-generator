@@ -1,59 +1,61 @@
 package com.gmms;
 
-// Diego Marchini
-public class SentenceProcessor {
+import java.util.Map;
+import java.util.List;
 
-    private Sentence inputSentence;
-    private Sentence nonsenseSentence;
-    private Sentence tempSentence; // variabile di supporto in attesa di adoperare il giusto pattern
-    private boolean state; // variabile che uso al momento per differenziare tra le due istanze di sentence
-                           // memorizzate
+// Diego Marchini
+public final class SentenceProcessor {
+
+    private static Sentence inputSentence;
+    private static Sentence nonsenseSentence;
+    private static Sentence tempSentence; // variabile di supporto in attesa di adoperare il giusto pattern variabile
+                                          // che uso al momento per differenziare tra le due istanze di sentence
+                                          // memorizzate
+    private static boolean state = true;
 
     // costruttore
-    public SentenceProcessor() {
-        this.state = false;
+    private SentenceProcessor() {
     }
 
-    public void createSentence(String sentenceDesc) {
+    public static void createSentence(String sentenceDesc) {
+        tempSentence = new Sentence(sentenceDesc);
         if (state) {
-            nonsenseSentence = new Sentence(sentenceDesc);
-            tempSentence = nonsenseSentence;
+            inputSentence = tempSentence;
         } else {
-            inputSentence = new Sentence(sentenceDesc);
-            tempSentence = inputSentence;
+            nonsenseSentence = tempSentence;
         }
 
-        state = true;
+        state = false;
     }
 
-    // public Map<String, List<String>> getSyntacticTree() {
-    // return tempSentence.getSentenceTree();
-    // }
+    public static Map<String, List<String>> getSyntacticTree() {
+        return tempSentence.getSentenceTree();
+    }
     // metodi di supporto non presenti nel design class model (metodi di
     // SentenceProcessor)
 
-    // public void setSentenceTree(Map<String, List<String>> syntacticTree) {
-    // tempSentence.setSentenceTree(syntacticTree); // a seconda delle esigenze
-    // potrebbe anche solo trattarsi di
-    // // inputSentence
-    // }
+    public static void setSentenceTree(Map<String, List<String>> syntacticTree) {
+        tempSentence.setSentenceTree(syntacticTree); // a seconda delle esigenze
+        // potrebbe anche solo trattarsi di
+        // inputSentence
+    }
 
     // metodi di supporto non presenti nel design class model (chiamate ad altri
     // sottosistemi)
 
-    // public void displaySentence() {
-    // IOController.displaySentence(tempSentence.getSentenceDesc());
-    // }
+    public static void displaySentence() {
+        IOController.displaySentence(tempSentence.getSentenceDesc());
+    }
 
-    // public void analyzeSentence() {
-    // Analyzer.analyzeSentence(tempSentence.getSentenceDesc());
-    // }
+    public static void analyzeSentence() throws Exception {
+        Analyzer.analyzeSentence(tempSentence.getSentenceDesc());
+    }
 
-    // public void validateSentenceStructure() {
-    // Validator.validateSentenceStructure(tempSentence.getSentenceTree());
-    // }
+    public static void validateSentenceStructure() {
+        Validator.validateSentenceStructure(tempSentence.getSentenceTree());
+    }
 
-    // public void verifyToxicity() {
-    // Validator.verifyToxicity(tempSentence.getSentenceDesc());
-    // }
+    public static void verifyToxicity() throws Exception {
+        Validator.verifyToxicity(tempSentence.getSentenceDesc());
+    }
 }

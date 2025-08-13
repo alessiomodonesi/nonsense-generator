@@ -7,15 +7,15 @@ import java.util.Random;
 // Diego Marchini
 public class SentenceGenerator {
 
-    String sentenceDesc;
-    Map<String, List<String>> fillingWords;
+    private static String sentenceDesc;
+    private static Map<String, List<String>> fillingWords;
 
-    public SentenceGenerator() {
+    private SentenceGenerator() {
     }
 
     // metodi di supporto non presenti nel design class model (metodi di
     // SentenceGenerator)
-    public void generateSentenceDesc() {
+    public static void generateSentenceDesc() {
         // this.getTemplateDesc();
         // this.getWords();
         Random r = new Random();
@@ -49,16 +49,16 @@ public class SentenceGenerator {
     // metodi di supporto non presenti nel design class model (chiamate ad altri
     // sottosistemi)
 
-    // private void getTemplateDesc() {
-    // sentenceDesc = TemplateController.getTemplateDesc();
-    // }
+    private static void getTemplateDesc() {
+        sentenceDesc = TemplateController.getTemplateDesc();
+    }
 
-    // private void getWords() {
-    // fillingWords = WordPicker.getWords();
-    // }
+    private static void getWords() {
+        fillingWords = WordPicker.getWords();
+    }
 
-    // public void createSentence() {
-    // SentenceProcessor.createSentence(sentenceDesc);
-    // }
+    public static void createSentence() {
+        SentenceProcessor.createSentence(sentenceDesc);
+    }
 
 }
