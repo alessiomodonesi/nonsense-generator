@@ -1,80 +1,49 @@
 package com.gmms;
 // Tommaso Silvestrin
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 
 public class Template {
 
     // costanti per mappare i tipi di parola a interi
-    public static final int NOUN_TYPE = 0;
-    public static final int VERB_TYPE = 1;
-    public static final int ADJECTIVE_TYPE = 2;
-    public static final int UNKNOWN_TYPE = -1;
+    public static final int NOUN_INDEX = 0;
+    public static final int VERB_INDEX = 1;
+    public static final int ADJECTIVE_INDEX = 2;
 
-    public String templateDesc; // descrizione del template con %s nei posti in cui andranno nomi, verbi,
-                                // aggettivi
-    public int[] templateWords; // array di interi che rappresenta i tipi di parola richiesti dal template in
-                                // ogni posizione %s
-    // templateWords = [2, 1, 1] 2 nomi, 1 verbo, 1 aggettivo
+    public String templateDesc; // descrizione del template nella forma con [NOUN], [VERB], [ADJECTIVE]
+    public int[] templateWords; // array di interi che indica quanti nomi, verbi e aggettivi sono richiesti nel template
 
     // costruttore che riceve una struttura di frase casuale e crea un oggetto
-    // Template
+
     public Template(String randomStructure) {
-        List<Integer> wordTypesList = new ArrayList<>();
-        StringBuilder templateBuilder = new StringBuilder();
+        
+        this.templateWords = new int[3];
+        StringBuilder temporaryTemplate = new StringBuilder(); // template in formazione
+        Random randomGenerator = new Random(); // usato per sostituire %s randomicamente con i tipi di parola
 
-        int currentIndex = 0; // attuale posizione nella stringa
-        int lastIndex = 0; // fine dell'ultimo segnaposto trovato
+        String[] parts = randomStructure.split("%s", -1); // divide la struttura in parti usando %s come separatore
 
-        while ((currentIndex = randomStructure.indexOf('[', currentIndex)) != -1) {
+        for (int i = 0; i < parts.length - 1; i++) {
+            temporaryTemplate.append(parts[i]);
 
-            // aggiunge la parte di stringa tra il segnaposto precedente e attuale
-            templateBuilder.append(randomStructure, lastIndex, currentIndex);
+            int randomType = randomGenerator.nextInt(3);
 
-            // cerca la [ di chiusura del segnaposto
-            int endIndex = randomStructure.indexOf(']', currentIndex);
+            this.templateWords[randomType]++; // aumenta il numero di parole del tipo randomico generato
 
-            // se non c'è ] la stringa non è valida
-            if (endIndex == -1) {
-                break;
-            }
-
-            // estrae il tipo di parola tra le parentesi quadre
-            String type = randomStructure.substring(currentIndex + 1, endIndex).toUpperCase();
-
-            switch (type) {
-                case "NOUN":
-                    wordTypesList.add(NOUN_TYPE);
+            switch (randomType) {
+                case NOUN_INDEX:
+                    temporaryTemplate.append("[NOUN]");
                     break;
-                case "VERB":
-                    wordTypesList.add(VERB_TYPE);
+                case VERB_INDEX:
+                    temporaryTemplate.append("[VERB]");
                     break;
-                case "ADJECTIVE":
-                    wordTypesList.add(ADJECTIVE_TYPE);
-                    break;
-                default:
-                    wordTypesList.add(UNKNOWN_TYPE);
+                case ADJECTIVE_INDEX:
+                    temporaryTemplate.append("[ADJECTIVE]");
                     break;
             }
-            // aggiunge il segnaposto %s al template
-            templateBuilder.append("%s");
-
-            // aggiornamento indici
-            currentIndex = endIndex + 1;
-            lastIndex = currentIndex;
         }
 
-        // aggiunge la parte finale della stringa dopo l'ultimo segnaposto
-        templateBuilder.append(randomStructure.substring(lastIndex));
-
-        // imposta la descrizione del template
-        this.templateDesc = templateBuilder.toString();
-
-        // converte la lista nell'array di interi
-        this.templateWords = new int[wordTypesList.size()];
-        for (int i = 0; i < wordTypesList.size(); i++) {
-            this.templateWords[i] = wordTypesList.get(i);
-        }
+        temporaryTemplate.append(parts[parts.length - 1]);
+        this.templateDesc = temporaryTemplate.toString();
     }
 }

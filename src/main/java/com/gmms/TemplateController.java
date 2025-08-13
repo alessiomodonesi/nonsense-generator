@@ -10,12 +10,12 @@ public class TemplateController {
         this.template = generator.generateTemplate();
     }
 
-    // restituisce l'array di interi che rappresenta i tipi di parola richiesti dal template
+    // restituisce l'array di interi che rappresenta quanti nomi, verbi e aggettivi sono richiesti nel template
     public int[] getWordCount() {
         return this.template.templateWords;
     }
 
-    // restituisce la descrizione del template, con i segnaposto %s
+    // restituisce la descrizione del template
     public String getTemplateDesc() {
         return this.template.templateDesc;
     }

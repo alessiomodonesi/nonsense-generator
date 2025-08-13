@@ -15,9 +15,9 @@ public class IOController {
 
     // riceve una frase e avvia il processo di validazione chiamando il Validator
 
-    // public void inputSentence(String input) {
-    // validator.verifySentence(input);
-    // }
+    public void inputSentence(String input) {
+        validator.verifySentence(input);
+    }
 
     // mostra errore per input non valido
     public void showInputError() {
