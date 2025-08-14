@@ -28,7 +28,7 @@ public final class SentenceProcessor {
         state = false;
     }
 
-    public static Map<String, List<String>> getSyntacticTree() {
+    public Map<String, List<String>> getSyntacticTree() {
         return tempSentence.getSentenceTree();
     }
     // metodi di supporto non presenti nel design class model (metodi di

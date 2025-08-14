@@ -14,8 +14,6 @@ import java.util.Map;
 
 public class IOController {
 
-    // Dipendenze necessarie per l'IOController per comunicare con il resto del
-    // sistema.
     private final Validator validator;
     private final SentenceProcessor sentenceProcessor;
 
@@ -46,6 +44,7 @@ public class IOController {
 
     // mostra l'albero sintattico della frase
     public void showSyntacticTree() {
+        Object syntacticTree = sentenceProcessor.getSyntacticTree();
         Gson gson = new Gson().newBuilder().setPrettyPrinting().create();
         String prettyJsonResult = gson.toJson(syntacticTree);
         System.out.println(prettyJsonResult);
