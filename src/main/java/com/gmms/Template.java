@@ -40,20 +40,20 @@ public class Template {
 
         this.templateWords = new int[3];
         StringBuilder temporaryTemplate = new StringBuilder(); // template in formazione
-        Random randomGenerator = new Random(); // usato per sostituire %s randomicamente con i tipi di parola
+        Random randomGenerator = new Random();
 
-        String[] parts = randomStructure.split("%s", -1); // divide la struttura in parti usando %s come separatore
+        String[] parts = randomStructure.split("%s", -1);
 
         for (int i = 0; i < parts.length - 1; i++) {
             temporaryTemplate.append(parts[i]);
 
-            int size = randomGenerator.nextInt(3) + 1; // genera un numero casuale tra 1 e 3
+            int size = randomGenerator.nextInt(3) + 1; // genera un numero casuale tra 1 e 3 per determinare la dimensione della combinazione
 
-            List<int[]> possibleCombinations = combinations.get(size);
-            int [] randomCombination = possibleCombinations.get(randomGenerator.nextInt(possibleCombinations.size()));
+            List<int[]> possibleCombinations = combinations.get(size); // ottiene le combinazioni possibili per la dimensione generata
+            int [] randomCombination = possibleCombinations.get(randomGenerator.nextInt(possibleCombinations.size())); // seleziona una combinazione casuale
 
             for (int j = 0; j < randomCombination.length; j++) {
-                int wordType = randomCombination[j];
+                int wordType = randomCombination[j]; // ottiene il tipo di parola dalla combinazione casuale
 
                 this.templateWords[wordType]++; // incrementa il conteggio del tipo di parola
                 
