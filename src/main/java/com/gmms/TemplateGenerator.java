@@ -16,7 +16,7 @@ public class TemplateGenerator {
         String randomStructure = sentenceStructures.getRandomStructure();
         
         // crea un nuovo oggetto Template
-        Template newTemplate = new Template(randomStructure);
+        Template newTemplate = Template.create(randomStructure);
         
         return newTemplate;
     }
