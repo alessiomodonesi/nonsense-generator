@@ -12,7 +12,7 @@ public class Template {
     public static final int VERB_INDEX = 1;
     public static final int ADJECTIVE_INDEX = 2;
 
-    private static final Map<Integer, List<int[]>> alternatives = Map.of(
+    private static final Map<Integer, List<int[]>> combinations = Map.of(
         1, List.of (
             new int [] {NOUN_INDEX},
             new int [] {VERB_INDEX},
@@ -47,12 +47,11 @@ public class Template {
         for (int i = 0; i < parts.length - 1; i++) {
             
             temporaryTemplate.append(parts[i]);
-            int dim = rand.nextInt(3) + 1; // genera un numero casuale tra 1 e 3 per determinare la dimensione della combinazione
-            List<int[]> combinations = alternatives.get(dim); // ottiene le combinazioni possibili per la dimensione generata
-            int [] alternativesChoice = combinations.get(rand.nextInt(combinations.size())); // seleziona una combinazione casuale
+            int numberOfWords = rand.nextInt(3) + 1; // genera un numero casuale tra 1 e 3 per determinare la dimensione della combinazione
+            int [] alternatives = combinations.get(numberOfWords).get(rand.nextInt(combinations.get(numberOfWords).size()));
 
-            for (int j = 0; j < alternativesChoice.length; j++) {
-                int wordIndex = alternativesChoice[j]; // ottiene il tipo di parola dalla combinazione casuale
+            for (int j = 0; j < alternatives.length; j++) {
+                int wordIndex = alternatives[j]; // ottiene il tipo di parola dalla combinazione casuale
                 templateWords[wordIndex]++; // incrementa il conteggio del tipo di parola
                 
                 switch (wordIndex) {
