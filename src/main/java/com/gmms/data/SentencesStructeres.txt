@@ -1,10 +1,30 @@
-"Il %s ha deciso di %s il %s, ma il %s non era d'accordo e ha preferito %s un %s. Alla fine, il %s ha dovuto %s tutto da %s, usando un %s."
-"Per %s correttamente, hai bisogno di: un %s, un %s, un %s, un %s, un %s, un %s, un %s, un %s e, soprattutto, un %s."
-"Non appena il %s vide il %s, capì che doveva %s. Prese il %s e lo diede al %s, sperando che il %s potesse %s il %s prima dell'arrivo del %s %s."
-"Se il %s è più %s del %s, allora il risultato del %s sarà %s. Altrimenti, il %s dovrà %s un %s, causando un %s %s."
-"Un %s %s una volta disse a un %s %s di non %s mai con un %s, specialmente se il %s è più %s di un %s %s."
-"La procedura richiede di %s il primo %s, %s il secondo %s, %s il terzo %s, %s il quarto %s e infine %s l'ultimo %s."
-"Il %s non avrebbe mai immaginato che il suo %s potesse %s in un %s così %s, trasformando ogni %s in un %s e ogni %s in un %s %s."
-"Chi ha messo il %s nel %s? È stato il %s con il suo %s oppure il %s con la sua %s? Nessuno lo sa, ma il %s dovrà %s il %s e il %s."
-"Nel mondo dei %s, ogni %s deve %s un %s. Il primo %s impara a %s, il secondo %s a %s, e il terzo %s a %s."
-"Il manuale dice: %s il %s, poi %s il %s. Non %s il %s. Assicurati che il %s sia %s prima di %s il %s finale."
+Il %s ha deciso di %s il %s, ma il %s non era d'accordo e ha preferito %s un %s. Alla fine, il %s ha dovuto %s tutto da %s, usando un %s.
+Per %s correttamente, hai bisogno di: un %s, un %s, un %s, un %s, un %s, un %s, un %s, un %s e, soprattutto, un %s.
+Non appena il %s vide il %s, capì che doveva %s. Prese il %s e lo diede al %s, sperando che il %s potesse %s il %s prima dell'arrivo del %s %s.
+Se il %s è più %s del %s, allora il risultato del %s sarà %s. Altrimenti, il %s dovrà %s un %s, causando un %s %s.
+Un %s %s una volta disse a un %s %s di non %s mai con un %s, specialmente se il %s è più %s di un %s %s.
+La procedura richiede di %s il primo %s, %s il secondo %s, %s il terzo %s, %s il quarto %s e infine %s l'ultimo %s.
+Il %s non avrebbe mai immaginato che il suo %s potesse %s in un %s così %s, trasformando ogni %s in un %s e ogni %s in un %s %s.
+Chi ha messo il %s nel %s? È stato il %s con il suo %s oppure il %s con la sua %s? Nessuno lo sa, ma il %s dovrà %s il %s e il %s.
+Nel mondo dei %s, ogni %s deve %s un %s. Il primo %s impara a %s, il secondo %s a %s, e il terzo %s a %s.
+Il manuale dice: %s il %s, poi %s il %s. Non %s il %s. Assicurati che il %s sia %s prima di %s il %s finale.
+Il primo %s deve %s il %s, mentre il secondo %s deve %s il %s. Se entrambi %s, allora il %s potrà finalmente %s il %s finale.
+Per costruire un %s %s, servono i seguenti componenti: un %s, un %s, un %s, un %s, un %s, un %s, un %s e un pizzico di %s.
+Non appena il %s sarà %s, potremo %s il %s. Ma attenzione, se il %s dovesse %s, il %s dovrà %s, causando un %s %s.
+C'era una volta un %s che voleva %s il %s. Incontrò un %s che gli diede un %s magico, dicendogli di %s il %s solo quando il %s fosse %s e %s.
+La guida turistica, un %s molto %s, indicò un %s e disse che era stato costruito da un %s per %s la sua %s. Oggi, quel %s è un %s %s e %s.
+La ricetta segreta del %s prevede di %s un %s, aggiungere lentamente il %s, mescolare con un %s, e poi %s tutto per %s minuti a temperatura %s, fino a renderlo %s e %s.
+Il sistema di sicurezza %s ha rilevato un %s non autorizzato. L'operatore %s deve %s il protocollo %s, isolare il %s, e notificare al %s di %s l'incidente con un %s.
+Durante la partita di %s, l'attaccante %s ha dribblato il %s, ha passato al %s, che ha tirato un %s %s, segnando un %s che ha fatto %s tutto lo %s %s.
+L'avventuriero %s deve attraversare le %s montagne, sconfiggere il %s guardiano, trovare la %s perduta, usare il suo %s per %s il %s, e riportare il %s al %s re.
+Per superare l'esame di %s, lo studente deve %s un saggio, risolvere un %s, presentare un %s, e collaborare a un %s. La valutazione finale dipenderà dal %s, dal %s, dal %s e dal %s.
+Un %s ha chiesto a un %s perché il cielo fosse %s. Il %s ha risposto che era a causa del %s e del %s, che interagendo creano un %s %s che percepiamo come %s.
+Il filosofo %s scrisse che per %s la %s, un %s deve prima %s il proprio %s, accettare il %s, e infine %s in armonia con il %s e il %s.
+Il computer %s non riesce a %s il file %s perché manca il driver %s. L'utente deve %s il %s, installare il %s, riavviare il %s, e poi %s il %s.
+Il detective %s esaminò il %s, notando un %s dettaglio. L'assassino aveva usato un %s per %s la vittima, lasciando un %s come firma. Il movente era un %s %s e %s.
+L'artista %s mescolò il colore %s con il %s per ottenere una tonalità %s. Poi, con un %s, dipinse un %s su una tela %s, creando un'opera %s, %s e %s.
+La sentinella %s vide un %s avvicinarsi al %s. Suonò l'%s, chiamò il %s, e si preparò a %s l'intruso con il suo %s, seguendo il %s piano di %s.
+Un %s, un %s, un %s, e un %s entrarono in un %s. Il primo ordinò un %s, il secondo un %s, il terzo un %s. Il quarto, invece, decise di %s e %s.
+Il vecchio manoscritto descrive un %s rito per %s un %s. Bisogna raccogliere un %s, una %s, e un %s, recitare una %s formula, e aspettare che il %s diventi %s e %s.
+Il robot %s fu programmato per %s, %s, %s, e %s. La sua direttiva primaria era di non %s mai un %s, a meno che non fosse strettamente %s per %s la sua %s missione.
+La differenza tra un %s e un %s è che il primo può %s, mentre il secondo no. Inoltre, un %s è sempre %s, a differenza di un %s, che a volte è %s, %s, %s, o %s.
