@@ -3,7 +3,7 @@ package com.gmms;
 public class App {
     public static void main(String[] args) throws Exception {
         // init-time
-        // SystemDictionary.initializeDic();
+        //SystemDictionary.initializeDic();
         // SentenceStructures s = new SentenceStructures();
 
         // internal-ssd INPUT phase
@@ -25,7 +25,7 @@ public class App {
         }
 
         IOController.showSyntacticTree();
-
+        //WordPicker.StartWordsExtraction(0); per testarlo dovete far inizializzare il dizionario sennò da errore perchè gli elementi sono a null
         // internal-ssd TEMPLATE GENERATION phase
         // internal-ssd WORDS EXTRACTION phase
         // internal-ssd SENTENCE GENERATION phase

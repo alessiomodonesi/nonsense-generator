@@ -13,14 +13,17 @@ public final class WordPicker {
 
     private static List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJ"));
     private static Map<String, List<String>> generatedWords;
+    private static Map<String, List<String>> words_sentence;
+    private static List<String> tmp;
 
     private WordPicker() {
     }
 
     public static void StartWordsExtraction(int flag_retry) {
-        int[] word_types_templ = new int[3];
+        //int[] word_types_templ = TemplateController.getWordCount();
+        int[] word_types_templ = new int[]{2,3,4};
 
-        // TemplateController.getWordCount()
+        generatedWords= new HashMap<String , List<String>>();
 
         SyntacticNode words_sent = SentenceProcessor.getSyntacticTree();
         Map<String, List<String>> picked_words_sen = pickSentenceWords(
@@ -49,13 +52,16 @@ public final class WordPicker {
          */
         Map<String, List<String>> picked = new HashMap<String, List<String>>();
         List<String> test = null;
+        int count = 0;
         for (int i = 0; i < types.size(); i++) {
             picked.put(types.get(i), new ArrayList<String>());
-            if ((qt[i] / 2) - flag_retry <= 0)
-                continue;
+            count = (qt[i] / 2) - flag_retry;
+            if (count <= 0)
+                continue; 
             test = words.get(types.get(i));
+            if((qt[i]/2) - flag_retry > test.size())count = test.size();
             Collections.shuffle(test);
-            picked.put(types.get(i), test.subList(0, i));
+            picked.put(types.get(i), test.subList(0, count));
         }
         return picked;
     }
@@ -65,6 +71,26 @@ public final class WordPicker {
     }
 
     private static Map<String, List<String>> analyzeSyntacticTree(SyntacticNode tree) {
-        return new HashMap<String, List<String>>();
+        words_sentence = new HashMap<String, List<String>>();
+        words_sentence.put("NOUN", new ArrayList<String>());
+        words_sentence.put("VERB", new ArrayList<String>());
+        words_sentence.put("ADJ", new ArrayList<String>());
+        LoopOnNodes(tree);
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < words_sentence.get(types.get(i)).size();j++){
+                System.out.println(words_sentence.get(types.get(i)).get(j));
+            }
+        }
+        return words_sentence;
+    }
+    private static void LoopOnNodes(SyntacticNode node){
+        if(types.contains(node.getPartOfSpeech())){
+           tmp = words_sentence.get(node.getPartOfSpeech());
+           tmp.add(node.getText());
+           words_sentence.put(node.getPartOfSpeech(), tmp);
+        }
+        for(SyntacticNode sn : node.getnode()){
+            LoopOnNodes(sn);
+        }
     }
 }

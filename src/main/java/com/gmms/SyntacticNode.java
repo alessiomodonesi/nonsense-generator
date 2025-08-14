@@ -47,6 +47,10 @@ public class SyntacticNode {
         return dependencyLabel;
     }
 
+    public String getPartOfSpeech(){
+        return partOfSpeech;
+    }
+
     // Metodo per stampare l'albero in modo leggibile a partire da questo nodo.
     public String printTree(String indent) {
         StringBuilder sb = new StringBuilder();
