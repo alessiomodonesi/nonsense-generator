@@ -32,8 +32,7 @@ public class Template {
     );
 
     public String templateDesc; // descrizione del template nella forma con [NOUN], [VERB], [ADJECTIVE]
-    public int[] templateWords; // array di interi che indica quanti nomi, verbi e aggettivi sono richiesti nel
-                                // template
+    public int[] templateWords; // array di interi che indica quanti nomi, verbi e aggettivi sono richiesti nel template
 
     // costruttore che riceve una struttura di frase casuale e crea un oggetto
     private Template(String randomStructure) {
