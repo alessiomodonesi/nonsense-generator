@@ -1,21 +1,36 @@
 package com.gmms;
 
-import java.util.Scanner;
-
-/**
- * Hello world!
- *
- */
 public class App {
     public static void main(String[] args) throws Exception {
-        // questa parte va nel IOController
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Inserisci una frase:");
-        String input = scanner.nextLine();
-        scanner.close();
+        // init-time
+        // SystemDictionary.initializeDic();
+        // SentenceStructures s = new SentenceStructures();
 
-        // chiamate di SentenceProcessor
-        Analyzer.analyzeSentence(input);
-        Validator.verifyToxicity(input);
+        // internal-ssd INPUT phase
+        String input = IOController.inputSentence();
+        boolean validationRestart = false;
+
+        while (!validationRestart) {
+            while (!Validator.verifySentence(input)) {
+                IOController.showInputError();
+                input = IOController.inputSentence();
+            }
+
+            SentenceProcessor.createSentence(input);
+            SentenceProcessor.displayProcess();
+
+            // internal-ssd ANALYSIS phase
+            SentenceProcessor.analysisProcess();
+            validationRestart = SentenceProcessor.validationProcess();
+        }
+
+        IOController.showSyntacticTree();
+
+        // internal-ssd TEMPLATE GENERATION phase
+        // internal-ssd WORDS EXTRACTION phase
+        // internal-ssd SENTENCE GENERATION phase
+        // internal-ssd TOXICITY EVALUATION phase
+        // internal-ssd DISPLAY SENTENCE phase
+
     }
 }

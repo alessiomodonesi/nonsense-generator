@@ -6,7 +6,26 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-public class Validator {
+public final class Validator {
+    // Costruttore
+    private Validator() {
+    }
+
+    public static boolean verifySentence(String input) {
+        if (input.isEmpty())
+            return false;
+        return true;
+    }
+
+    public static boolean validateSentenceStructure(SyntacticNode syntacticTree) {
+        boolean checkSentenceStructure = true;
+        if (!checkSentenceStructure) {
+            IOController.showValidationError();
+            return false;
+        }
+        return true;
+    }
+
     public static void verifyToxicity(String sentenceDesc) throws Exception {
         // Invocazione della funzione getToxicityAnalysis dalla classe ApiCaller
         String toxicityAnalysis = ApiCaller.getToxicityAnalysis(sentenceDesc);

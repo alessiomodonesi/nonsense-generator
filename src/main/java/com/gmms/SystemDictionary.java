@@ -1,44 +1,78 @@
 package com.gmms;
 
 // Mattia Gallinaro
-// import java.util.List;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.Scanner;
+import java.io.File;
 
-public class SystemDictionary {
-    Nouns nouns;
-    Verbs verbs;
-    Adjectives adjectives;
-    private SystemDictionary instance = null;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+public final class SystemDictionary {
+    private static Nouns nouns;
+    private static Verbs verbs;
+    private static Adjectives adjectives;
 
     private SystemDictionary() {
-        // nouns = new Nouns();
-        // verbs = new Verbs();
-        // adjectives = new Adjectives();
     }
 
     /*
      * ok per ora , dopo la testo
      * Si occupa di prendere i 3 arry e unirli in un unico dizionario di java
      */
-    private Dictionary<String, String[]> createDictionary(String[] words, String[] verbs, String[] adjectives) {
-        Dictionary<String, String[]> test = new Hashtable<>();
-        test.put("words", words);
-        test.put("verbs", verbs);
-        test.put("adjectives", adjectives);
+    private static Dictionary<String, List<String>> createDictionary(List<String> noun, List<String> verbs,
+            List<String> adjectives) {
+        Dictionary<String, List<String>> test = new Hashtable<>();
+        test.put("NOUN", noun);
+        test.put("VERB", verbs);
+        test.put("ADJ", adjectives);
         return test;
+
     }
 
-    /* Per far si che esista una sola istanza di SystemDictionary */
-    public SystemDictionary getInstance() {
-        if (instance == null)
-            instance = new SystemDictionary();
-
-        return instance;
+    private static void setupWordDic() {
+        StringBuilder sb = new StringBuilder();
+        String path = "./src/main/java/com/gmms/data/dictionary.json";
+        JsonObject json = null;
+        String text = "";
+        try {
+            Scanner sc = new Scanner(new File(path));
+            sc.useDelimiter("\\Z");
+            text = sc.next();
+            sc.close();
+            json = JsonParser.parseString(text).getAsJsonObject();
+            JsonArray arr = json.getAsJsonArray("NOUN");
+            List<String> test = new ArrayList<String>();
+            for (int i = 0; i < arr.size(); i++) {
+                test.add(arr.get(i).getAsString());
+            }
+            nouns = new Nouns(test, sb);
+            arr = json.getAsJsonArray("VERB");
+            test = new ArrayList<String>();
+            for (int i = 0; i < arr.size(); i++) {
+                test.add(arr.get(i).getAsString());
+            }
+            verbs = new Verbs(test, sb);
+            arr = json.getAsJsonArray("ADJ");
+            test = new ArrayList<String>();
+            for (int i = 0; i < arr.size(); i++) {
+                test.add(arr.get(i).getAsString());
+            }
+            adjectives = new Adjectives(test, sb);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
     }
 
-    public Dictionary<String, String[]> pickDictionaryWords(int[] dicWords) {
+    public static void initializeDic() {
+        setupWordDic();
+    }
 
-        return createDictionary(null, null, null);
+    public static Dictionary<String, List<String>> pickDictionaryWords(int[] words) {
+        return createDictionary(nouns.getNouns(words[0]), verbs.getVerbs(words[1]), adjectives.getAdjectives(words[2]));
     }
 }

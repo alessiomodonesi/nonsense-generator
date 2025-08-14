@@ -50,11 +50,11 @@ public class SentenceGenerator {
     // sottosistemi)
 
     private static void getTemplateDesc() {
-        sentenceDesc = TemplateController.getTemplateDesc();
+        // sentenceDesc = TemplateController.getTemplateDesc();
     }
 
     private static void getWords() {
-        fillingWords = WordPicker.getWords();
+        // fillingWords = WordPicker.getWords();
     }
 
     public static void createSentence() {

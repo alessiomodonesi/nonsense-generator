@@ -3,17 +3,16 @@ package com.gmms;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Arrays;
 
 // Mattia Gallinaro
 public class Adjectives {
     List<String> adjectives = null;
 
-    public Adjectives(String[] words, StringBuilder sb) {
-        adjectives = new ArrayList<>(Arrays.asList(words));
+    public Adjectives(List<String> words, StringBuilder sb) {
+        adjectives = new ArrayList<>(words);
         Collections.shuffle(adjectives);
         if (adjectives.size() > 0)
-            sb.append("Nome generato : " + adjectives.get(0));
+            sb.append("Aggettivo generato : " + adjectives.get(0));
     }
 
     public List<String> getAdjectives(int count) {

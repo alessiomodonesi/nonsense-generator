@@ -1,53 +1,48 @@
 package com.gmms;
 // Tommaso Silvestrin
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Scanner;
 
 public class IOController {
+    private static final Scanner scanner = new Scanner(System.in);
 
-    private final Validator validator;
-    private final SentenceProcessor sentenceProcessor;
-
-    public IOController(Validator validator, SentenceProcessor sentenceProcessor) {
-        this.validator = validator; // validator da usare per verificare l'input
-        this.sentenceProcessor = sentenceProcessor;
+    private IOController(Validator validator, SentenceProcessor sentenceProcessor) {
     }
 
     // riceve una frase e avvia il processo di validazione chiamando il Validator
-    public void inputSentence(String input) {
-        validator.verifySentence(input);
+    public static String inputSentence() {
+        System.out.print("Inserisci una frase: ");
+        String input = scanner.nextLine();
+        return input;
     }
 
     // mostra errore per input non valido
-    public void showInputError() {
+    public static void showInputError() {
         System.err.println("ERRORE: L'input inserito non è valido");
     }
 
-    public void displaySentence(String sentenceDesc) {
-        System.out.println("Frase:");
-        System.out.println(sentenceDesc);
+    public static void displaySentence(String sentenceDesc) {
+        System.out.println("Frase: " + sentenceDesc);
     }
 
     // mostra errore relativo alla validazione della struttura della frase
-    public void showValidationError() {
+    public static void showValidationError() {
         System.err.println("ERRORE: La struttura della frase analizzata non è valida");
     }
 
     // mostra l'albero sintattico della frase
-    public void showSyntacticTree() {
-        Object syntacticTree = sentenceProcessor.getSyntacticTree();
-        Gson gson = new Gson().newBuilder().setPrettyPrinting().create();
-        String prettyJsonResult = gson.toJson(syntacticTree);
-        System.out.println(prettyJsonResult);
+    public static void showSyntacticTree() {
+        String input = "";
+
+        do {
+            System.out.print("Vuoi vedere il Syntactic Tree? y/n: ");
+            input = scanner.nextLine().trim().toLowerCase();
+        } while (!input.equals("y") && !input.equals("n"));
+
+        if (input.equals("y")) {
+            System.out.println("Albero sintattico generato:");
+            System.out.println(SentenceProcessor.getSyntacticTree());
+        }
     }
 
     // mostra errore se la frase generata è tossica

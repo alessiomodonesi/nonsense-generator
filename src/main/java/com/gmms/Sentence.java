@@ -1,20 +1,17 @@
 package com.gmms;
-
 // Diego Marchini
-import java.util.List;
-import java.util.Map;
 
 public class Sentence {
 
     private String sentenceDesc;
-    private Map<String, List<String>> syntacticTree;
+    private SyntacticNode syntacticTree;
 
     // costruttore
     public Sentence(String sentenceDesc) {
         this.sentenceDesc = sentenceDesc;
     }
 
-    public void setSentenceTree(Map<String, List<String>> syntacticTree) {
+    public void setSentenceTree(SyntacticNode syntacticTree) {
         this.syntacticTree = syntacticTree;
     }
 
@@ -22,7 +19,7 @@ public class Sentence {
         return this.sentenceDesc;
     }
 
-    public Map<String, List<String>> getSentenceTree() {
+    public SyntacticNode getSentenceTree() {
         return this.syntacticTree;
     }
 }

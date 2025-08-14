@@ -1,9 +1,6 @@
 package com.gmms;
-
-import java.util.Map;
-import java.util.List;
-
 // Diego Marchini
+
 public final class SentenceProcessor {
 
     private static Sentence inputSentence;
@@ -28,13 +25,14 @@ public final class SentenceProcessor {
         state = false;
     }
 
-    public Map<String, List<String>> getSyntacticTree() {
+    public static SyntacticNode getSyntacticTree() {
         return tempSentence.getSentenceTree();
     }
+
     // metodi di supporto non presenti nel design class model (metodi di
     // SentenceProcessor)
 
-    public static void setSentenceTree(Map<String, List<String>> syntacticTree) {
+    public static void setSentenceTree(SyntacticNode syntacticTree) {
         tempSentence.setSentenceTree(syntacticTree); // a seconda delle esigenze
         // potrebbe anche solo trattarsi di
         // inputSentence
@@ -43,19 +41,19 @@ public final class SentenceProcessor {
     // metodi di supporto non presenti nel design class model (chiamate ad altri
     // sottosistemi)
 
-    public static void displaySentence() {
+    public static void displayProcess() {
         IOController.displaySentence(tempSentence.getSentenceDesc());
     }
 
-    public static void analyzeSentence() throws Exception {
+    public static void analysisProcess() throws Exception {
         Analyzer.analyzeSentence(tempSentence.getSentenceDesc());
     }
 
-    public static void validateSentenceStructure() {
-        Validator.validateSentenceStructure(tempSentence.getSentenceTree());
+    public static boolean validationProcess() {
+        return Validator.validateSentenceStructure(tempSentence.getSentenceTree());
     }
 
-    public static void verifyToxicity() throws Exception {
+    public static void toxicityProcess() throws Exception {
         Validator.verifyToxicity(tempSentence.getSentenceDesc());
     }
 }

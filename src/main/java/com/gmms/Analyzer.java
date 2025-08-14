@@ -2,49 +2,73 @@ package com.gmms;
 // Alessio Modonesi
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class Analyzer {
-    public static Map<String, List<String>> analyzeSentence(String sentenceDesc) throws Exception {
-        // 1. Inizializza la mappa per i risultati
-        Map<String, List<String>> syntacticTree = new HashMap<>();
+public final class Analyzer {
 
-        // 2. Invocazione della funzione getSyntaxAnalysis dalla classe ApiCaller
-        String jsonData = ApiCaller.getSyntaxAnalysis(sentenceDesc);
+    // Costruttore
+    private Analyzer() {
+    }
 
-        // 3. Analizza la stringa JSON in una struttura ad albero di JsonElement
-        JsonObject rootObject = JsonParser.parseString(jsonData).getAsJsonObject();
+    // Classi interne per il mapping del JSON
+    // Queste classi rispecchiano fedelmente la struttura del JSON di input.
+    private record JsonText(String content, int beginOffset) {
+    }
 
-        // 4. Estrai l'array di 'tokens'
-        JsonArray tokens = rootObject.getAsJsonArray("tokens");
+    private record PartOfSpeech(String tag) {
+    }
 
-        // 5. Itera su ogni elemento dell'array usando un for-each
-        for (JsonElement tokenElement : tokens) {
-            // Converte l'elemento corrente in un JsonObject
-            JsonObject tokenObject = tokenElement.getAsJsonObject();
+    private record DependencyEdge(int headTokenIndex, String label) {
+    }
 
-            // Estrai la parola (content) e il tag
-            String word = tokenObject.getAsJsonObject("text").get("content").getAsString();
-            String tag = tokenObject.getAsJsonObject("partOfSpeech").get("tag").getAsString();
+    private record Token(JsonText text, PartOfSpeech partOfSpeech, DependencyEdge dependencyEdge, String lemma) {
+    }
 
-            // 6. Aggiungi la parola alla lista corretta nella mappa
-            // La logica è identica a prima, poiché è una funzionalità standard di Java
-            syntacticTree.computeIfAbsent(tag, k -> new ArrayList<>()).add(word);
+    private record SyntaxAnalysis(List<Token> tokens) {
+    }
+
+    public static void analyzeSentence(String sentenceDesc) throws Exception {
+        String jsonData = ApiCaller.getSyntaxAnalysis(sentenceDesc); // json in output dall'api
+        SyntacticNode syntacticTree = buildSyntacticTree(jsonData);
+        SentenceProcessor.setSentenceTree(syntacticTree);
+    }
+
+    // analizza il JSON in output dall'api e restituisce la radice
+    public static SyntacticNode buildSyntacticTree(String jsonInput) {
+        Gson gson = new Gson();
+        SyntaxAnalysis analysis = gson.fromJson(jsonInput, SyntaxAnalysis.class);
+        List<Token> parsedTokens = analysis.tokens;
+
+        if (parsedTokens == null || parsedTokens.isEmpty()) {
+            return null;
         }
 
-        // Funzione di stampa da inserire in IOController
-        Gson gson = new Gson().newBuilder().setPrettyPrinting().create();
-        String prettyJsonResult = gson.toJson(syntacticTree);
-        System.out.println(prettyJsonResult);
+        // creazione di una lista contente tutti i nodi dell'albero
+        List<SyntacticNode> nodes = new ArrayList<>();
+        for (Token token : parsedTokens) {
+            nodes.add(new SyntacticNode(token.text.content, token.lemma, token.partOfSpeech.tag));
+        }
 
-        return syntacticTree;
+        // itera di nuovo sui token per stabilire le relazioni padre-figlio
+        SyntacticNode root = null;
+        for (int i = 0; i < parsedTokens.size(); i++) {
+            Token currentToken = parsedTokens.get(i);
+            int headIndex = currentToken.dependencyEdge.headTokenIndex;
+            String depLabel = currentToken.dependencyEdge.label;
+
+            // se l'indice della testa è uguale all'indice corrente, questo è il nodo ROOT
+            if (headIndex == i) {
+                if ("ROOT".equals(depLabel)) {
+                    root = nodes.get(i);
+                    root.setDependencyLabel("ROOT");
+                }
+            } else { // altrimenti, trova il nodo padre e aggiungi il nodo corrente come suo figlio
+                SyntacticNode parentNode = nodes.get(headIndex);
+                SyntacticNode childNode = nodes.get(i);
+                parentNode.addChild(childNode, depLabel);
+            }
+        }
+        return root;
     }
 }
