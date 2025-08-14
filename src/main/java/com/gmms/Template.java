@@ -11,12 +11,12 @@ public class Template {
     public static final int ADJECTIVE_INDEX = 2;
 
     public String templateDesc; // descrizione del template nella forma con [NOUN], [VERB], [ADJECTIVE]
-    public int[] templateWords; // array di interi che indica quanti nomi, verbi e aggettivi sono richiesti nel template
+    public int[] templateWords; // array di interi che indica quanti nomi, verbi e aggettivi sono richiesti nel
+                                // template
 
     // costruttore che riceve una struttura di frase casuale e crea un oggetto
-
     public Template(String randomStructure) {
-        
+
         this.templateWords = new int[3];
         StringBuilder temporaryTemplate = new StringBuilder(); // template in formazione
         Random randomGenerator = new Random(); // usato per sostituire %s randomicamente con i tipi di parola

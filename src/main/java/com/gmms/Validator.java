@@ -56,8 +56,6 @@ public final class Validator {
         if (count > 0)
             toxicityLevel = sum / count;
 
-        System.out.println("toxicity level is: " + toxicityLevel);
-
         if (toxicityLevel >= criticValue)
             IOController.showToxicityError();
         else
