@@ -47,7 +47,8 @@ public class Template {
             
             temporaryTemplate.append(parts[i]);
             int numberOfWords = rand.nextInt(3) + 1; // genera un numero casuale tra 1 e 3 per determinare la dimensione della combinazione
-            int [] alternatives = combinations.get(numberOfWords).get(rand.nextInt(combinations.get(numberOfWords).size()));
+            List<int[]> combinationsForNumber = combinations.get(numberOfWords);
+            int [] alternatives = combinationsForNumber.get(rand.nextInt(combinationsForNumber.size()));
 
             for (int j = 0; j < alternatives.length; j++) {
                 int wordIndex = alternatives[j]; // ottiene il tipo di parola dalla combinazione casuale
