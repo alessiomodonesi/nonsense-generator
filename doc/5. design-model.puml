@@ -7,7 +7,7 @@
         showValidationError() : void
         showSyntacticTree() : void
         showToxicityError() : void
-        showToxicityResults(toxicityLevel) : void
+        showToxicityResults(toxicityLevel : double) : void
     }
 
     class Sentence { /'OK'/
