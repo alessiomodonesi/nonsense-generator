@@ -69,7 +69,7 @@ public class Template {
         }
 
         temporaryTemplate.append(parts[parts.length - 1]);
-        this.templateDesc = temporaryTemplate.toString();
+        templateDesc = temporaryTemplate.toString();
     }
 
     public static Template create(String randomStructure) {
