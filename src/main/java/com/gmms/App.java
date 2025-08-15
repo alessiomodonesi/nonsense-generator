@@ -3,8 +3,8 @@ package com.gmms;
 public class App {
     public static void main(String[] args) throws Exception {
         // init-time
-        //SystemDictionary.initializeDic();
-        // SentenceStructures s = new SentenceStructures();
+        SystemDictionary.initializeDic();
+        SentenceStructures s = new SentenceStructures();
 
         // internal-ssd INPUT phase
         String input = IOController.inputSentence();
@@ -25,12 +25,17 @@ public class App {
         }
 
         IOController.showSyntacticTree();
-        //WordPicker.StartWordsExtraction(0); per testarlo dovete far inizializzare il dizionario sennò da errore perchè gli elementi sono a null
+
         // internal-ssd TEMPLATE GENERATION phase
+        TemplateGenerator generator = new TemplateGenerator(s);
+        TemplateController controller = new TemplateController(generator);
+        System.out.println(controller.getWordCount());
+        System.out.println(controller.getTemplateDesc());
+
         // internal-ssd WORDS EXTRACTION phase
+        // WordPicker.StartWordsExtraction(0);
         // internal-ssd SENTENCE GENERATION phase
         // internal-ssd TOXICITY EVALUATION phase
         // internal-ssd DISPLAY SENTENCE phase
-
     }
 }

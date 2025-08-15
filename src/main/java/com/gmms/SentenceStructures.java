@@ -16,8 +16,10 @@ public class SentenceStructures {
         this.structures = new File("./src/main/java/com/gmms/data/SentenceStructures.txt");
         try {
             Scanner sc = new Scanner(structures);
-            while (sc.hasNextLine())
-                dimension++;
+            while (sc.hasNextLine()) {
+                sc.nextLine(); // leggi la riga e sposta il "cursore" in avanti
+                dimension++; // ora puoi incrementare il contatore
+            }
             sc.close();
         } catch (FileNotFoundException e) {
             System.out.println("File SentenceStructures non trovato: " + e);

@@ -13,12 +13,12 @@ public class TemplateController {
 
     // restituisce l'array di interi che rappresenta quanti nomi, verbi e aggettivi
     // sono richiesti nel template
-    public static int[] getWordCount() {
+    public int[] getWordCount() {
         return template.templateWords;
     }
 
     // restituisce la descrizione del template
-    public static String getTemplateDesc() {
+    public String getTemplateDesc() {
         return template.templateDesc;
     }
 }
