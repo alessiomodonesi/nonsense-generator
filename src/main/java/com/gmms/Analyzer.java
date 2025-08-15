@@ -2,6 +2,8 @@ package com.gmms;
 // Alessio Modonesi
 
 import com.google.gson.Gson;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,15 +29,25 @@ public final class Analyzer {
     private record SyntaxAnalysis(List<Token> tokens) {
     }
 
+    private record Language(String language) {
+    }
+
     public static void analyzeSentence(String sentenceDesc) throws Exception {
         String jsonData = ApiCaller.getSyntaxAnalysis(sentenceDesc); // json in output dall'api
+        // System.out.println(jsonData);
         SyntacticNode syntacticTree = buildSyntacticTree(jsonData);
         SentenceProcessor.setSentenceTree(syntacticTree);
     }
 
     // analizza il JSON in output dall'api e restituisce la radice
-    public static SyntacticNode buildSyntacticTree(String jsonInput) {
+    public static SyntacticNode buildSyntacticTree(String jsonInput) throws Exception {
         Gson gson = new Gson();
+        Language lang = gson.fromJson(jsonInput, Language.class);
+
+        if (!lang.language.equals("it")) {
+            throw new IOException();
+        }
+
         SyntaxAnalysis analysis = gson.fromJson(jsonInput, SyntaxAnalysis.class);
         List<Token> parsedTokens = analysis.tokens;
 

@@ -30,6 +30,11 @@ public class IOController {
         System.err.println("ERRORE: La struttura della frase analizzata non è valida");
     }
 
+    // mostra errore relativo alla lingua utilizzata
+    public static void showLanguageError() {
+        System.err.println("ERRORE: La lingua utilizzata non è supportata");
+    }
+
     // mostra l'albero sintattico della frase
     public static void showSyntacticTree() {
         String input = "";
