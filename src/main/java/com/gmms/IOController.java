@@ -22,7 +22,7 @@ public class IOController {
     }
 
     public static void displaySentence(String sentenceDesc) {
-        System.out.println("Frase: " + sentenceDesc);
+        System.out.println("Frase da analizzare: " + sentenceDesc);
     }
 
     // mostra errore relativo alla validazione della struttura della frase

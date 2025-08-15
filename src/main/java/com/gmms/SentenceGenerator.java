@@ -48,13 +48,14 @@ public class SentenceGenerator {
 
     // metodi di supporto non presenti nel design class model (chiamate ad altri
     // sottosistemi)
-
-    private static void getTemplateDesc() {
-        // sentenceDesc = TemplateController.getTemplateDesc();
+    @SuppressWarnings("unused")
+    private static void getTemplateDesc(TemplateController controller) {
+        sentenceDesc = controller.getTemplateDesc();
     }
 
+    @SuppressWarnings("unused")
     private static void getWords() {
-        // fillingWords = WordPicker.getWords();
+        fillingWords = WordPicker.getWords();
     }
 
     public static void createSentence() {

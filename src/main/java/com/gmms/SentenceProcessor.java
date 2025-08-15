@@ -3,7 +3,9 @@ package com.gmms;
 
 public final class SentenceProcessor {
 
+    @SuppressWarnings("unused")
     private static Sentence inputSentence;
+    @SuppressWarnings("unused")
     private static Sentence nonsenseSentence;
     private static Sentence tempSentence; // variabile di supporto in attesa di adoperare il giusto pattern variabile
                                           // che uso al momento per differenziare tra le due istanze di sentence

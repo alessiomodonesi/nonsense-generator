@@ -1,5 +1,7 @@
 package com.gmms;
 
+import java.util.Arrays;
+
 public class App {
     public static void main(String[] args) throws Exception {
         // init-time
@@ -29,7 +31,7 @@ public class App {
         // internal-ssd TEMPLATE GENERATION phase
         TemplateGenerator generator = new TemplateGenerator(s);
         TemplateController controller = new TemplateController(generator);
-        System.out.println(controller.getWordCount());
+        // System.out.println(Arrays.toString(controller.getWordCount()));
         System.out.println(controller.getTemplateDesc());
 
         // internal-ssd WORDS EXTRACTION phase
