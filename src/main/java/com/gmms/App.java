@@ -6,7 +6,10 @@ import java.util.Arrays;
 public class App {
     public static void main(String[] args) throws Exception {
         // init-time
-        SystemDictionary.initializeDic();
+        try{SystemDictionary.initializeDic();}
+        catch(Exception e){
+            System.out.println(e.getMessage());//si può mettere in iocontroller in caso
+        }
         SentenceStructures s = new SentenceStructures();
 
         // internal-ssd INPUT phase
@@ -46,7 +49,6 @@ public class App {
 
         // internal-ssd WORDS EXTRACTION phase
         WordPicker.StartWordsExtraction(controller, 0);
-
         // internal-ssd SENTENCE GENERATION phase
         // internal-ssd TOXICITY EVALUATION phase
         // internal-ssd DISPLAY SENTENCE phase
