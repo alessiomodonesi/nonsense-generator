@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-// Mattia Gallinaro
 public final class WordPicker {
 
     private static List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
