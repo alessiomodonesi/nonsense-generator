@@ -62,9 +62,9 @@ public class App {
         // internal-ssd SENTENCE GENERATION phase
 
         // internal-ssd TOXICITY EVALUATION phase
-        SentenceProcessor.toxicityProcess();
+        // SentenceProcessor.toxicityProcess();
 
         // internal-ssd DISPLAY SENTENCE phase
-        SentenceProcessor.displayProcess(1);
+        // SentenceProcessor.displayProcess(1);
     }
 }
