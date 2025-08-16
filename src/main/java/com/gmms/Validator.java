@@ -29,7 +29,7 @@ public final class Validator {
     public static void verifyToxicity(String sentenceDesc) throws Exception {
         // Invocazione della funzione getToxicityAnalysis dalla classe ApiCaller
         String toxicityAnalysis = ApiCaller.getToxicityAnalysis(sentenceDesc);
-        System.out.println(toxicityAnalysis);
+        // System.out.println(toxicityAnalysis);
 
         // 1. Analizza la stringa JSON e ottieni l'oggetto radice
         JsonObject rootObject = JsonParser.parseString(toxicityAnalysis).getAsJsonObject();

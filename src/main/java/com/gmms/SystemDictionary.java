@@ -124,9 +124,9 @@ public final class SystemDictionary {
             Map<String, List<String>> wordsJson = new HashMap<String, List<String>>();
             JsonArray arr = null;
             for (int i = 0; i < types.size(); i++) {
-                try{
+                try {
                     arr = json.getAsJsonArray(types.get(i));
-                }catch(Exception e){
+                } catch (Exception e) {
                     throw new Exception("Non esiste il campo" + types.get(i) + " nel json");
                 }
                 List<String> tmp = new ArrayList<String>();
@@ -144,9 +144,9 @@ public final class SystemDictionary {
     }
 
     public static void initializeDic() throws Exception {
-        try{
+        try {
             setupWordDic();
-        }catch(Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }

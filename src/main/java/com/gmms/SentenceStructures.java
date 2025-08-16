@@ -22,7 +22,7 @@ public class SentenceStructures {
             }
             sc.close();
         } catch (FileNotFoundException e) {
-            System.out.println("File SentenceStructures non trovato: " + e);
+            System.out.println("\nFile SentenceStructures non trovato: " + e);
             System.exit(1);
         }
     }
@@ -40,7 +40,7 @@ public class SentenceStructures {
             randomStructure = sc.nextLine();
             sc.close();
         } catch (FileNotFoundException e) {
-            System.out.println("File SentenceStructures non trovato: " + e);
+            System.out.println("\nFile SentenceStructures non trovato: " + e);
             System.exit(1);
         }
         return randomStructure;

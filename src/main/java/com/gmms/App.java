@@ -6,9 +6,10 @@ import java.util.Arrays;
 public class App {
     public static void main(String[] args) throws Exception {
         // init-time
-        try{SystemDictionary.initializeDic();}
-        catch(Exception e){
-            System.out.println(e.getMessage());//si può mettere in iocontroller in caso
+        try {
+            SystemDictionary.initializeDic();
+        } catch (Exception e) {
+            System.out.println(e.getMessage()); // si può inserire in IOController
         }
         SentenceStructures s = new SentenceStructures();
 
@@ -27,7 +28,7 @@ public class App {
             }
 
             SentenceProcessor.createSentence(input);
-            SentenceProcessor.displayProcess();
+            SentenceProcessor.displayProcess(0);
 
             // internal-ssd ANALYSIS phase
             try {
@@ -49,8 +50,13 @@ public class App {
 
         // internal-ssd WORDS EXTRACTION phase
         WordPicker.StartWordsExtraction(controller, 0);
+
         // internal-ssd SENTENCE GENERATION phase
+
         // internal-ssd TOXICITY EVALUATION phase
+        SentenceProcessor.toxicityProcess();
+
         // internal-ssd DISPLAY SENTENCE phase
+        SentenceProcessor.displayProcess(1);
     }
 }

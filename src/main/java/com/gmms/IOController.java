@@ -18,21 +18,31 @@ public class IOController {
 
     // mostra errore per input non valido
     public static void showInputError() {
-        System.err.println("ERRORE: L'input inserito non è valido");
+        System.err.println("\nERRORE: L'input inserito non è valido");
     }
 
-    public static void displaySentence(String sentenceDesc) {
-        System.out.println("Frase da analizzare: " + sentenceDesc);
+    public static void displaySentence(String sentenceDesc, int flag) {
+        switch (flag) {
+            case 0:
+                System.out.println("\nFrase da analizzare: " + sentenceDesc);
+                break;
+            case 1:
+                System.out.println("\nFrase non-sense: " + sentenceDesc);
+                break;
+            default:
+                break;
+        }
+
     }
 
     // mostra errore relativo alla validazione della struttura della frase
     public static void showValidationError() {
-        System.err.println("ERRORE: La struttura della frase analizzata non è valida");
+        System.err.println("\nERRORE: La struttura della frase analizzata non è valida\n");
     }
 
     // mostra errore relativo alla lingua utilizzata
     public static void showLanguageError() {
-        System.err.println("ERRORE: La lingua utilizzata non è supportata");
+        System.err.println("\nERRORE: La lingua utilizzata non è supportata\n");
     }
 
     // mostra l'albero sintattico della frase
@@ -40,22 +50,22 @@ public class IOController {
         String input = "";
 
         do {
-            System.out.print("Vuoi vedere il Syntactic Tree? y/n: ");
+            System.out.print("\nVuoi vedere il Syntactic Tree? y/n: ");
             input = scanner.nextLine().trim().toLowerCase();
         } while (!input.equals("y") && !input.equals("n"));
 
         if (input.equals("y")) {
-            System.out.println("Albero sintattico generato:");
+            System.out.println("\nAlbero sintattico generato:");
             System.out.println(SentenceProcessor.getSyntacticTree());
         }
     }
 
     // mostra errore se la frase generata è tossica
     public static void showToxicityError() {
-        System.err.println("ERRORE: La frase generata ha un livello di tossicità non accettabile");
+        System.err.println("\nERRORE: La frase generata ha un livello di tossicità non accettabile");
     }
 
     public static void showToxicityResults(double toxicityLevel) {
-        System.out.println("Livello di tossicità della frase generata: " + toxicityLevel);
+        System.out.println("\nLivello di tossicità della frase generata: " + toxicityLevel);
     }
 }

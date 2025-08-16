@@ -20,20 +20,25 @@ public final class WordPicker {
     private WordPicker() {
     }
 
-    public static void StartWordsExtraction(TemplateController controller, int flagRetry){
+    public static void StartWordsExtraction(TemplateController controller, int flagRetry) {
         int[] templateWords = controller.getWordCount();
         generatedWords = new HashMap<String, List<String>>();
 
-        if(wordsOfDictionary == null)wordsOfDictionary = SystemDictionary.getDictionaryWordsCount();
-        
+        if (wordsOfDictionary == null)
+            wordsOfDictionary = SystemDictionary.getDictionaryWordsCount();
+
         SyntacticNode wordsSent = SentenceProcessor.getSyntacticTree();
         Map<String, List<String>> wordsSentence = analyzeSyntacticTree(wordsSent);
-        /* controllo per verificare che sia possibile di genereare il numero di parole richiesto 
-        for(int i = 0; i < types.size(); i++){
-            if(wordsOfDictionary.get(types.get(i)) + (wordsSentence.get(types.get(i)).size()/2  - flagRetry) < templateWords[i]){
-                throw new Exception("Il template richiede troppi elementi");
-            }
-        }*/
+        /*
+         * controllo per verificare che sia possibile di genereare il numero di
+         * parole richiesto
+         * for(int i = 0; i < types.size(); i++){
+         * if(wordsOfDictionary.get(types.get(i)) +
+         * (wordsSentence.get(types.get(i)).size()/2 - flagRetry) < templateWords[i]){
+         * throw new Exception("Il template richiede troppi elementi");
+         * }
+         * }
+         */
         Map<String, List<String>> pickedWordsSen = pickSentenceWords(
                 wordsSentence, templateWords, flagRetry);
 

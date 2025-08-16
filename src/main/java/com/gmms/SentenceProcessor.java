@@ -43,8 +43,8 @@ public final class SentenceProcessor {
     // metodi di supporto non presenti nel design class model (chiamate ad altri
     // sottosistemi)
 
-    public static void displayProcess() {
-        IOController.displaySentence(tempSentence.getSentenceDesc());
+    public static void displayProcess(int flag) {
+        IOController.displaySentence(tempSentence.getSentenceDesc(), flag);
     }
 
     public static void analysisProcess() throws Exception {
