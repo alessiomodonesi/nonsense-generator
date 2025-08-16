@@ -60,6 +60,8 @@ public class App {
         // FINE PROPOSTA MODIFICA
 
         // internal-ssd SENTENCE GENERATION phase
+        SentenceGenerator.generateSentenceDesc(controller);
+        SentenceProcessor.displayProcess(1);
 
         // internal-ssd TOXICITY EVALUATION phase
         // SentenceProcessor.toxicityProcess();
