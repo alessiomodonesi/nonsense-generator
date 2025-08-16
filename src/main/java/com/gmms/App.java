@@ -12,18 +12,13 @@ public class App {
             System.out.println(e.getMessage()); // si può inserire in IOController
         }
         SentenceStructures s = new SentenceStructures();
+        String input;
 
-        // internal-ssd INPUT phase
-        String input = IOController.inputSentence();
-        boolean validationRestart = false;
-        boolean languageRestart = false;
-
-        while (!validationRestart) {
-            while (!Validator.verifySentence(input) || languageRestart == true) {
-                if (languageRestart == false)
-                    IOController.showInputError();
-
-                languageRestart = false;
+        while (true) {
+            // internal-ssd INPUT phase
+            input = IOController.inputSentence();
+            while (!Validator.verifySentence(input)) {
+                IOController.showInputError();
                 input = IOController.inputSentence();
             }
 
@@ -33,35 +28,44 @@ public class App {
             // internal-ssd ANALYSIS phase
             try {
                 SentenceProcessor.analysisProcess();
-                validationRestart = SentenceProcessor.validationProcess();
+
+                // il validationProcess ora determina se continuare o ricominciare
+                if (!SentenceProcessor.validationProcess()) {
+                    IOController.showValidationError();
+                    continue;
+                }
+
+                IOController.showSyntacticTree();
+
+                // internal-ssd TEMPLATE GENERATION phase
+                TemplateGenerator generator = new TemplateGenerator(s);
+                TemplateController controller = new TemplateController(generator);
+                System.out.println("Template generato: " + controller.getTemplateDesc());
+                System.out.println("\nParole necessarie: " + Arrays.toString(controller.getWordCount()));
+
+                // internal-ssd WORDS EXTRACTION phase
+                System.out.print("\nParole scelte: ");
+                WordPicker.StartWordsExtraction(controller, 0);
+
+                // internal-ssd SENTENCE GENERATION phase
+                SentenceGenerator.generateSentenceDesc(controller);
+
+                // internal-ssd TOXICITY EVALUATION phase
+                // se la frase è tossica, ricomincia il ciclo principale
+                if (!SentenceProcessor.toxicityProcess()) {
+                    continue;
+                }
+
+                // se arrivi qui, tutto è andato a buon fine, esci dal ciclo
+                break;
+
             } catch (IOException e) {
                 IOController.showLanguageError();
-                languageRestart = true;
+                continue;
             }
         }
 
-        IOController.showSyntacticTree();
-
-        // internal-ssd TEMPLATE GENERATION phase
-        TemplateGenerator generator = new TemplateGenerator(s);
-        TemplateController controller = new TemplateController(generator);
-
-        System.out.println("Template generato: " + controller.getTemplateDesc());
-        System.out.println("Parole necessarie: " + Arrays.toString(controller.getWordCount()));
-
-        // internal-ssd WORDS EXTRACTION phase
-        System.out.print("Parole scelte: ");
-        WordPicker.StartWordsExtraction(controller, 0);
-        System.out.println();
-
-        // internal-ssd SENTENCE GENERATION phase
-        SentenceGenerator.generateSentenceDesc(controller);
-        // SentenceProcessor.displayProcess(1); usato come test ma in realtà non va mostrata qua
-
-        // internal-ssd TOXICITY EVALUATION phase
-        // SentenceProcessor.toxicityProcess();
-
         // internal-ssd DISPLAY SENTENCE phase
-        // SentenceProcessor.displayProcess(1);
+        SentenceProcessor.displayProcess(1);
     }
 }

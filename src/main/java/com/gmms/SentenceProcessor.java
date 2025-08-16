@@ -35,13 +35,11 @@ public final class SentenceProcessor {
     // SentenceProcessor)
 
     public static void setSentenceTree(SyntacticNode syntacticTree) {
-        tempSentence.setSentenceTree(syntacticTree); // a seconda delle esigenze
-        // potrebbe anche solo trattarsi di
-        // inputSentence
+        // a seconda delle esigenze potrebbe anche solo trattarsi di inputSentence
+        tempSentence.setSentenceTree(syntacticTree);
     }
 
-    // metodi di supporto non presenti nel design class model (chiamate ad altri
-    // sottosistemi)
+    // chiamate ad altri sottosistemi
 
     public static void displayProcess(int flag) {
         IOController.displaySentence(tempSentence.getSentenceDesc(), flag);
@@ -55,7 +53,7 @@ public final class SentenceProcessor {
         return Validator.validateSentenceStructure(tempSentence.getSentenceTree());
     }
 
-    public static void toxicityProcess() throws Exception {
-        Validator.verifyToxicity(tempSentence.getSentenceDesc());
+    public static boolean toxicityProcess() throws Exception {
+        return Validator.verifyToxicity(tempSentence.getSentenceDesc());
     }
 }

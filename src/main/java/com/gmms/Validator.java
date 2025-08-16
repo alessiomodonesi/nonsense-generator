@@ -26,7 +26,7 @@ public final class Validator {
         return true;
     }
 
-    public static void verifyToxicity(String sentenceDesc) throws Exception {
+    public static boolean verifyToxicity(String sentenceDesc) throws Exception {
         // Invocazione della funzione getToxicityAnalysis dalla classe ApiCaller
         String toxicityAnalysis = ApiCaller.getToxicityAnalysis(sentenceDesc);
         // System.out.println(toxicityAnalysis);
@@ -52,13 +52,17 @@ public final class Validator {
 
         // 5. Calcola la media (con un controllo per evitare la divisione per zero)
         double toxicityLevel = 0.0;
-        double criticValue = 0.5;
+        double criticValue = 0.09;
         if (count > 0)
             toxicityLevel = sum / count;
 
-        if (toxicityLevel >= criticValue)
+        if (toxicityLevel >= criticValue) {
             IOController.showToxicityError();
-        else
+            // System.out.println(toxicityLevel);
+            return false;
+        } else {
             IOController.showToxicityResults(toxicityLevel);
+            return true;
+        }
     }
 }

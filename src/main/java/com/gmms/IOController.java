@@ -18,16 +18,16 @@ public class IOController {
 
     // mostra errore per input non valido
     public static void showInputError() {
-        System.err.println("\nERRORE: L'input inserito non è valido");
+        System.err.println("\nERRORE: L'input inserito non è valido\n");
     }
 
     public static void displaySentence(String sentenceDesc, int flag) {
         switch (flag) {
             case 0:
-                System.out.println("\nFrase da analizzare: " + sentenceDesc);
+                System.out.println("\nFrase da analizzare: \"" + sentenceDesc + "\"");
                 break;
             case 1:
-                System.out.println("\nFrase non-sense: " + sentenceDesc);
+                System.out.println("\nFrase non-sense: \"" + sentenceDesc + "\"");
                 break;
             default:
                 break;
@@ -62,7 +62,7 @@ public class IOController {
 
     // mostra errore se la frase generata è tossica
     public static void showToxicityError() {
-        System.err.println("\nERRORE: La frase generata ha un livello di tossicità non accettabile");
+        System.err.println("\nERRORE: La frase generata ha un livello di tossicità non accettabile\n");
     }
 
     public static void showToxicityResults(double toxicityLevel) {

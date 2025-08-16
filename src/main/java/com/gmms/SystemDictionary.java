@@ -94,10 +94,7 @@ public final class SystemDictionary {
     private SystemDictionary() {
     }
 
-    /*
-     * ok per ora , dopo la testo
-     * Si occupa di prendere i 3 arry e unirli in un unico dizionario di java
-     */
+    // Si occupa di prendere i 3 arry e unirli in un unico dizionario di java
     private static Dictionary<String, List<String>> createDictionary(List<String> noun, List<String> verbs,
             List<String> adjectives) {
         Dictionary<String, List<String>> test = new Hashtable<>();
