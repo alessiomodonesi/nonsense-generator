@@ -50,14 +50,9 @@ public class App {
         System.out.println("Parole necessarie: " + Arrays.toString(controller.getWordCount()));
 
         // internal-ssd WORDS EXTRACTION phase
-
-        // PROPOSTA MODIFICA
-        // WordPicker.StartWordsExtraction(controller, 0);
-
         System.out.print("Parole scelte: ");
         WordPicker.StartWordsExtraction(controller, 0);
         System.out.println();
-        // FINE PROPOSTA MODIFICA
 
         // internal-ssd SENTENCE GENERATION phase
         SentenceGenerator.generateSentenceDesc(controller);
