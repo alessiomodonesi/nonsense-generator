@@ -61,7 +61,7 @@ public class App {
 
         // internal-ssd SENTENCE GENERATION phase
         SentenceGenerator.generateSentenceDesc(controller);
-        SentenceProcessor.displayProcess(1);
+        // SentenceProcessor.displayProcess(1); usato come test ma in realtà non va mostrata qua
 
         // internal-ssd TOXICITY EVALUATION phase
         // SentenceProcessor.toxicityProcess();
