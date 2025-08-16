@@ -1,5 +1,4 @@
 package com.gmms;
-// Diego Marchini
 
 public final class SentenceProcessor {
 

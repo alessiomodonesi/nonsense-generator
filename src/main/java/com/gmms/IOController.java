@@ -1,5 +1,4 @@
 package com.gmms;
-// Tommaso Silvestrin
 
 import java.util.Scanner;
 

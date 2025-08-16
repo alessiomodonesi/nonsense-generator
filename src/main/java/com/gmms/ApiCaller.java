@@ -1,5 +1,4 @@
 package com.gmms;
-// Alessio Modonesi
 
 import java.net.URI;
 import java.net.http.HttpClient;

@@ -58,7 +58,6 @@ public class App {
 
                 // se arrivi qui, tutto è andato a buon fine, esci dal ciclo
                 break;
-
             } catch (IOException e) {
                 IOController.showLanguageError();
                 continue;

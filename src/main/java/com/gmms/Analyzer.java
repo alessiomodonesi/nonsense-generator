@@ -1,8 +1,6 @@
 package com.gmms;
-// Alessio Modonesi
 
 import com.google.gson.Gson;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

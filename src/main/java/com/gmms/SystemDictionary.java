@@ -1,6 +1,5 @@
 package com.gmms;
 
-// Mattia Gallinaro
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Dictionary;

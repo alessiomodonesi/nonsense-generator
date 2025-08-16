@@ -1,5 +1,4 @@
 package com.gmms;
-// Alessio Modonesi
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
