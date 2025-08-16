@@ -1,0 +1,6 @@
+com\gmms\Analyzer$PartOfSpeech.class
+com\gmms\Analyzer$Language.class
+com\gmms\Analyzer$SyntaxAnalysis.class
+com\gmms\Analyzer$Token.class
+com\gmms\Analyzer$JsonText.class
+com\gmms\Analyzer$DependencyEdge.class
