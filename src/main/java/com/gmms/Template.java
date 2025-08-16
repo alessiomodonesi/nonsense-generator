@@ -14,7 +14,6 @@ public class Template {
     private static final Map<Integer, List<int[]>> combinations = Map.of(
             1, List.of(
                     new int[] { NOUN_INDEX },
-                    new int[] { VERB_INDEX },
                     new int[] { ADJECTIVE_INDEX }),
             2, List.of(
                     new int[] { NOUN_INDEX, VERB_INDEX },
