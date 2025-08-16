@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.List;
 import java.util.Random;
 
-// Diego Marchini
 public class SentenceGenerator {
 
     private static String sentenceDesc;
@@ -28,15 +27,16 @@ public class SentenceGenerator {
 
         // while annidato -> per ogni categoria di parola (cambiata ad ogni iterazione
         // del ciclo esterno) viene ricercata la parola indicante la
-        // categoria(es."[noun]") nella descriprion e sostituita con un termine di
+        // categoria (es. "[noun]") nella description e sostituita con un termine di
         // quella categoria scelto randomicamente dal dizionario(Map)
         while (categoryIndex < categoryTotalNumber) {
             String wordToBeReplaced = wordsCategories[categoryIndex];
             List<String> sameTypeWords = fillingWords.get(wordToBeReplaced);
             int dimension = sameTypeWords.size();
 
-            while (dimension > 0) {// basandosi sul fatto che il WordPicker ha scelto il corretto numero di
-                                   // nomi/parole
+            // basandosi sul fatto che il WordPicker ha scelto il corretto numero di
+            // nomi/parole
+            while (dimension > 0) {
                 // (gli # mancanti nel template)
                 int index = r.nextInt(dimension);
                 String wordToBeInserted = sameTypeWords.get(index);
