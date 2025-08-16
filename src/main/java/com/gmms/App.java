@@ -46,26 +46,20 @@ public class App {
         TemplateGenerator generator = new TemplateGenerator(s);
         TemplateController controller = new TemplateController(generator);
 
-        // PROPOSTA MODIFICA
-        // System.out.println(Arrays.toString(controller.getWordCount()));
-        // System.out.println(controller.getTemplateDesc());
-
         System.out.println("Template generato: " + controller.getTemplateDesc());
         System.out.println("Parole necessarie: " + Arrays.toString(controller.getWordCount()));
-        // FINE PROPOSTA MODIFICA
 
         // internal-ssd WORDS EXTRACTION phase
 
         // PROPOSTA MODIFICA
         // WordPicker.StartWordsExtraction(controller, 0);
-    
+
         System.out.print("Parole scelte: ");
         WordPicker.StartWordsExtraction(controller, 0);
         System.out.println();
         // FINE PROPOSTA MODIFICA
 
         // internal-ssd SENTENCE GENERATION phase
-        
 
         // internal-ssd TOXICITY EVALUATION phase
         SentenceProcessor.toxicityProcess();
