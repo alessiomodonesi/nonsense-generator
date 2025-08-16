@@ -103,13 +103,13 @@ public final class SystemDictionary {
         Dictionary<String, List<String>> test = new Hashtable<>();
         test.put("NOUN", noun);
         test.put("VERB", verbs);
-        test.put("ADJ", adjectives);
+        test.put("ADJECTIVE", adjectives);
         return test;
 
     }
 
     private static void setupWordDic() throws Exception {
-        List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJ"));
+        List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
         StringBuilder sb = new StringBuilder();
         String path = "./src/main/java/com/gmms/data/dictionary.json";
         JsonObject json = null;
@@ -137,7 +137,7 @@ public final class SystemDictionary {
             }
             nouns = new Nouns(wordsJson.get("NOUN"), sb);
             verbs = new Verbs(wordsJson.get("VERB"), sb);
-            adjectives = new Adjectives(wordsJson.get("ADJ"), sb);
+            adjectives = new Adjectives(wordsJson.get("ADJECTIVE"), sb);
         } catch (Exception e) {
             throw e;
         }
@@ -157,6 +157,6 @@ public final class SystemDictionary {
 
     public static Map<String, Integer> getDictionaryWordsCount() {
         return new HashMap<String, Integer>(Map.ofEntries(entry("NOUN", nouns.getNounsCount()),
-                entry("VERB", verbs.getVerbsCount()), entry("ADJ", adjectives.getAdjectivesCount())));
+                entry("VERB", verbs.getVerbsCount()), entry("ADJECTIVE", adjectives.getAdjectivesCount())));
     }
 }

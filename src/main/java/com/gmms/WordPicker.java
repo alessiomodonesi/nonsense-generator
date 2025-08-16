@@ -11,7 +11,7 @@ import java.util.HashMap;
 // Mattia Gallinaro
 public final class WordPicker {
 
-    private static List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJ"));
+    private static List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
     private static Map<String, List<String>> generatedWords;
     private static Map<String, List<String>> wordsSentence;
     private static List<String> tmp;
@@ -90,7 +90,7 @@ public final class WordPicker {
         wordsSentence = new HashMap<String, List<String>>();
         wordsSentence.put("NOUN", new ArrayList<String>());
         wordsSentence.put("VERB", new ArrayList<String>());
-        wordsSentence.put("ADJ", new ArrayList<String>());
+        wordsSentence.put("ADJECTIVE", new ArrayList<String>());
         LoopOnNodes(tree);
         return wordsSentence;
     }
