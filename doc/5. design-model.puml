@@ -1,10 +1,11 @@
 @startuml Design Model
 
     class IOController { /'OK'/
-        inputSentence(input : String) : void
+        inputSentence() : String
         showInputError() : void
-        displaySentence(sentenceDesc : String) : void
+        displaySentence(sentenceDesc : String, flag : int) : void
         showValidationError() : void
+        showLanguageError() : void
         showSyntacticTree() : void
         showToxicityError() : void
         showToxicityResults(toxicityLevel : double) : void
@@ -14,28 +15,40 @@
         sentenceDesc : String
         <<syntacticTree>>
         create(sentenceDesc : String) : Sentence
+        /' NUOVA
+        sentenceDesc : String
+        <<syntacticTree>> : SyntacticNode
+        getSentenceTree(syntacticTree : SyntacticNode) : void
+        getSentenceDesc() : String
+        getSentenceTree() : SyntacticNode
+        '/
     }
 
     class SentenceProcessor { /'OK'/
         inputSentence : Sentence
         nonSenseSentence : Sentence
-        createSentence(sentenceDesc : String) : Sentence
-        getSyntacticTree() : <<syntacticTree>>
+        tempSentence : Sentence
+        state : boolean
+        createSentence(sentenceDesc : String) : void
+        getSyntacticTree() : SyntacticNode
     }
     
     class Validator { /'OK'/
-        verifySentence(sentenceDesc : String) : void
-        validateSentenceStructure(syntacticTree : <<syntacticTree>>) : void
-        verifyToxicity(sentenceDesc : String) : void
+        verifySentence(input : String) : boolean
+        validateSentenceStructure(SyntacticNode : <<syntacticTree>>) : boolean
+        verifyToxicity(sentenceDesc : String) : boolean
     }
 
     class Analyzer { /'OK'/
-        analyzeSentence(sentenceDesc : String) : <<syntacticTree>>
+        analyzeSentence(sentenceDesc : String) : void
+        buildSyntacticTree(jsonInput : String) : SyntacticNode
     }
 
     class ApiCaller { /'OK'/
-        getSyntaxAnalysis(sentenceDesc : String) : <<syntacticTree>>
-        getToxicityAnalysis(sentenceDesc : String) : <<toxicityAnalysis>>
+        getApiKey() : String
+        getSyntaxAnalysis(sentenceDesc : String) : String
+        getToxicityAnalysis(sentenceDesc : String) : String
+        makeCall(url : String, payload : String) : String
     }
 
     /'GoogleAPI non è realmente una classe del nostro sistema'/
@@ -43,7 +56,7 @@
     class Template { /'OK'/
         templateDesc : String
         templateWords : int[]
-        create(randomStructure : <<structures>>) : Template
+        create(randomStructure : String) : Template
     }
 
     class TemplateController { /'OK'/
@@ -53,35 +66,42 @@
     }
 
     class TemplateGenerator { /'OK'/
+        SentenceStructures : SentenceStructures
         generateTemplate() : Template
     }
 
     class SentenceStructures { /'OK'/
-        <<structures>>
-        getRandomStructure() : <<structures>>
+        <<structures>> : File
+        getRandomStructure() : String
     }
     
     class Nouns { /'OK'/
-        nouns : String[]
-        getNouns(nounsCount : int) : String[]
+        nouns : List<String>
+        getNouns(count : int) : List<String>
+        getNounsCount() : int
     }
 
     class Verbs { /'OK'/
-        verbs : String[]
-        getVerbs(verbsCount : int) : String[]
+        verbs : List<String>
+        getVerbs(count : int) : List<String>
+        getVerbsCount() : int
     }
 
     class Adjectives { /'OK'/
-        adjectives : String[]
-        getAdjectives(adjectivesCount : int) : String[]
+        adjectives : List<String>
+        getAdjectives(count : int) : List<String>
+        getAdjectivesCount() : int
     }
 
     class SystemDictionary { /'OK'/
         nouns : Nouns
         verbs : Verbs
         adjectives : Adjectives
-        createDictionary(nouns : String[], verbs : String[], adjectives : String[]) : Dictionary<K,V>
-        pickDictionaryWords(dicWords : int[]) : Dictionary<K,V>
+        createDictionary(nouns : List<String>, verbs : List<String>, adjectives : List<String>) : Dictionary<K,V>
+        setupWordDic() : void
+        initializeDic() : void
+        pickDictionaryWords(words : int[]) : Dictionary<K,V>
+        getDictionaryWordsCount() : Map<String, Integer>
     }
     
     class WordPicker { /'OK'/
