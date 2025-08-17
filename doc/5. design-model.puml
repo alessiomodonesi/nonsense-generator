@@ -105,12 +105,21 @@
     }
     
     class WordPicker { /'OK'/
-        pickSentenceWords(senWords : int[]) : String[]
-        getWords() : Dictionary<K,V>
+        startWordsExtraction(controller : TemplateController, flagRetry : int) : void
+        pickSentenceWords(words : Map<String, List<String>>, qt : int[], flagRetry : int) : Map<String, List<String>>
+        getWords() : Map<String, List<String>>
+        analyzeSyntacticTree(tree : SyntacticNode) : Map<String, List<String>>
+        loopOnNodes (node : SyntacticNode) : void
     }
 
     class SentenceGenerator { /'OK'/
-        generateSentenceDesc(templateDesc : String, words : Dictionary<K,V>) : String
+        sentenceDesc : String
+        fillingWords : Map<String, List<String>>
+        generateSentenceDesc(controller : TemplateController) : void
+    }
+
+    class SyntacticNode {
+        /'DA FARE'/
     }
 
     SentenceStructures o- TemplateGenerator
