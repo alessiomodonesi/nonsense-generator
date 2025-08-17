@@ -9,17 +9,18 @@ import java.util.Map;
 import java.util.HashMap;
 
 public final class WordPicker {
-
     private static List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
     private static Map<String, List<String>> generatedWords;
     private static Map<String, List<String>> wordsSentence;
     private static List<String> tmp;
     private static Map<String, Integer> wordsOfDictionary = null;
+    private static Integer numOfRetries = -1;
 
     private WordPicker() {
     }
 
-    public static void StartWordsExtraction(TemplateController controller, int flagRetry) {
+    public static void StartWordsExtraction(TemplateController controller) {
+        numOfRetries++;
         int[] templateWords = controller.getWordCount();
         generatedWords = new HashMap<String, List<String>>();
 
@@ -39,7 +40,7 @@ public final class WordPicker {
          * }
          */
         Map<String, List<String>> pickedWordsSen = pickSentenceWords(
-                wordsSentence, templateWords, flagRetry);
+                wordsSentence, templateWords);
 
         for (int i = 0; i < templateWords.length; i++) {
             templateWords[i] -= pickedWordsSen.get(types.get(i)).size();
@@ -56,8 +57,7 @@ public final class WordPicker {
         System.out.println(generatedWords);
     }
 
-    private static Map<String, List<String>> pickSentenceWords(Map<String, List<String>> words, int[] qt,
-            int flagRetry) {
+    private static Map<String, List<String>> pickSentenceWords(Map<String, List<String>> words, int[] qt) {
         /*
          * qt = [ x, y , z]
          * x = numero di sostantivi
@@ -65,18 +65,18 @@ public final class WordPicker {
          * z = numero di aggettivi
          */
         Map<String, List<String>> picked = new HashMap<String, List<String>>();
-        List<String> test = null;
+        List<String> tmp = null;
         int count = 0;
         for (int i = 0; i < types.size(); i++) {
             picked.put(types.get(i), new ArrayList<String>());
-            count = (qt[i] / 2) - flagRetry;
+            count = ((qt[i] +1)  / 2) - numOfRetries;
             if (count <= 0)
                 continue;
-            test = words.get(types.get(i));
-            if ((qt[i] / 2) - flagRetry > test.size())
-                count = test.size();
-            Collections.shuffle(test);
-            picked.put(types.get(i), test.subList(0, count));
+            tmp = words.get(types.get(i));
+            if (count > tmp.size())
+                count = tmp.size();
+            Collections.shuffle(tmp);
+            picked.put(types.get(i), tmp.subList(0, count));
         }
         return picked;
     }
@@ -103,5 +103,9 @@ public final class WordPicker {
         for (SyntacticNode sn : node.getnode()) {
             LoopOnNodes(sn);
         }
+    }
+
+    public static void resetNumOfRetries(){
+        numOfRetries = -1;
     }
 }

@@ -45,7 +45,7 @@ public class App {
 
                 // internal-ssd WORDS EXTRACTION phase
                 System.out.print("\nParole scelte: ");
-                WordPicker.StartWordsExtraction(controller, 0);
+                WordPicker.StartWordsExtraction(controller);
 
                 // internal-ssd SENTENCE GENERATION phase
                 SentenceGenerator.generateSentenceDesc(controller);
@@ -53,9 +53,10 @@ public class App {
                 // internal-ssd TOXICITY EVALUATION phase
                 // se la frase è tossica, ricomincia il ciclo principale
                 if (!SentenceProcessor.toxicityProcess()) {
+                    WordPicker.resetNumOfRetries();
                     continue;
                 }
-
+                WordPicker.resetNumOfRetries();
                 // se arrivi qui, tutto è andato a buon fine, esci dal ciclo
                 break;
             } catch (IOException e) {
