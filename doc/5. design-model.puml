@@ -119,7 +119,13 @@
     }
 
     class SyntacticNode {
-        /'DA FARE'/
+        text : String
+        lemma : String
+        partOfSpeech : String
+        dependencyLabel : String
+        node : List<SyntacticNode>
+        addChild(child : SyntacticNode, depLabel : String) : void
+        printTree(indent : String) : void
     }
 
     SentenceStructures o- TemplateGenerator
@@ -140,5 +146,6 @@
     WordPicker "1" -- "1" SentenceProcessor
     ApiCaller "1" -- "1" Validator
     ApiCaller "1" -- "1" Analyzer
+    SyntacticNode "1" -- "1" Analyzer
 
 @enduml

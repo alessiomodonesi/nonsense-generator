@@ -37,6 +37,7 @@ actor user
 participant IOController
 participant Validator
 participant Analyzer
+participant SyntacticNode
 participant SentenceProcessor
 
 loop Processo di analisi
@@ -47,9 +48,11 @@ loop Processo di analisi
 
     SentenceProcessor -> Analyzer : analyzeSentence(sentenceDesc)
     Analyzer -> ApiCaller: getSyntaxAnalysis(sentenceDesc)
-    ApiCaller -> GoogleAPI: getSyntacticTree(sentenceDesc)
-    GoogleAPI --> ApiCaller: syntacticTree
-    ApiCaller --> Analyzer: syntacticTree
+    ApiCaller -> GoogleAPI: analyzeSyntax(apiKey, sentenceDesc)
+    GoogleAPI --> ApiCaller: syntaxAnalysis
+    ApiCaller --> Analyzer: syntaxAnalysis
+    Analyzer -> Analyzer: buildSyntacticTree(syntaxAnalysis)
+    Analyzer -> SyntacticNode: addChild(child, dependency)
     Analyzer --> SentenceProcessor: syntacticTree
     SentenceProcessor --> Sentence : syntacticTree
     SentenceProcessor -> Validator: validateSentenceStructure(syntacticTree)
@@ -161,7 +164,7 @@ WordPicker -> SentenceGenerator : WordPickingProcess
 SentenceGenerator -> SentenceProcessor : SentenceGenerationProcess
 SentenceProcessor -> Validator : verifyToxicity(sentenceDesc)
 Validator -> ApiCaller : getToxicityAnalysis(sentenceDesc)
-ApiCaller -> GoogleAPI : getAnalysis(sentenceDesc)
+ApiCaller -> GoogleAPI : moderateText(apiKey, sentenceDesc)
 ApiCaller <-- GoogleAPI : toxicityAnalysis
 Validator <-- ApiCaller : toxicityAnalysis
 alt Frase tossica
