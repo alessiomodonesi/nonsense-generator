@@ -13,15 +13,10 @@
 
     class Sentence { /'OK'/
         sentenceDesc : String
-        <<syntacticTree>>
-        create(sentenceDesc : String) : Sentence
-        /' NUOVA
-        sentenceDesc : String
         <<syntacticTree>> : SyntacticNode
         getSentenceTree(syntacticTree : SyntacticNode) : void
         getSentenceDesc() : String
         getSentenceTree() : SyntacticNode
-        '/
     }
 
     class SentenceProcessor { /'OK'/
