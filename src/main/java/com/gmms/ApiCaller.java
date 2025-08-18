@@ -42,8 +42,8 @@ public class ApiCaller {
         }
         """, sentenceDesc);
 
-    String syntacticTree = makeCall(url, jsonPayload);
-    return syntacticTree;
+    String syntaxAnalysis = makeCall(url, jsonPayload);
+    return syntaxAnalysis;
   }
 
   public static String getToxicityAnalysis(String sentenceDesc) throws Exception {
