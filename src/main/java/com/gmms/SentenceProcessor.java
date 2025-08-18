@@ -1,7 +1,6 @@
 package com.gmms;
 
 public final class SentenceProcessor {
-
     @SuppressWarnings("unused")
     private static Sentence inputSentence;
     @SuppressWarnings("unused")

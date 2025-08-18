@@ -19,7 +19,7 @@ public final class WordPicker {
     private WordPicker() {
     }
 
-    public static void StartWordsExtraction(TemplateController controller) {
+    public static void startWordsExtraction(TemplateController controller) {
         numOfRetries++;
         int[] templateWords = controller.getWordCount();
         generatedWords = new HashMap<String, List<String>>();
@@ -69,7 +69,7 @@ public final class WordPicker {
         int count = 0;
         for (int i = 0; i < types.size(); i++) {
             picked.put(types.get(i), new ArrayList<String>());
-            count = ((qt[i] +1)  / 2) - numOfRetries;
+            count = ((qt[i] + 1) / 2) - numOfRetries;
             if (count <= 0)
                 continue;
             tmp = words.get(types.get(i));
@@ -90,22 +90,22 @@ public final class WordPicker {
         wordsSentence.put("NOUN", new ArrayList<String>());
         wordsSentence.put("VERB", new ArrayList<String>());
         wordsSentence.put("ADJECTIVE", new ArrayList<String>());
-        LoopOnNodes(tree);
+        loopOnNodes(tree);
         return wordsSentence;
     }
 
-    private static void LoopOnNodes(SyntacticNode node) {
+    private static void loopOnNodes(SyntacticNode node) {
         if (types.contains(node.getPartOfSpeech())) {
             tmp = wordsSentence.get(node.getPartOfSpeech());
             tmp.add(node.getText());
             wordsSentence.put(node.getPartOfSpeech(), tmp);
         }
         for (SyntacticNode sn : node.getnode()) {
-            LoopOnNodes(sn);
+            loopOnNodes(sn);
         }
     }
 
-    public static void resetNumOfRetries(){
+    public static void resetNumOfRetries() {
         numOfRetries = -1;
     }
 }

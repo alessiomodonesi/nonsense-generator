@@ -51,7 +51,7 @@ public final class Validator {
 
         // 5. Calcola la media (con un controllo per evitare la divisione per zero)
         double toxicityLevel = 0.0;
-        double criticValue = 0.10;
+        double criticValue = 0.90;
         if (count > 0)
             toxicityLevel = sum / count;
 

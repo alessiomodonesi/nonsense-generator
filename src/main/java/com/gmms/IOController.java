@@ -40,9 +40,8 @@ public class IOController {
     }
 
     // mostra errore relativo alla lingua utilizzata
-    public static void showLanguageError() {
-        System.err.println("\nERRORE: La lingua utilizzata non è supportata\n");
-    }
+    // public static void showLanguageError() { System.err.println("\nERRORE: La
+    // lingua utilizzata non è supportata\n"); }
 
     // mostra l'albero sintattico della frase
     public static void showSyntacticTree() {

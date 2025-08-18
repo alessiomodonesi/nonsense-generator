@@ -41,7 +41,7 @@ public class SentenceGenerator {
                 int index = r.nextInt(dimension);
                 String wordToBeInserted = sameTypeWords.get(index);
                 sentenceDesc = sentenceDesc.replaceFirst(wordToBeReplaced, wordToBeInserted);
-                // sentenceDesc = sentenceDesc.replaceAll("[\\[\\]]", ""); // RIMUOVE LE [] DALLA FRASE NON SENSE
+                sentenceDesc = sentenceDesc.replaceAll("[\\[\\]]", ""); // RIMUOVE LE [] DALLA FRASE NON SENSE
                 sameTypeWords.remove(index);
                 dimension--;
             }
