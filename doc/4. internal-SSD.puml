@@ -3,7 +3,7 @@ label l [
 
 {{
 
-title Input /'OK'/
+title Input
 
 actor user
 participant IOController
@@ -31,7 +31,7 @@ IOController --> user : sentenceDesc
 
 {{
 
-title Analysis /'OK'/
+title Analysis
 
 actor user
 participant IOController
@@ -76,7 +76,7 @@ end
 
 {{
 
-title TemplateGeneration /'OK'/
+title TemplateGeneration
 
 actor user
 participant TemplateController
@@ -96,7 +96,7 @@ TemplateGenerator --> TemplateController: templateDesc, templateWords[]
 
 {{
 
-title WordsExtraction /'OK'/
+title WordsExtraction
 
 participant TemplateController
 participant WordPicker
@@ -126,7 +126,7 @@ WordPicker <-- SystemDictionary : dictionary
     
 {{
 
-title SentenceGeneration /'OK'/
+title SentenceGeneration
 
 participant SentenceGenerator
 participant WordPicker
@@ -147,7 +147,7 @@ SentenceProcessor <-- Sentence : sentenceDesc
 
 {{
 
-title ToxicityEvaluation /'OK'/
+title ToxicityEvaluation
 
 actor user
 participant IOController
@@ -184,7 +184,7 @@ IOController --> user : toxicityResults
 
 {{
 
-title DisplaySentence /'OK'/
+title DisplaySentence
 
 actor user
 participant IOController

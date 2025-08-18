@@ -1,6 +1,6 @@
 @startuml Design Model
 
-    class IOController { /'OK'/
+    class IOController {
         inputSentence() : String
         showInputError() : void
         displaySentence(sentenceDesc : String, flag : int) : void
@@ -11,7 +11,7 @@
         showToxicityResults(toxicityLevel : double) : void
     }
 
-    class Sentence { /'OK'/
+    class Sentence {
         sentenceDesc : String
         <<syntacticTree>>
         create(sentenceDesc : String) : Sentence
@@ -24,7 +24,7 @@
         '/
     }
 
-    class SentenceProcessor { /'OK'/
+    class SentenceProcessor {
         inputSentence : Sentence
         nonSenseSentence : Sentence
         tempSentence : Sentence
@@ -33,18 +33,18 @@
         getSyntacticTree() : SyntacticNode
     }
     
-    class Validator { /'OK'/
+    class Validator {
         verifySentence(input : String) : boolean
         validateSentenceStructure(SyntacticNode : <<syntacticTree>>) : boolean
         verifyToxicity(sentenceDesc : String) : boolean
     }
 
-    class Analyzer { /'OK'/
+    class Analyzer {
         analyzeSentence(sentenceDesc : String) : void
         buildSyntacticTree(jsonInput : String) : SyntacticNode
     }
 
-    class ApiCaller { /'OK'/
+    class ApiCaller {
         getApiKey() : String
         getSyntaxAnalysis(sentenceDesc : String) : String
         getToxicityAnalysis(sentenceDesc : String) : String
@@ -53,47 +53,47 @@
 
     /'GoogleAPI non è realmente una classe del nostro sistema'/
 
-    class Template { /'OK'/
+    class Template {
         templateDesc : String
         templateWords : int[]
         create(randomStructure : String) : Template
     }
 
-    class TemplateController { /'OK'/
+    class TemplateController {
         template : Template
         getWordCount() : int[]
         getTemplateDesc() : String
     }
 
-    class TemplateGenerator { /'OK'/
+    class TemplateGenerator {
         SentenceStructures : SentenceStructures
         generateTemplate() : Template
     }
 
-    class SentenceStructures { /'OK'/
+    class SentenceStructures {
         <<structures>> : File
         getRandomStructure() : String
     }
     
-    class Nouns { /'OK'/
+    class Nouns {
         nouns : List<String>
         getNouns(count : int) : List<String>
         getNounsCount() : int
     }
 
-    class Verbs { /'OK'/
+    class Verbs {
         verbs : List<String>
         getVerbs(count : int) : List<String>
         getVerbsCount() : int
     }
 
-    class Adjectives { /'OK'/
+    class Adjectives {
         adjectives : List<String>
         getAdjectives(count : int) : List<String>
         getAdjectivesCount() : int
     }
 
-    class SystemDictionary { /'OK'/
+    class SystemDictionary {
         nouns : Nouns
         verbs : Verbs
         adjectives : Adjectives
@@ -104,7 +104,7 @@
         getDictionaryWordsCount() : Map<String, Integer>
     }
     
-    class WordPicker { /'OK'/
+    class WordPicker {
         startWordsExtraction(controller : TemplateController, flagRetry : int) : void
         pickSentenceWords(words : Map<String, List<String>>, qt : int[], flagRetry : int) : Map<String, List<String>>
         getWords() : Map<String, List<String>>
@@ -112,7 +112,7 @@
         loopOnNodes (node : SyntacticNode) : void
     }
 
-    class SentenceGenerator { /'OK'/
+    class SentenceGenerator {
         sentenceDesc : String
         fillingWords : Map<String, List<String>>
         generateSentenceDesc(controller : TemplateController) : void
@@ -124,7 +124,7 @@
         partOfSpeech : String
         dependencyLabel : String
         node : List<SyntacticNode>
-        addChild(child : SyntacticNode, depLabel : String) : void
+        addChild(child : SyntacticNode, dependency : String) : void
         printTree(indent : String) : void
     }
 
