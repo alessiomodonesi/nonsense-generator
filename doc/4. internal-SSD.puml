@@ -160,6 +160,12 @@ participant GoogleAPI
 
 loop Analisi tossicità
 
+alt Rigenerazione da input
+
+user -> WordPicker : InputProcess
+
+end
+
 WordPicker -> SentenceGenerator : WordPickingProcess
 SentenceGenerator -> SentenceProcessor : SentenceGenerationProcess
 SentenceProcessor -> Validator : verifyToxicity(sentenceDesc)
