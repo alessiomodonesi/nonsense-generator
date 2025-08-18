@@ -39,7 +39,7 @@ public final class SentenceProcessor {
 
     // resetta la sentence considerata in caso si debba far ripartire la generazione
     // dall'input utente
-    public static void reset() {
+    public static void resetSentenceState() {
         state = true;
     }
 

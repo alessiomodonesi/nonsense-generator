@@ -63,7 +63,7 @@ public class IOController {
         System.err.println("\nERRORE: La frase generata ha un livello di tossicità non accettabile\n");
     }
 
-    public static void showToxicityResults(double toxicityLevel) {
-        System.out.println("\nLivello di tossicità della frase generata: " + toxicityLevel);
+    public static void showToxicityResults(String toxicityLabel, double toxicityLevel) {
+        System.out.println("\nLivello di tossicità della frase generata: " + toxicityLabel + " = " + toxicityLevel);
     }
 }

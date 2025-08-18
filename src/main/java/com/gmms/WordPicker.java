@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-//errore Unchecked 
-class RetryInputException extends RuntimeException{
-    public RetryInputException(String message){
+// errore Unchecked 
+class RetryInputException extends RuntimeException {
+    public RetryInputException(String message) {
         super(message);
     }
 }
@@ -27,9 +27,9 @@ public final class WordPicker {
     }
 
     public static void startWordsExtraction(TemplateController controller) {
-        numOfRetries++;
         int[] templateWords = controller.getWordCount();
         generatedWords = new HashMap<String, List<String>>();
+        numOfRetries++;
 
         if (wordsOfDictionary == null)
             wordsOfDictionary = SystemDictionary.getDictionaryWordsCount();
@@ -66,30 +66,38 @@ public final class WordPicker {
 
     private static Map<String, List<String>> pickSentenceWords(Map<String, List<String>> words, int[] qt) {
         /*
-         * qt = [ x, y , z]
+         * qt = [ x, y, z]
          * x = numero di sostantivi
          * y = numero di verbi
          * z = numero di aggettivi
          */
 
-        int emptyWordsMap = 0;
-        Map<String, List<String>> picked = new HashMap<String, List<String>>();
-        List<String> tmp = null;
         int count = 0;
+        int emptyWordsMap = 0;
+        List<String> tmp = new ArrayList<String>();
+        Map<String, List<String>> picked = new HashMap<String, List<String>>();
+
         for (int i = 0; i < types.size(); i++) {
             picked.put(types.get(i), new ArrayList<String>());
-            count = (int)Math.round(((double)qt[i] * 0.75)) - numOfRetries;
-            if (count <= 0){
+            count = (int) Math.round(((double) qt[i] * 0.75)) - numOfRetries;
+            System.out.println("count " + count);
+            if (count <= 0) {
+                System.out.println("emptyWordsMap " + emptyWordsMap);
                 emptyWordsMap++;
                 continue;
             }
+
             tmp = words.get(types.get(i));
+
             if (count > tmp.size())
                 count = tmp.size();
+
             Collections.shuffle(tmp);
             picked.put(types.get(i), tmp.subList(0, count));
         }
-        if(emptyWordsMap == 3)throw new RetryInputException(" 0 parole scelte dell'utente");
+
+        if (emptyWordsMap == 3)
+            throw new RetryInputException("\nERRORE: nessuna parola dell'user selezionata\n");
         return picked;
     }
 
@@ -107,13 +115,15 @@ public final class WordPicker {
     }
 
     private static void loopOnNodes(SyntacticNode node) {
-        if (types.contains(node.getPartOfSpeech())) {
-            tmp = wordsSentence.get(node.getPartOfSpeech());
-            tmp.add(node.getText());
-            wordsSentence.put(node.getPartOfSpeech(), tmp);
-        }
-        for (SyntacticNode sn : node.getnode()) {
-            loopOnNodes(sn);
+        if (node != null) {
+            if (types.contains(node.getPartOfSpeech())) {
+                tmp = wordsSentence.get(node.getPartOfSpeech());
+                tmp.add(node.getText());
+                wordsSentence.put(node.getPartOfSpeech(), tmp);
+            }
+
+            for (SyntacticNode sn : node.getnode())
+                loopOnNodes(sn);
         }
     }
 

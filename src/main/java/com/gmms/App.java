@@ -16,6 +16,7 @@ public class App {
 
         while (true) {
             // internal-ssd INPUT phase
+            boolean backToStart = false;
             input = IOController.inputSentence();
             while (!Validator.verifySentence(input)) {
                 IOController.showInputError();
@@ -44,11 +45,15 @@ public class App {
 
             do {
                 // internal-ssd WORDS EXTRACTION phase
-                System.out.print("\nParole scelte: ");
-                try{
+                try {
+                    System.out.print("\nParole scelte: ");
                     WordPicker.startWordsExtraction(controller);
-                }catch(Exception e){
-                    System.out.println("Messaggio di errore : "  +  e);
+                } catch (RetryInputException e) {
+                    SentenceProcessor.resetSentenceState();
+                    WordPicker.resetNumOfRetries();
+                    System.out.println(e.getMessage());
+                    backToStart = true;
+                    break;
                 }
 
                 // internal-ssd SENTENCE GENERATION phase
@@ -61,8 +66,9 @@ public class App {
                 break;
             } while (true);
 
-            // se arrivi qui, tutto è andato a buon fine, esci dal ciclo
-            break;
+            // qui esce dal ciclo solo se NON c'è la necessità di un nuovo input dell'utente
+            if (!backToStart)
+                break;
         }
 
         // internal-ssd DISPLAY SENTENCE phase

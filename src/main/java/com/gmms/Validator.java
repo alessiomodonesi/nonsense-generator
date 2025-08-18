@@ -11,9 +11,13 @@ public final class Validator {
     }
 
     public static boolean verifySentence(String input) {
-        if (input.isEmpty())
+        // Prima controlliamo che l'input non sia nullo.
+        if (input.trim().isEmpty())
             return false;
-        return true;
+
+        // ".*[a-zA-Z].*" è una regular expression che cerca almeno una lettera
+        // (maiuscola o minuscola) in qualsiasi punto della stringa.
+        return input.matches(".*[a-zA-Z].*");
     }
 
     public static boolean validateSentenceStructure(SyntacticNode syntacticTree) {
@@ -26,41 +30,39 @@ public final class Validator {
     }
 
     public static boolean verifyToxicity(String sentenceDesc) throws Exception {
-        // Invocazione della funzione getToxicityAnalysis dalla classe ApiCaller
+        String maxName = new String();
+        double maxConfidence = 0.0;
+        double criticValue = 0.50;
+
+        // invocazione della funzione getToxicityAnalysis dalla classe ApiCaller
         String toxicityAnalysis = ApiCaller.getToxicityAnalysis(sentenceDesc);
         // System.out.println(toxicityAnalysis);
 
-        // 1. Analizza la stringa JSON e ottieni l'oggetto radice
+        // analizza la stringa JSON e ottieni l'oggetto radice
         JsonObject rootObject = JsonParser.parseString(toxicityAnalysis).getAsJsonObject();
 
-        // 2. Estrai l'array di 'moderationCategories'
+        // estrai l'array di 'moderationCategories'
         JsonArray categories = rootObject.getAsJsonArray("moderationCategories");
 
-        // 3. Inizializza le variabili per il calcolo
-        double sum = 0.0;
-        int count = categories.size();
-
-        // 4. Itera su ogni elemento dell'array
+        // itera su ogni elemento dell'array
         for (JsonElement categoryElement : categories) {
             JsonObject categoryObject = categoryElement.getAsJsonObject();
 
-            // Estrai il valore di 'confidence' e sommalo al totale
+            // estrai il valore di 'confidence' più alto
+            String name = categoryObject.get("name").getAsString();
             double confidence = categoryObject.get("confidence").getAsDouble();
-            sum += confidence;
+            if (confidence > maxConfidence) {
+                maxName = name;
+                maxConfidence = confidence;
+            }
         }
 
-        // 5. Calcola la media (con un controllo per evitare la divisione per zero)
-        double toxicityLevel = 0.0;
-        double criticValue = 0.90;
-        if (count > 0)
-            toxicityLevel = sum / count;
-
-        if (toxicityLevel >= criticValue) {
+        if (maxConfidence >= criticValue) {
             IOController.showToxicityError();
-            // System.out.println(toxicityLevel);
+            System.out.println(maxName + " = " + maxConfidence);
             return false;
         } else {
-            IOController.showToxicityResults(toxicityLevel);
+            IOController.showToxicityResults(maxName, maxConfidence);
             return true;
         }
     }
