@@ -37,6 +37,12 @@ public final class SentenceProcessor {
         tempSentence.setSentenceTree(syntacticTree);
     }
 
+    // resetta la sentence considerata in caso si debba far ripartire la generazione
+    // dall'input utente
+    public static void reset() {
+        state = true;
+    }
+
     // chiamate ad altri sottosistemi
 
     public static void displayProcess(int flag) {
