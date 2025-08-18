@@ -45,7 +45,11 @@ public class App {
             do {
                 // internal-ssd WORDS EXTRACTION phase
                 System.out.print("\nParole scelte: ");
-                WordPicker.startWordsExtraction(controller);
+                try{
+                    WordPicker.startWordsExtraction(controller);
+                }catch(Exception e){
+                    System.out.println("Messaggio di errore : "  +  e);
+                }
 
                 // internal-ssd SENTENCE GENERATION phase
                 SentenceGenerator.generateSentenceDesc(controller);

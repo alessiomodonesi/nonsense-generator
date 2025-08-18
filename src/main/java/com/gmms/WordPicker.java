@@ -8,6 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
+//errore Unchecked 
+class RetryInputException extends RuntimeException{
+    public RetryInputException(String message){
+        super(message);
+    }
+}
+
 public final class WordPicker {
     private static List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
     private static Map<String, List<String>> generatedWords;
@@ -64,20 +71,25 @@ public final class WordPicker {
          * y = numero di verbi
          * z = numero di aggettivi
          */
+
+        int emptyWordsMap = 0;
         Map<String, List<String>> picked = new HashMap<String, List<String>>();
         List<String> tmp = null;
         int count = 0;
         for (int i = 0; i < types.size(); i++) {
             picked.put(types.get(i), new ArrayList<String>());
-            count = ((qt[i] + 1) / 2) - numOfRetries;
-            if (count <= 0)
+            count = (int)Math.round(((double)qt[i] * 0.75)) - numOfRetries;
+            if (count <= 0){
+                emptyWordsMap++;
                 continue;
+            }
             tmp = words.get(types.get(i));
             if (count > tmp.size())
                 count = tmp.size();
             Collections.shuffle(tmp);
             picked.put(types.get(i), tmp.subList(0, count));
         }
+        if(emptyWordsMap == 3)throw new RetryInputException(" 0 parole scelte dell'utente");
         return picked;
     }
 
