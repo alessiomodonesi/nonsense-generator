@@ -81,17 +81,17 @@ public final class WordPicker {
             picked.put(types.get(i), new ArrayList<String>());
             count = (int) Math.round(((double) qt[i] * 0.75)) - numOfRetries;
             System.out.println("count " + count);
-            if (count <= 0) {
-                System.out.println("emptyWordsMap " + emptyWordsMap);
-                emptyWordsMap++;
-                continue;
-            }
 
             tmp = words.get(types.get(i));
 
             if (count > tmp.size())
                 count = tmp.size();
 
+            if (count <= 0) {
+                System.out.println("emptyWordsMap " + emptyWordsMap);
+                emptyWordsMap++;
+                continue;
+            }
             Collections.shuffle(tmp);
             picked.put(types.get(i), tmp.subList(0, count));
         }
