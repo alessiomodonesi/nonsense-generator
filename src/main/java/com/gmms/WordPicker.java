@@ -80,24 +80,24 @@ public final class WordPicker {
         for (int i = 0; i < types.size(); i++) {
             picked.put(types.get(i), new ArrayList<String>());
             count = (int) Math.round(((double) qt[i] * 0.75)) - numOfRetries;
-            System.out.println("count " + count);
-
             tmp = words.get(types.get(i));
 
             if (count > tmp.size())
                 count = tmp.size();
 
             if (count <= 0) {
-                System.out.println("emptyWordsMap " + emptyWordsMap);
                 emptyWordsMap++;
                 continue;
             }
+
             Collections.shuffle(tmp);
             picked.put(types.get(i), tmp.subList(0, count));
         }
 
-        if (emptyWordsMap == 3)
+        if (emptyWordsMap == 3) {
+            System.out.println(picked);
             throw new RetryInputException("\nERRORE: nessuna parola dell'user selezionata\n");
+        }
         return picked;
     }
 
