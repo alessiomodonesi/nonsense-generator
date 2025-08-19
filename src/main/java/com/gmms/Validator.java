@@ -59,7 +59,7 @@ public final class Validator {
 
         if (maxConfidence >= criticValue) {
             IOController.showToxicityError();
-            System.out.println(maxName + " = " + maxConfidence);
+            // System.out.println(maxName + " = " + maxConfidence);
             return false;
         } else {
             IOController.showToxicityResults(maxName, maxConfidence);

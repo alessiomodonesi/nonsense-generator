@@ -12,7 +12,7 @@ public class SentenceStructures {
 
     public SentenceStructures() {
         dimension = 0;
-        this.structures = new File("./src/main/java/com/gmms/data/SentenceStructures.txt");
+        this.structures = new File("./src/main/java/com/gmms/resources/SentenceStructures.txt");
         try {
             Scanner sc = new Scanner(structures);
             while (sc.hasNextLine()) {

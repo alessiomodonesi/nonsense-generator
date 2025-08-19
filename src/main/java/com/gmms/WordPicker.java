@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
-// errore Unchecked 
+// errore Unchecked
 class RetryInputException extends RuntimeException {
     public RetryInputException(String message) {
         super(message);
@@ -20,6 +20,7 @@ class NoGeneratedWordsException extends RuntimeException {
         super(message);
     }
 }
+
 public final class WordPicker {
     private static List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
     private static Map<String, List<String>> generatedWords;
@@ -30,29 +31,31 @@ public final class WordPicker {
     private static Integer numOfRetries = -1;
     private static int[] templateWords;
     private static int[] count = new int[3];
-    //private static Map<String, Integer> wordsOfDictionary = null;
-    
+    // private static Map<String, Integer> wordsOfDictionary = null;
+
     private WordPicker() {
     }
 
     public static void startWordsExtraction(TemplateController controller) {
         if (templateWords == null)
             templateWords = controller.getWordCount();
-        for (int i = 0; i < templateWords.length; i++) {
-            System.out.println("TEMPWORD pos " + i + " ha valore : " + templateWords[i]);
-        }
+
+        // for (int i = 0; i < templateWords.length; i++)
+        // System.out.println("TEMPWORD pos " + i + " ha valore : " + templateWords[i]);
+
         generatedWords = new HashMap<String, List<String>>();
         numOfRetries++;
 
-        /*if (wordsOfDictionary == null)
-            wordsOfDictionary = SystemDictionary.getDictionaryWordsCount();
-        */
+        /*
+         * if (wordsOfDictionary == null)
+         * wordsOfDictionary = SystemDictionary.getDictionaryWordsCount();
+         */
 
-        if(numOfRetries == 0){
+        if (numOfRetries == 0) {
             wordsInput = SentenceProcessor.getSyntacticTree();
             pickedWordsSen = new HashMap<String, List<String>>();
         }
-            analyzeSyntacticTree(wordsInput);
+        analyzeSyntacticTree(wordsInput);
         /*
          * controllo per verificare che sia possibile di genereare il numero di
          * parole richiesto
@@ -105,36 +108,36 @@ public final class WordPicker {
                 Collections.shuffle(tmp);
                 pickedWordsSen.put(types.get(i), tmp.subList(0, count[i]));
             }
-        }
-        else{
+        } else {
             for (int i = 0; i < types.size(); i++) {
-            pickedWordsSen.put(types.get(i), new ArrayList<String>());
-            count[i] = ((int) Math.round((((double) templateWords[i]) * 0.75)));
+                pickedWordsSen.put(types.get(i), new ArrayList<String>());
+                count[i] = ((int) Math.round((((double) templateWords[i]) * 0.75)));
 
-            tmp = wordsSentence.get(types.get(i));
+                tmp = wordsSentence.get(types.get(i));
 
-            if (count[i] > tmp.size())
-                count[i] = tmp.size();
+                if (count[i] > tmp.size())
+                    count[i] = tmp.size();
 
-            count[i] -= numOfRetries;
+                count[i] -= numOfRetries;
 
-            if (count[i] <= 0) {
-                emptyWordsMap++;
-                continue;
+                if (count[i] <= 0) {
+                    emptyWordsMap++;
+                    continue;
+                }
+
+                Collections.shuffle(tmp);
+                pickedWordsSen.put(types.get(i), tmp.subList(0, count[i]));
             }
-
-            Collections.shuffle(tmp);
-            pickedWordsSen.put(types.get(i), tmp.subList(0, count[i]));
-        }
         }
         if (emptyWordsMap == 3) {
-                System.out.println(pickedWordsSen);
-                throw new RetryInputException("\nERRORE: nessuna parola dell'user selezionata\n");
+            System.out.println(pickedWordsSen);
+            throw new RetryInputException("\nERRORE: nessuna parola dell'user selezionata\n");
         }
     }
 
     public static Map<String, List<String>> getWords() {
-        if(generatedWords == null) throw new NoGeneratedWordsException("ERRORE: non sono state generate parole in precedenza");
+        if (generatedWords == null)
+            throw new NoGeneratedWordsException("ERRORE: non sono state generate parole in precedenza");
         return generatedWords;
     }
 

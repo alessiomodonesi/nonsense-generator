@@ -107,7 +107,7 @@ public final class SystemDictionary {
     private static void setupWordDic() throws Exception {
         List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
         StringBuilder sb = new StringBuilder();
-        String path = "./src/main/java/com/gmms/data/dictionary.json";
+        String path = "./src/main/java/com/gmms/resources/dictionary.json";
         JsonObject json = null;
         String text = "";
         try {
