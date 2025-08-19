@@ -50,11 +50,9 @@ public final class WordPicker {
 
         if(numOfRetries == 0){
             wordsInput = SentenceProcessor.getSyntacticTree();
-            analyzeSyntacticTree(wordsInput);
             pickedWordsSen = new HashMap<String, List<String>>();
-        }else{
-            analyzeSyntacticTree(wordsInput);
         }
+            analyzeSyntacticTree(wordsInput);
         /*
          * controllo per verificare che sia possibile di genereare il numero di
          * parole richiesto
