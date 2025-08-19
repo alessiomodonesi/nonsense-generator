@@ -15,27 +15,46 @@ class RetryInputException extends RuntimeException {
     }
 }
 
+class NoGeneratedWordsException extends RuntimeException {
+    public NoGeneratedWordsException(String message) {
+        super(message);
+    }
+}
 public final class WordPicker {
     private static List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
     private static Map<String, List<String>> generatedWords;
     private static Map<String, List<String>> wordsSentence;
-    private static List<String> tmp;
-    private static Map<String, Integer> wordsOfDictionary = null;
+    private static SyntacticNode wordsInput;
+    private static List<String> tmpForNodes;
+    private static Map<String, List<String>> pickedWordsSen;
     private static Integer numOfRetries = -1;
-
+    private static int[] templateWords;
+    private static int[] count = new int[3];
+    //private static Map<String, Integer> wordsOfDictionary = null;
+    
     private WordPicker() {
     }
 
     public static void startWordsExtraction(TemplateController controller) {
-        int[] templateWords = controller.getWordCount();
+        if (templateWords == null)
+            templateWords = controller.getWordCount();
+        for (int i = 0; i < templateWords.length; i++) {
+            System.out.println("TEMPWORD pos " + i + " ha valore : " + templateWords[i]);
+        }
         generatedWords = new HashMap<String, List<String>>();
         numOfRetries++;
 
-        if (wordsOfDictionary == null)
+        /*if (wordsOfDictionary == null)
             wordsOfDictionary = SystemDictionary.getDictionaryWordsCount();
+        */
 
-        SyntacticNode wordsSent = SentenceProcessor.getSyntacticTree();
-        Map<String, List<String>> wordsSentence = analyzeSyntacticTree(wordsSent);
+        if(numOfRetries == 0){
+            wordsInput = SentenceProcessor.getSyntacticTree();
+            analyzeSyntacticTree(wordsInput);
+            pickedWordsSen = new HashMap<String, List<String>>();
+        }else{
+            analyzeSyntacticTree(wordsInput);
+        }
         /*
          * controllo per verificare che sia possibile di genereare il numero di
          * parole richiesto
@@ -46,14 +65,14 @@ public final class WordPicker {
          * }
          * }
          */
-        Map<String, List<String>> pickedWordsSen = pickSentenceWords(
-                wordsSentence, templateWords);
+        pickSentenceWords();
 
-        for (int i = 0; i < templateWords.length; i++) {
-            templateWords[i] -= pickedWordsSen.get(types.get(i)).size();
+        int[] dictionaryWords = templateWords.clone();
+        for (int i = 0; i < dictionaryWords.length; i++) {
+            dictionaryWords[i] -= pickedWordsSen.get(types.get(i)).size();
         }
 
-        Dictionary<String, List<String>> pickedDictWords = SystemDictionary.pickDictionaryWords(templateWords);
+        Dictionary<String, List<String>> pickedDictWords = SystemDictionary.pickDictionaryWords(dictionaryWords);
 
         for (int i = 0; i < types.size(); i++) {
             List<String> tmp = pickedWordsSen.get(types.get(i));
@@ -64,62 +83,77 @@ public final class WordPicker {
         System.out.println(generatedWords);
     }
 
-    private static Map<String, List<String>> pickSentenceWords(Map<String, List<String>> words, int[] qt) {
+    private static void pickSentenceWords() {
         /*
          * qt = [ x, y, z]
          * x = numero di sostantivi
          * y = numero di verbi
          * z = numero di aggettivi
          */
-
-        int count = 0;
         int emptyWordsMap = 0;
         List<String> tmp = new ArrayList<String>();
-        Map<String, List<String>> picked = new HashMap<String, List<String>>();
 
-        for (int i = 0; i < types.size(); i++) {
-            picked.put(types.get(i), new ArrayList<String>());
-            count = (int) Math.round(((double) qt[i] * 0.75)) - numOfRetries;
-            tmp = words.get(types.get(i));
+        if (numOfRetries != 0) {
+            for (int i = 0; i < types.size(); i++) {
+                tmp = wordsSentence.get(types.get(i));
 
-            if (count > tmp.size())
-                count = tmp.size();
+                count[i] -= 1;
 
-            if (count <= 0) {
+                if (count[i] <= 0) {
+                    emptyWordsMap++;
+                    continue;
+                }
+
+                Collections.shuffle(tmp);
+                pickedWordsSen.put(types.get(i), tmp.subList(0, count[i]));
+            }
+        }
+        else{
+            for (int i = 0; i < types.size(); i++) {
+            pickedWordsSen.put(types.get(i), new ArrayList<String>());
+            count[i] = ((int) Math.round((((double) templateWords[i]) * 0.75)));
+
+            tmp = wordsSentence.get(types.get(i));
+
+            if (count[i] > tmp.size())
+                count[i] = tmp.size();
+
+            count[i] -= numOfRetries;
+
+            if (count[i] <= 0) {
                 emptyWordsMap++;
                 continue;
             }
 
             Collections.shuffle(tmp);
-            picked.put(types.get(i), tmp.subList(0, count));
+            pickedWordsSen.put(types.get(i), tmp.subList(0, count[i]));
         }
-
+        }
         if (emptyWordsMap == 3) {
-            System.out.println(picked);
-            throw new RetryInputException("\nERRORE: nessuna parola dell'user selezionata\n");
+                System.out.println(pickedWordsSen);
+                throw new RetryInputException("\nERRORE: nessuna parola dell'user selezionata\n");
         }
-        return picked;
     }
 
     public static Map<String, List<String>> getWords() {
+        if(generatedWords == null) throw new NoGeneratedWordsException("ERRORE: non sono state generate parole in precedenza");
         return generatedWords;
     }
 
-    private static Map<String, List<String>> analyzeSyntacticTree(SyntacticNode tree) {
+    private static void analyzeSyntacticTree(SyntacticNode tree) {
         wordsSentence = new HashMap<String, List<String>>();
         wordsSentence.put("NOUN", new ArrayList<String>());
         wordsSentence.put("VERB", new ArrayList<String>());
         wordsSentence.put("ADJECTIVE", new ArrayList<String>());
         loopOnNodes(tree);
-        return wordsSentence;
     }
 
     private static void loopOnNodes(SyntacticNode node) {
         if (node != null) {
             if (types.contains(node.getPartOfSpeech())) {
-                tmp = wordsSentence.get(node.getPartOfSpeech());
-                tmp.add(node.getText());
-                wordsSentence.put(node.getPartOfSpeech(), tmp);
+                tmpForNodes = wordsSentence.get(node.getPartOfSpeech());
+                tmpForNodes.add(node.getText());
+                wordsSentence.put(node.getPartOfSpeech(), tmpForNodes);
             }
 
             for (SyntacticNode sn : node.getnode())
@@ -128,6 +162,9 @@ public final class WordPicker {
     }
 
     public static void resetNumOfRetries() {
+        templateWords = null;
+        pickedWordsSen = null;
+        count = new int[3];
         numOfRetries = -1;
     }
 }
