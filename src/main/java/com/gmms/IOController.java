@@ -3,9 +3,13 @@ package com.gmms;
 import java.util.Scanner;
 
 public class IOController {
-    private static final Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
 
     private IOController(Validator validator, SentenceProcessor sentenceProcessor) {
+    }
+
+    public static void setScannerForTesting(Scanner newScanner) {
+        scanner = newScanner;
     }
 
     // riceve una frase e avvia il processo di validazione chiamando il Validator

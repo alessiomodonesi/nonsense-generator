@@ -11,6 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.Scanner;
 
 public class IOControllerTest {
     private final InputStream originalIn = System.in;
@@ -37,6 +38,7 @@ public class IOControllerTest {
     void testCorrectInputSentence() {
         String input = "Frase di input di test";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
+        IOController.setScannerForTesting(new Scanner(System.in));
         String result = IOController.inputSentence();
         assertEquals(input, result);
     }
@@ -77,7 +79,9 @@ public class IOControllerTest {
     @Test
     @DisplayName("showSyntacticTree deve stampare l'albero se l'utente digita 'y'")
     void testShowSyntacticTree1() {
+        SentenceProcessor.createSentence("Frase di test");
         System.setIn(new ByteArrayInputStream("y\n".getBytes()));
+        IOController.setScannerForTesting(new Scanner(System.in));
         IOController.showSyntacticTree();
         assertTrue(outContent.toString().contains("Albero sintattico generato:"));
     }
@@ -86,6 +90,7 @@ public class IOControllerTest {
     @DisplayName("showSyntacticTree non deve stampare l'albero se l'utente digita 'n'")
     void testShowSyntacticTree2() {
         System.setIn(new ByteArrayInputStream("n\n".getBytes()));
+        IOController.setScannerForTesting(new Scanner(System.in));
         IOController.showSyntacticTree();
         assertFalse(outContent.toString().contains("Albero sintattico generato:"));
     }
@@ -103,9 +108,10 @@ public class IOControllerTest {
         IOController.showToxicityResults("Profanity", 0.233);
         String actualOutput = outContent.toString();
 
-        assertTrue(actualOutput.contains("Livello di tossicità:"));
+        assertTrue(actualOutput.contains("\nLivello di tossicità della frase generata: "));
         assertTrue(actualOutput.contains("Profanity"));
-        assertTrue(actualOutput.contains("0.233"));
+        assertTrue(actualOutput.contains(" = "));
+        assertTrue(actualOutput.contains("0,233"));
     }
 
 }
