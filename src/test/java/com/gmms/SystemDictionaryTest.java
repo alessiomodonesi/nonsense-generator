@@ -7,7 +7,8 @@ import org.junit.jupiter.api.DisplayName;
 public class SystemDictionaryTest {
 
     @BeforeAll
-    static void setUp() {
+    @DisplayName("Verifica la corretta creazione del dizionario")
+    static void setUpDic() {
         try {
             SystemDictionary.initializeDic();
         } catch (Exception e) {
@@ -17,7 +18,7 @@ public class SystemDictionaryTest {
 
     @Test
     @DisplayName("Verifica la generazione di parole dal dizionario")
-    static void example2() {
+    static void testWordsPicking() {
         int[] wordsQt = new int[] { 3, 10, 10 };
         SystemDictionary.pickDictionaryWords(wordsQt);
         wordsQt = new int[] { 0, -1, -1 };
@@ -26,7 +27,7 @@ public class SystemDictionaryTest {
 
     @Test
     @DisplayName("Ottieni la quantità di parole del dizionario")
-    static void example3() {
+    static void testWordsCount() {
         System.out.println(SystemDictionary.getDictionaryWordsCount());
     }
 }

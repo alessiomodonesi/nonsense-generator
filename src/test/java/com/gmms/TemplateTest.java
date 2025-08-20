@@ -9,7 +9,7 @@ public class TemplateTest {
 
     @Test
     @DisplayName("Crea un template quando la struttura è corretta")
-    void templateTest1() {
+    void testCorrectStructureTemplate() {
         String s = "Il %s corre e %s bello";
         Template template = Template.create(s);
 
@@ -22,7 +22,7 @@ public class TemplateTest {
 
     @Test
     @DisplayName("Restituisce la stringa uguale se non ci sono segnaposti")
-    void templateTest2() {
+    void testWithoutPlaceholderTemplate() {
         String s = "L'aereo vola alto nel cielo";
         Template template = Template.create(s);
         assertNotNull(template);
@@ -34,7 +34,7 @@ public class TemplateTest {
 
     @Test
     @DisplayName("Da una stringa vuota, restituisce un template vuoto")
-    void templateTest3() {
+    void testEmptyTemplate() {
         String s = "";
         Template template = Template.create(s);
         assertNotNull(template);
