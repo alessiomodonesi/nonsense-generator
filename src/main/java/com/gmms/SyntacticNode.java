@@ -3,8 +3,8 @@ package com.gmms;
 import java.util.ArrayList;
 import java.util.List;
 
-// Rappresenta un singolo nodo nell'albero sintattico.
-// Ogni nodo contiene le informazioni del token e una lista dei suoi figli.
+// rappresenta un singolo nodo nell'albero sintattico
+// ogni nodo contiene le informazioni del token e una lista dei suoi figli
 public class SyntacticNode {
     private final String text; // parola contenuta nel nodo
     private final String lemma; // primitiva della parola
@@ -12,7 +12,7 @@ public class SyntacticNode {
     private String dependencyLabel; // relazione con il padre
     private final List<SyntacticNode> node; // singolo nodo dell'albero
 
-    // Costruttore
+    // costruttore
     public SyntacticNode(String text, String lemma, String partOfSpeech) {
         this.text = text;
         this.lemma = lemma;
@@ -20,13 +20,13 @@ public class SyntacticNode {
         this.node = new ArrayList<>();
     }
 
-    // Metodo per aggiungere un nodo figlio
+    // metodo per aggiungere un nodo figlio
     public void addChild(SyntacticNode child, String depLabel) {
         child.setDependencyLabel(depLabel);
         this.node.add(child);
     }
 
-    // Getter e Setter
+    // getter and setter
     public String getText() {
         return text;
     }
@@ -47,11 +47,11 @@ public class SyntacticNode {
         return dependencyLabel;
     }
 
-    public String getPartOfSpeech(){
+    public String getPartOfSpeech() {
         return partOfSpeech;
     }
 
-    // Metodo per stampare l'albero in modo leggibile a partire da questo nodo.
+    // metodo per stampare l'albero in modo leggibile a partire da questo nodo
     public String printTree(String indent) {
         StringBuilder sb = new StringBuilder();
         sb.append(indent);
