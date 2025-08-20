@@ -98,7 +98,7 @@ public class IOControllerTest {
     }
 
     @Test
-    @DisplayName("showToxicityResults ")
+    @DisplayName("showToxicityResults deve mostrare i risultati della tossicità (label e valore)")
     void testShowToxicityResults () {
         IOController.showToxicityResults("Profanity", 0.23);
         String expectedOutput = "\nLivello di tossicità della frase generata: Profanity = 0.230";
