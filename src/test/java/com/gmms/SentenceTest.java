@@ -3,9 +3,12 @@ package com.gmms;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
+
 class SentenceTest {
 
     @Test
+    @DisplayName("Verifica il funzionamento del costruttore e del getter per la sentence")
     void testConstructorAndGetSentenceDesc() {
         String expectedDesc = "Questa è una frase di test";
         Sentence sentence = new Sentence(expectedDesc);
@@ -15,6 +18,7 @@ class SentenceTest {
     }
 
     @Test
+    @DisplayName("Verifica setter e getter del SyntacticTree")
     void testSetAndGetSentenceTree() {
         Sentence sentence = new Sentence("Frase con albero sintattico");
 
@@ -29,6 +33,7 @@ class SentenceTest {
     }
 
     @Test
+    @DisplayName("Verifica la nullità iniziale del SyntacticTree")
     void testSentenceTreeInitiallyNull() {
         Sentence sentence = new Sentence("Frase senza albero");
         assertNull(sentence.getSentenceTree(),

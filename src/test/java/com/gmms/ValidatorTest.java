@@ -67,8 +67,6 @@ class ValidatorTest {
     // --- Metodo helper per simulare verifyToxicity senza ApiCaller ---
     private boolean testVerifyToxicityWithJson(String json) throws Exception {
         // Copia della logica di verifyToxicity, senza chiamare ApiCaller
-        @SuppressWarnings("unused")
-        String maxName = "";
         double maxConfidence = 0.0;
         double criticValue = 0.50;
 
@@ -77,10 +75,8 @@ class ValidatorTest {
 
         for (var categoryElement : categories) {
             var categoryObject = categoryElement.getAsJsonObject();
-            String name = categoryObject.get("name").getAsString();
             double confidence = categoryObject.get("confidence").getAsDouble();
             if (confidence > maxConfidence) {
-                maxName = name;
                 maxConfidence = confidence;
             }
         }
