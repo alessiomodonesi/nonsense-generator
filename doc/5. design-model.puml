@@ -1,4 +1,14 @@
 @startuml Design Model
+    class App {
+        main(args : String) : void
+    }
+
+    class AppController {
+        structure : sentenceStructures
+        start() : void
+        getValidSentence() : String
+        createTemplateController() : TemplateController
+    }
 
     class IOController {
         inputSentence() : String
@@ -123,24 +133,35 @@
         printTree(indent : String) : void
     }
 
-    SentenceStructures o- TemplateGenerator
     Nouns -* SystemDictionary
     Verbs -* SystemDictionary
     Adjectives -* SystemDictionary
+    SyntacticNode -* Sentence
+    SentenceStructures o- TemplateGenerator
 
-    IOController "1" -- "1" Validator
+    App "1" -- "1" AppController
+
+    AppController "1" -- "1" IOController
+    AppController "1" -- "1" SentenceProcessor
+    AppController "1" -- "1" SentenceStructures
+    AppController "1" -- "1" TemplateController
+    AppController "1" -- "1" WordPicker
+
     IOController "1" -- "1" SentenceProcessor
+    IOController "1" -- "1" Validator
+
     Sentence "*"--"1" SentenceProcessor
-    SentenceProcessor "1" -- "1" Validator
-    SentenceProcessor "1" -- "1" Analyzer
     SentenceProcessor "1" -- "1" SentenceGenerator
-    TemplateGenerator "1" -- "1" Template
-    TemplateController "1" -- "1" TemplateGenerator
+    SentenceProcessor "1" -- "1" Analyzer
+    SentenceProcessor "1" -- "1" Validator
+    Analyzer "1" -- "1" ApiCaller
+    Validator "1" -- "1" ApiCaller
+    
+    Template "1" -- "1" TemplateGenerator
+    TemplateGenerator "1" -- "1" TemplateController
     TemplateController "1" -- "1" WordPicker
-    WordPicker "1" -- "1" SystemDictionary
+    
     WordPicker "1" -- "1" SentenceProcessor
-    ApiCaller "1" -- "1" Validator
-    ApiCaller "1" -- "1" Analyzer
-    SyntacticNode "1" -- "1" Analyzer
+    WordPicker "1" -- "1" SystemDictionary
 
 @enduml

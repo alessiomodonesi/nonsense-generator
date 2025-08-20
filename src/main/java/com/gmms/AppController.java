@@ -2,12 +2,13 @@ package com.gmms;
 
 import java.util.Arrays;
 
-public class ApplicationController {
+public class AppController {
 
-    private final SentenceStructures sentenceStructures;
+    private final SentenceStructures s;
 
-    public ApplicationController() {
-        this.sentenceStructures = new SentenceStructures();
+    // costruttore
+    public AppController() {
+        this.s = new SentenceStructures();
     }
 
     public void start() throws Exception {
@@ -16,38 +17,34 @@ public class ApplicationController {
         while (true) {
             boolean backToStart = false;
 
-            // INPUT PHASE
+            // --- INPUT PHASE ---
             input = getValidSentence();
-
-            // PROCESS SENTENCE
             SentenceProcessor.createSentence(input);
             SentenceProcessor.displayProcess(0);
 
-            // ANALYSIS PHASE
+            // --- ANALYSIS PHASE ---
             SentenceProcessor.analysisProcess();
 
-            // VALIDATION CHECK
             if (!SentenceProcessor.validationProcess()) {
                 IOController.showValidationError();
                 continue; // torna al ciclo while esterno
             }
 
-            // SHOW TREE
             IOController.showSyntacticTree();
 
-            // TEMPLATE GENERATION PHASE
+            // --- TEMPLATE GENERATION PHASE ---
             TemplateController controller = createTemplateController();
 
             do {
                 try {
-                    // WORDS EXTRACTION
+                    // --- WORDS EXTRACTION PHASE ---
                     System.out.print("\nParole scelte: ");
                     WordPicker.startWordsExtraction(controller);
 
-                    // SENTENCE GENERATION
+                    // --- SENTENCE GENERATION PHASE ---
                     SentenceGenerator.generateSentenceDesc(controller);
 
-                    // TOXICITY CHECK
+                    // --- TOXICITY EVALUATION PHASE ---
                     if (!SentenceProcessor.toxicityProcess()) {
                         continue; // ricomincia il ciclo interno
                     }
@@ -66,7 +63,7 @@ public class ApplicationController {
                 break; // esce dal ciclo principale
         }
 
-        // DISPLAY FINAL SENTENCE
+        // --- DISPLAY SENTENCE PHASE ---
         SentenceProcessor.displayProcess(1);
     }
 
@@ -84,7 +81,7 @@ public class ApplicationController {
     }
 
     private TemplateController createTemplateController() {
-        TemplateGenerator generator = new TemplateGenerator(sentenceStructures);
+        TemplateGenerator generator = new TemplateGenerator(s);
         TemplateController controller = new TemplateController(generator);
 
         System.out.println("Template generato: " + controller.getTemplateDesc());
