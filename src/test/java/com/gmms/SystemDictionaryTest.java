@@ -8,7 +8,7 @@ public class SystemDictionaryTest {
 
     @BeforeAll
     @DisplayName("Verifica la corretta creazione del dizionario")
-    static void TestInitializeDic() {
+    static void setUpDic() {
         try {
             SystemDictionary.initializeDic();
         } catch (Exception e) {
