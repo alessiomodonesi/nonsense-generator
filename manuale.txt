@@ -22,7 +22,7 @@ tossicità troppo elevata, il programma tenta di generare una nuova frase nonsen
 se si dovesse arrivare al punto in cui la frase nonsense viene generata utilizzando solamente parole estratte dal dizionario, il programma chiede all'utente
 di inserire una nuova frase, in modo tale che nella frase nonsense sia sempre presente almeno un termine della frase in input.
 
-Installation Manual
+Manuale di installazione
 Per compilare ed eseguire il progetto è necessario avere un ambiente di sviluppo Java correttamente configurato
 1. Prerequisiti: 
 - Java Development Kit (JDK): è richiesta la versione 21 o superiore. Verificare la versione tramite la riga di comando "java -version"
