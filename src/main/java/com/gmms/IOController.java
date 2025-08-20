@@ -60,10 +60,12 @@ public class IOController {
 
     // mostra errore se la frase generata è tossica
     public static void showToxicityError() {
-        System.err.println("\nERRORE: La frase generata ha un livello di tossicità non accettabile\n");
+        System.err.println("\nERRORE: La frase generata ha un livello di tossicità non accettabile");
     }
 
     public static void showToxicityResults(String toxicityLabel, double toxicityLevel) {
-        System.out.println("\nLivello di tossicità della frase generata: " + toxicityLabel + " = " + toxicityLevel);
+        String roundedLevel = String.format("%.3f", toxicityLevel);
+        System.out.println(
+                "\nLivello di tossicità della frase generata: " + toxicityLabel + " = " + roundedLevel);
     }
 }

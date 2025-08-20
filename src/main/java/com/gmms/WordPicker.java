@@ -31,7 +31,6 @@ public final class WordPicker {
     private static Integer numOfRetries = -1;
     private static int[] templateWords;
     private static int[] count = new int[3];
-    // private static Map<String, Integer> wordsOfDictionary = null;
 
     private WordPicker() {
     }
@@ -40,32 +39,15 @@ public final class WordPicker {
         if (templateWords == null)
             templateWords = controller.getWordCount();
 
-        // for (int i = 0; i < templateWords.length; i++)
-        // System.out.println("TEMPWORD pos " + i + " ha valore : " + templateWords[i]);
-
         generatedWords = new HashMap<String, List<String>>();
         numOfRetries++;
-
-        /*
-         * if (wordsOfDictionary == null)
-         * wordsOfDictionary = SystemDictionary.getDictionaryWordsCount();
-         */
 
         if (numOfRetries == 0) {
             wordsInput = SentenceProcessor.getSyntacticTree();
             pickedWordsSen = new HashMap<String, List<String>>();
         }
+
         analyzeSyntacticTree(wordsInput);
-        /*
-         * controllo per verificare che sia possibile di genereare il numero di
-         * parole richiesto
-         * for(int i = 0; i < types.size(); i++){
-         * if(wordsOfDictionary.get(types.get(i)) +
-         * (wordsSentence.get(types.get(i)).size()/2 - flagRetry) < templateWords[i]){
-         * throw new Exception("Il template richiede troppi elementi");
-         * }
-         * }
-         */
         pickSentenceWords();
 
         int[] dictionaryWords = templateWords.clone();
@@ -91,6 +73,7 @@ public final class WordPicker {
          * y = numero di verbi
          * z = numero di aggettivi
          */
+
         int emptyWordsMap = 0;
         List<String> tmp = new ArrayList<String>();
 
