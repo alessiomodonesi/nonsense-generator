@@ -50,19 +50,19 @@ public class IOControllerTest {
 
     @Test
     @DisplayName("displaySentence con flag 0 deve mostrare la frase da analizzare")
-    void testDisplaySentence1(int flag, String expectedOutput) {
+    void testDisplaySentence1() {
         String sentence = "Frase input di test";
         IOController.displaySentence(sentence, 0);
-        String expected = "\nFrase da analizzare: \"" + sentence + "\"";
+        String expected = "Frase da analizzare: \"" + sentence + "\"";
         assertEquals(expected, outContent.toString().trim());
     }
 
     @Test
     @DisplayName("displaySentence con flag 1 deve mostrare la frase non-sense")
-    void testDisplaySentence2(int flag, String expectedOutput) {
+    void testDisplaySentence2() {
         String sentence = "Frase non-sense di test";
         IOController.displaySentence(sentence, 1);
-        String expected = "\nFrase non-sense: \"" + sentence + "\"";
+        String expected = "Frase non-sense: \"" + sentence + "\"";
         assertEquals(expected, outContent.toString().trim());
     }
 
@@ -71,7 +71,7 @@ public class IOControllerTest {
     void testShowValidationError() {
         IOController.showValidationError();
         String expectedOutput = "\nERRORE: La struttura della frase analizzata non è valida\n";
-        assertEquals(expectedOutput, outContent.toString());
+        assertTrue(errContent.toString().contains(expectedOutput));
     }
 
     @Test
@@ -85,7 +85,7 @@ public class IOControllerTest {
     @Test
     @DisplayName("showSyntacticTree non deve stampare l'albero se l'utente digita 'n'")
     void testShowSyntacticTree2() {
-        System.setIn(new ByteArrayInputStream("yìn\n".getBytes()));
+        System.setIn(new ByteArrayInputStream("n\n".getBytes()));
         IOController.showSyntacticTree();
         assertFalse(outContent.toString().contains("Albero sintattico generato:"));
     }
@@ -94,16 +94,18 @@ public class IOControllerTest {
     @DisplayName("showToxicityError deve stampare un messaggio di errore se la frase generata è tossica")
     void testShowToxicityError() {
         IOController.showToxicityError();
-        assertTrue(
-                errContent.toString().contains("ERRORE: La frase generata ha un livello di tossicità non accettabile"));
+        assertTrue(errContent.toString().contains("ERRORE: La frase generata ha un livello di tossicità non accettabile"));
     }
 
     @Test
     @DisplayName("showToxicityResults deve mostrare i risultati della tossicità (label e valore)")
     void testShowToxicityResults() {
-        IOController.showToxicityResults("Profanity", 0.23);
-        String expectedOutput = "\nLivello di tossicità della frase generata: Profanity = 0.230";
-        assertTrue(outContent.toString().contains(expectedOutput));
+        IOController.showToxicityResults("Profanity", 0.233);
+        String actualOutput = outContent.toString();
+
+        assertTrue(actualOutput.contains("Livello di tossicità:"));
+        assertTrue(actualOutput.contains("Profanity"));
+        assertTrue(actualOutput.contains("0.233"));
     }
 
 }

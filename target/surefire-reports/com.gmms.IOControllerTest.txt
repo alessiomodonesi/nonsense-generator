@@ -1,0 +1,85 @@
+-------------------------------------------------------------------------------
+Test set: com.gmms.IOControllerTest
+-------------------------------------------------------------------------------
+Tests run: 9, Failures: 9, Errors: 0, Skipped: 0, Time elapsed: 0.108 s <<< FAILURE! -- in com.gmms.IOControllerTest
+com.gmms.IOControllerTest.testCorrectInputSentence -- Time elapsed: 0.046 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Impossibile accedere al campo 'scanner' della classe IOController: Can not set static final java.util.Scanner field com.gmms.IOController.scanner to java.util.Scanner
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at com.gmms.IOControllerTest.setUpStreams(IOControllerTest.java:35)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.gmms.IOControllerTest.testShowToxicityError -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Impossibile accedere al campo 'scanner' della classe IOController: Can not set static final java.util.Scanner field com.gmms.IOController.scanner to java.util.Scanner
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at com.gmms.IOControllerTest.setUpStreams(IOControllerTest.java:35)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.gmms.IOControllerTest.testShowToxicityResults -- Time elapsed: 0.013 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Impossibile accedere al campo 'scanner' della classe IOController: Can not set static final java.util.Scanner field com.gmms.IOController.scanner to java.util.Scanner
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at com.gmms.IOControllerTest.setUpStreams(IOControllerTest.java:35)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.gmms.IOControllerTest.testDisplaySentence1 -- Time elapsed: 0.003 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Impossibile accedere al campo 'scanner' della classe IOController: Can not set static final java.util.Scanner field com.gmms.IOController.scanner to java.util.Scanner
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at com.gmms.IOControllerTest.setUpStreams(IOControllerTest.java:35)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.gmms.IOControllerTest.testDisplaySentence2 -- Time elapsed: 0.002 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Impossibile accedere al campo 'scanner' della classe IOController: Can not set static final java.util.Scanner field com.gmms.IOController.scanner to java.util.Scanner
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at com.gmms.IOControllerTest.setUpStreams(IOControllerTest.java:35)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.gmms.IOControllerTest.testShowSyntacticTree1 -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Impossibile accedere al campo 'scanner' della classe IOController: Can not set static final java.util.Scanner field com.gmms.IOController.scanner to java.util.Scanner
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at com.gmms.IOControllerTest.setUpStreams(IOControllerTest.java:35)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.gmms.IOControllerTest.testShowSyntacticTree2 -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Impossibile accedere al campo 'scanner' della classe IOController: Can not set static final java.util.Scanner field com.gmms.IOController.scanner to java.util.Scanner
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at com.gmms.IOControllerTest.setUpStreams(IOControllerTest.java:35)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.gmms.IOControllerTest.testShowInputError -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Impossibile accedere al campo 'scanner' della classe IOController: Can not set static final java.util.Scanner field com.gmms.IOController.scanner to java.util.Scanner
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at com.gmms.IOControllerTest.setUpStreams(IOControllerTest.java:35)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.gmms.IOControllerTest.testShowValidationError -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Impossibile accedere al campo 'scanner' della classe IOController: Can not set static final java.util.Scanner field com.gmms.IOController.scanner to java.util.Scanner
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:38)
+	at org.junit.jupiter.api.Assertions.fail(Assertions.java:138)
+	at com.gmms.IOControllerTest.setUpStreams(IOControllerTest.java:35)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
