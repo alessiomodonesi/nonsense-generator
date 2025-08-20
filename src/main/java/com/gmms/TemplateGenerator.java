@@ -2,11 +2,7 @@ package com.gmms;
 
 public class TemplateGenerator {
 
-    private final SentenceStructures sentenceStructures;
-
-    public TemplateGenerator(SentenceStructures sentenceStructures) {
-        this.sentenceStructures = sentenceStructures;
-    }
+    private final SentenceStructures sentenceStructures = new SentenceStructures();
 
     // genera e restituisce un nuovo oggetto Template
     public Template generateTemplate() {
@@ -14,8 +10,6 @@ public class TemplateGenerator {
         String randomStructure = sentenceStructures.getRandomStructure();
 
         // crea un nuovo oggetto Template
-        Template newTemplate = Template.create(randomStructure);
-
-        return newTemplate;
+        return Template.create(randomStructure);
     }
 }

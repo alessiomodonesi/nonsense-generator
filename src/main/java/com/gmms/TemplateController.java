@@ -2,7 +2,7 @@ package com.gmms;
 
 public class TemplateController {
 
-    private static Template template; // contiene oggetto Template gestito dal controller
+    private final Template template; // contiene oggetto Template gestito dal controller
 
     // costruttore che, appena viene creato un controller, usa il generator per
     // creare un nuovo Template

@@ -3,14 +3,6 @@ package com.gmms;
 import java.util.Arrays;
 
 public class AppController {
-
-    private final SentenceStructures s;
-
-    // costruttore
-    public AppController() {
-        this.s = new SentenceStructures();
-    }
-
     public void start() throws Exception {
         String input;
 
@@ -81,7 +73,7 @@ public class AppController {
     }
 
     private TemplateController createTemplateController() {
-        TemplateGenerator generator = new TemplateGenerator(s);
+        TemplateGenerator generator = new TemplateGenerator();
         TemplateController controller = new TemplateController(generator);
 
         System.out.println("Template generato: " + controller.getTemplateDesc());

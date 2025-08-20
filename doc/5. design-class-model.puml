@@ -1,11 +1,6 @@
 @startuml Design Class Model
 
-    class App {
-        main(args : String) : void
-    }
-
     class AppController {
-        structure : sentenceStructures
         start() : void
         getValidSentence() : String
         createTemplateController() : TemplateController
@@ -16,7 +11,6 @@
         showInputError() : void
         displaySentence(sentenceDesc : String, flag : int) : void
         showValidationError() : void
-        showLanguageError() : void
         showSyntacticTree() : void
         showToxicityError() : void
         showToxicityResults(toxicityLevel : double) : void
@@ -24,7 +18,7 @@
 
     class Sentence {
         sentenceDesc : String
-        <<syntacticTree>> : SyntacticNode
+        syntacticTree : SyntacticNode
         getSentenceTree(syntacticTree : SyntacticNode) : void
         getSentenceDesc() : String
         getSentenceTree() : SyntacticNode
@@ -134,35 +128,65 @@
         printTree(indent : String) : void
     }
 
-    Nouns -* SystemDictionary
-    Verbs -* SystemDictionary
-    Adjectives -* SystemDictionary
-    SyntacticNode -* Sentence
-    SentenceStructures o- TemplateGenerator
+    ' --- contenimento e creazione ---
+    TemplateGenerator *-- "1" SentenceStructures
+    SystemDictionary *-- "1" Nouns
+    SystemDictionary *-- "1" Verbs
+    SystemDictionary *-- "1" Adjectives
+    TemplateController *-- "1" Template
+    TemplateGenerator ..> Template : <<create>>
 
-    App "1" -- "1" AppController
+    ' --- dipendenze principali dell'app ---
+    AppController ..> IOController
+    AppController ..> Validator
+    AppController ..> SentenceProcessor
+    AppController ..> TemplateController
 
-    AppController "1" -- "1" IOController
-    AppController "1" -- "1" SentenceProcessor
-    AppController "1" -- "1" SentenceStructures
-    AppController "1" -- "1" TemplateController
-    AppController "1" -- "1" WordPicker
+    ' --- IO / validazione / processing ---
+    IOController ..> Validator
+    IOController ..> SentenceProcessor
 
-    IOController "1" -- "1" SentenceProcessor
-    IOController "1" -- "1" Validator
+    SentenceProcessor *-- "0..1" Sentence : current
+    SentenceProcessor *-- "0..1" Sentence : nonsense
+    Sentence *-- "1" SyntacticNode : root
+    SyntacticNode *-- "0..*" SyntacticNode : children
 
-    Sentence "*"--"1" SentenceProcessor
-    SentenceProcessor "1" -- "1" SentenceGenerator
-    SentenceProcessor "1" -- "1" Analyzer
-    SentenceProcessor "1" -- "1" Validator
-    Analyzer "1" -- "1" ApiCaller
-    Validator "1" -- "1" ApiCaller
-    
-    Template "1" -- "1" TemplateGenerator
-    TemplateGenerator "1" -- "1" TemplateController
-    TemplateController "1" -- "1" WordPicker
-    
-    WordPicker "1" -- "1" SentenceProcessor
-    WordPicker "1" -- "1" SystemDictionary
+    ' --- generator & word picking ---
+    SentenceGenerator ..> TemplateController
+    SentenceGenerator ..> WordPicker
+    SentenceGenerator ..> SentenceProcessor
+    WordPicker ..> SystemDictionary
+
+    ' --- analisi sintattica ---
+    Analyzer ..> ApiCaller
+    Analyzer ..> SyntacticNode
+    Analyzer ..> SentenceProcessor
+
+    Validator ..> ApiCaller
+    Validator ..> IOController
+    Validator ..> SyntacticNode
+
+    /'
+        Vecchi collegamenti per confronto
+        SentenceStructures o- TemplateGenerator
+        Nouns -* SystemDictionary
+        Verbs -* SystemDictionary
+        Adjectives -* SystemDictionary
+
+        IOController "1" -- "1" Validator
+        IOController "1" -- "1" SentenceProcessor
+        Sentence "*"--"1" SentenceProcessor
+        SentenceProcessor "1" -- "1" Validator
+        SentenceProcessor "1" -- "1" Analyzer
+        SentenceProcessor "1" -- "1" SentenceGenerator
+        TemplateGenerator "1" -- "1" Template
+        TemplateController "1" -- "1" TemplateGenerator
+        TemplateController "1" -- "1" WordPicker
+        WordPicker "1" -- "1" SystemDictionary
+        WordPicker "1" -- "1" SentenceProcessor
+        ApiCaller "1" -- "1" Validator
+        ApiCaller "1" -- "1" Analyzer
+        SyntacticNode "1" -- "1" Analyzer 
+    '/
 
 @enduml
