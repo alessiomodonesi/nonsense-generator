@@ -1,0 +1,23 @@
+NonsenseGenerator is a random sentence generator. Starting from a textual input provided by the user, the application generates
+a random sentence following an internal processing logic. Combina parole estratte dalla frase fornita in input e da un dizionario con template generati
+randomicamente a partire da SentencesStructures predefinite. L'applicazione sfrutta le funzionalità delle API Google Cloud Natural Language
+"analyzeSyntax" e "moderateText" per analizzare la sintassi della frasi in input e validare la tossicità della frase nonsense generata.
+
+Utilizzo:
+1. Inserimento della frase: all'avvio del programma viene chiesto all'utente di inserire una frase. Se l'utente inserisce una stringa vuota o
+una frase in una lingua diversa dall'italiano, viene chiesto all'utente di inserire una nuova frase.
+2. Analisi della frase: l'applicazione analizza la frase in input dal punto di vista sintattico e ne ricava l'albero sintattico, che può essere
+mostrato se l'utente lo richiede.
+3. Generazione del Template: l'applicazione, a partire da un insieme ampio di SentencesStructures della forma "Il %s il %s in un %s e %s.",
+genera un template sostituendo i segnaposti generici "%s" con segnaposti specifici per nomi, verbi e aggettivi inserendo randomicamente 1, 2 o 3
+compoenenti grammaticali secondo una logica associativa grammaticalmente corretta. Il template ottenuto avrà la forma "Il [NOUN] [ADJECTIVE] il [VERB]
+in un [NOUN] [VERB] e [NOUN]".
+4. Scelta delle parole: una volta che il template è stato generato e quindi l'applicazione è a conoscenza di quanti componenti grammaticali per tipo
+sono necessari per completare la frase non sense, il programma prepara una combinazione di parole estratte dalla frase originale dell'utente e
+parole pescate da un dizionario interno al programma.
+5. Generazione della frase nonsense: l'applicazione inserisce le parole appena scelte all'interno del template, ognuna all'interno del segnaposto che ne
+indica la tipologia.
+6. Validazione della tossicità: una volta che la frase nonsense è stata generata, il programma ne analizza la tossicità. Qualora venga registrata una
+tossicità troppo elevata, il programma tenta di generare una nuova frase nonsense diminuendo di uno alla volta le parole scelte dalla frase in input. Tuttavia,
+se si dovesse arrivare al punto in cui la frase nonsense viene generata utilizzando solamente parole estratte dal dizionario, il programma chiede all'utente
+di inserire una nuova frase, in modo tale che nella frase nonsense sia sempre presente almeno un termine della frase in input.
