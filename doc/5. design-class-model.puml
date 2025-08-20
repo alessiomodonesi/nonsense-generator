@@ -1,4 +1,5 @@
-@startuml Design Model
+@startuml Design Class Model
+
     class App {
         main(args : String) : void
     }

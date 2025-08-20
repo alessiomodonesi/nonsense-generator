@@ -1,4 +1,4 @@
-@startuml internal-ssd
+@startuml Internal SSD
 label l [
 
 {{
@@ -6,6 +6,7 @@ label l [
 title Input
 
 actor user
+participant AppController
 participant IOController
 participant Validator
 participant SentenceProcessor
@@ -34,6 +35,7 @@ IOController --> user : sentenceDesc
 title Analysis
 
 actor user
+participant AppController
 participant IOController
 participant Validator
 participant Analyzer
@@ -79,6 +81,7 @@ end
 title TemplateGeneration
 
 actor user
+participant AppController
 participant TemplateController
 participant TemplateGenerator
 participant SentenceStructures
@@ -98,6 +101,7 @@ TemplateGenerator --> TemplateController: templateDesc, templateWords[]
 
 title WordsExtraction
 
+participant AppController
 participant TemplateController
 participant WordPicker
 participant SentenceProcessor
@@ -128,6 +132,7 @@ WordPicker <-- SystemDictionary : dictionary
 
 title SentenceGeneration
 
+participant AppController
 participant SentenceGenerator
 participant WordPicker
 participant TemplateController
@@ -150,6 +155,7 @@ SentenceProcessor <-- Sentence : sentenceDesc
 title ToxicityEvaluation
 
 actor user
+participant AppController
 participant IOController
 participant WordPicker
 participant SentenceGenerator
@@ -193,9 +199,9 @@ IOController --> user : toxicityResults
 title DisplaySentence
 
 actor user
+participant AppController
 participant IOController
 participant SentenceProcessor
-
 
 SentenceProcessor -> IOController : displaySentence(sentenceDesc)
 IOController --> user: sentenceDesc
@@ -203,4 +209,5 @@ IOController --> user: sentenceDesc
 }}
 
 ]
+
 @enduml
