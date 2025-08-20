@@ -9,7 +9,7 @@ public class TemplateTest {
 
     @Test
     @DisplayName("Crea un template quando la struttura è corretta")
-    void template_test_1 () {
+    void templateTest1() {
         String s = "Il %s corre e %s bello";
         Template template = Template.create(s);
 
@@ -22,22 +22,25 @@ public class TemplateTest {
 
     @Test
     @DisplayName("Restituisce la stringa uguale se non ci sono segnaposti")
-    void template_test_2 () {
+    void templateTest2() {
         String s = "L'aereo vola alto nel cielo";
         Template template = Template.create(s);
         assertNotNull(template);
-        assertEquals(s, template.templateDesc); // verifica che la descrizione del template sia uguale alla stringa originale
-        assertArrayEquals(new int[] {0, 0, 0}, template.templateWords); // verifica che non ci siano parole da sostituire
+        assertEquals(s, template.templateDesc); // verifica che la descrizione del template sia uguale alla stringa
+                                                // originale
+        assertArrayEquals(new int[] { 0, 0, 0 }, template.templateWords); // verifica che non ci siano parole da
+                                                                          // sostituire
     }
 
     @Test
     @DisplayName("Da una stringa vuota, restituisce un template vuoto")
-    void template_test_3 () {
+    void templateTest3() {
         String s = "";
         Template template = Template.create(s);
         assertNotNull(template);
         assertEquals("", template.templateDesc); // verifica che la descrizione del template sia vuota
-        assertArrayEquals(new int[] {0, 0, 0}, template.templateWords); // verifica che non ci siano parole da sostituire
+        assertArrayEquals(new int[] { 0, 0, 0 }, template.templateWords); // verifica che non ci siano parole da
+                                                                          // sostituire
     }
 
 }
