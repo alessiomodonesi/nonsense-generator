@@ -44,4 +44,9 @@ public class SentenceStructures {
         }
         return randomStructure;
     }
+
+    // metodo per il testing
+    public int getDimension() {
+        return this.dimension;
+    }
 }

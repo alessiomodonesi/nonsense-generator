@@ -74,6 +74,7 @@
 
     class SentenceStructures {
         structures : File
+        dimension : int
         getRandomStructure() : String
     }
     
