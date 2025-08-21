@@ -51,8 +51,8 @@ public class IOControllerTest {
     }
 
     @Test
-    @DisplayName("displaySentence con flag 0 deve mostrare la frase da analizzare")
-    void testDisplaySentence1() {
+    @DisplayName("displaySentence con flag 0 deve mostrare la frase ricevuta in input")
+    void testDisplaySentenceWithInputSentence() {
         String sentence = "Frase input di test";
         IOController.displaySentence(sentence, 0);
         String expected = "Frase da analizzare: \"" + sentence + "\"";
@@ -61,7 +61,7 @@ public class IOControllerTest {
 
     @Test
     @DisplayName("displaySentence con flag 1 deve mostrare la frase non-sense")
-    void testDisplaySentence2() {
+    void testDisplaySentenceWithGeneratedSentence() {
         String sentence = "Frase non-sense di test";
         IOController.displaySentence(sentence, 1);
         String expected = "Frase non-sense: \"" + sentence + "\"";
@@ -78,7 +78,7 @@ public class IOControllerTest {
 
     @Test
     @DisplayName("showSyntacticTree deve stampare l'albero se l'utente digita 'y'")
-    void testShowSyntacticTree1() {
+    void testShowSyntacticTreeWithInputY() {
         SentenceProcessor.createSentence("Frase di test");
         System.setIn(new ByteArrayInputStream("y\n".getBytes()));
         IOController.setScannerForTesting(new Scanner(System.in));
@@ -88,7 +88,7 @@ public class IOControllerTest {
 
     @Test
     @DisplayName("showSyntacticTree non deve stampare l'albero se l'utente digita 'n'")
-    void testShowSyntacticTree2() {
+    void testShowSyntacticTreeWithInputN() {
         System.setIn(new ByteArrayInputStream("n\n".getBytes()));
         IOController.setScannerForTesting(new Scanner(System.in));
         IOController.showSyntacticTree();
@@ -107,11 +107,7 @@ public class IOControllerTest {
     void testShowToxicityResults() {
         IOController.showToxicityResults("Profanity", 0.233);
         String actualOutput = outContent.toString();
-
-        assertTrue(actualOutput.contains("\nLivello di tossicità della frase generata: "));
-        assertTrue(actualOutput.contains("Profanity"));
-        assertTrue(actualOutput.contains(" = "));
-        assertTrue(actualOutput.contains("0,233"));
+        assertTrue(actualOutput.contains("\nLivello di tossicità della frase generata: Profanity = 0,233"));
     }
 
 }

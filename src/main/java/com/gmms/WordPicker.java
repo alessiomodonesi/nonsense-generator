@@ -22,14 +22,15 @@ class NoGeneratedWordsException extends RuntimeException {
 }
 
 public final class WordPicker {
-    private static List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
-    private static Map<String, List<String>> generatedWords;
-    private static Map<String, List<String>> wordsSentence;
-    private static SyntacticNode wordsInput;
-    private static List<String> tmpForNodes;
-    private static Map<String, List<String>> pickedWordsSen;
+    private static List<String> typesInputSentence = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJ"));
+    private static List<String> typesGeneratedWords = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
+    private static Map<String, List<String>> generatedWords = null;
+    private static Map<String, List<String>> wordsSentence = null;
+    private static SyntacticNode wordsInput = null;
+    private static List<String> tmpForNodes = null;
+    private static Map<String, List<String>> pickedWordsSen = null;
     private static Integer numOfRetries = -1;
-    private static int[] templateWords;
+    private static int[] templateWords = null;
     private static int[] count = new int[3];
 
     private WordPicker() {
@@ -52,15 +53,15 @@ public final class WordPicker {
 
         int[] dictionaryWords = templateWords.clone();
         for (int i = 0; i < dictionaryWords.length; i++) {
-            dictionaryWords[i] -= pickedWordsSen.get(types.get(i)).size();
+            dictionaryWords[i] -= pickedWordsSen.get(typesInputSentence.get(i)).size();
         }
 
         Dictionary<String, List<String>> pickedDictWords = SystemDictionary.pickDictionaryWords(dictionaryWords);
 
-        for (int i = 0; i < types.size(); i++) {
-            List<String> tmp = pickedWordsSen.get(types.get(i));
-            tmp.addAll(pickedDictWords.get(types.get(i)));
-            generatedWords.put(types.get(i), tmp);
+        for (int i = 0; i < typesInputSentence.size(); i++) {
+            List<String> tmp = pickedWordsSen.get(typesInputSentence.get(i));
+            tmp.addAll(pickedDictWords.get(typesGeneratedWords.get(i)));
+            generatedWords.put(typesGeneratedWords.get(i), tmp);
         }
 
         System.out.println(generatedWords);
@@ -78,8 +79,8 @@ public final class WordPicker {
         List<String> tmp = new ArrayList<String>();
 
         if (numOfRetries != 0) {
-            for (int i = 0; i < types.size(); i++) {
-                tmp = wordsSentence.get(types.get(i));
+            for (int i = 0; i < typesInputSentence.size(); i++) {
+                tmp = wordsSentence.get(typesInputSentence.get(i));
 
                 count[i] -= 1;
 
@@ -89,14 +90,14 @@ public final class WordPicker {
                 }
 
                 Collections.shuffle(tmp);
-                pickedWordsSen.put(types.get(i), tmp.subList(0, count[i]));
+                pickedWordsSen.put(typesInputSentence.get(i), tmp.subList(0, count[i]));
             }
         } else {
-            for (int i = 0; i < types.size(); i++) {
-                pickedWordsSen.put(types.get(i), new ArrayList<String>());
+            for (int i = 0; i < typesInputSentence.size(); i++) {
+                pickedWordsSen.put(typesInputSentence.get(i), new ArrayList<String>());
                 count[i] = ((int) Math.round((((double) templateWords[i]) * 0.75)));
 
-                tmp = wordsSentence.get(types.get(i));
+                tmp = wordsSentence.get(typesInputSentence.get(i));
 
                 if (count[i] > tmp.size())
                     count[i] = tmp.size();
@@ -109,7 +110,7 @@ public final class WordPicker {
                 }
 
                 Collections.shuffle(tmp);
-                pickedWordsSen.put(types.get(i), tmp.subList(0, count[i]));
+                pickedWordsSen.put(typesInputSentence.get(i), tmp.subList(0, count[i]));
             }
         }
         if (emptyWordsMap == 3) {
@@ -128,13 +129,13 @@ public final class WordPicker {
         wordsSentence = new HashMap<String, List<String>>();
         wordsSentence.put("NOUN", new ArrayList<String>());
         wordsSentence.put("VERB", new ArrayList<String>());
-        wordsSentence.put("ADJECTIVE", new ArrayList<String>());
+        wordsSentence.put("ADJ", new ArrayList<String>());
         loopOnNodes(tree);
     }
 
     private static void loopOnNodes(SyntacticNode node) {
         if (node != null) {
-            if (types.contains(node.getPartOfSpeech())) {
+            if (typesInputSentence.contains(node.getPartOfSpeech())) {
                 tmpForNodes = wordsSentence.get(node.getPartOfSpeech());
                 tmpForNodes.add(node.getText());
                 wordsSentence.put(node.getPartOfSpeech(), tmpForNodes);
