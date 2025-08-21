@@ -78,7 +78,7 @@ public class IOControllerTest {
     @Test
     @DisplayName("showSyntacticTree deve stampare l'albero se l'utente digita 'y'")
     void testShowSyntacticTreeWithInputY() {
-        SentenceProcessor.createSentence("Frase di test");
+        SentenceController.createSentence("Frase di test");
         System.setIn(new ByteArrayInputStream("y\n".getBytes()));
         IOController.setScannerForTesting(new Scanner(System.in));
         IOController.showSyntacticTree();
@@ -110,7 +110,7 @@ public class IOControllerTest {
         assertTrue(actualOutput.contains("\nLivello di tossicità della frase generata: "));
         assertTrue(actualOutput.contains("Profanity"));
         assertTrue(actualOutput.contains(" = "));
-        assertTrue(actualOutput.contains("0,233"));
+        assertTrue(actualOutput.contains("0.233"));
     }
 
 }

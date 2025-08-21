@@ -32,7 +32,7 @@ public final class Analyzer {
         String jsonData = ApiCaller.getSyntaxAnalysis(sentenceDesc); // json in output dall'api
         // System.out.println(jsonData);
         SyntacticNode syntacticTree = buildSyntacticTree(jsonData);
-        SentenceProcessor.setSentenceTree(syntacticTree);
+        SentenceController.setSentenceTree(syntacticTree);
     }
 
     // analizza il JSON in output dall'api e restituisce la radice

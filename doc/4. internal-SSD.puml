@@ -8,7 +8,7 @@ title Input
 actor user
 participant IOController
 participant Validator
-participant SentenceProcessor
+participant SentenceController
 
 loop Inserimento fino a input valido
 
@@ -20,10 +20,10 @@ loop Inserimento fino a input valido
     end
 end
 
-Validator -> SentenceProcessor : createSentence(input) 
-SentenceProcessor -> Sentence ++ : create(input)/'costruttore'/
-Sentence --> SentenceProcessor : sentenceDesc
-SentenceProcessor -> IOController : displaySentence(sentenceDesc)
+Validator -> SentenceController : createSentence(input) 
+SentenceController -> Sentence ++ : create(input)/'costruttore'/
+Sentence --> SentenceController : sentenceDesc
+SentenceController -> IOController : displaySentence(sentenceDesc)
 IOController --> user : sentenceDesc
 
 }}
@@ -38,7 +38,7 @@ participant IOController
 participant Validator
 participant Analyzer
 participant SyntacticNode
-participant SentenceProcessor
+participant SentenceController
 
 loop Processo di analisi
 
@@ -46,16 +46,16 @@ loop Processo di analisi
     participant ApiCaller
     participant GoogleAPI
 
-    SentenceProcessor -> Analyzer : analyzeSentence(sentenceDesc)
+    SentenceController -> Analyzer : analyzeSentence(sentenceDesc)
     Analyzer -> ApiCaller: getSyntaxAnalysis(sentenceDesc)
     ApiCaller -> GoogleAPI: analyzeSyntax(apiKey, sentenceDesc)
     GoogleAPI --> ApiCaller: syntaxAnalysis
     ApiCaller --> Analyzer: syntaxAnalysis
     Analyzer -> Analyzer: buildSyntacticTree(syntaxAnalysis)
     Analyzer -> SyntacticNode: addChild(child, dependency)
-    Analyzer --> SentenceProcessor: syntacticTree
-    SentenceProcessor --> Sentence : syntacticTree
-    SentenceProcessor -> Validator: validateSentenceStructure(syntacticTree)
+    Analyzer --> SentenceController: syntacticTree
+    SentenceController --> Sentence : syntacticTree
+    SentenceController -> Validator: validateSentenceStructure(syntacticTree)
     alt Frase non valida
         Validator -> IOController: showValidationError()
         IOController --> user : validationError
@@ -65,8 +65,8 @@ end
 opt Mostra struttura sintattica
 
     user -> IOController: showSyntacticTree()
-    IOController -> SentenceProcessor: getSyntacticTree()
-    SentenceProcessor --> IOController: syntacticTree
+    IOController -> SentenceController: getSyntacticTree()
+    SentenceController --> IOController: syntacticTree
     IOController --> user : syntacticTree
 
 end
@@ -100,7 +100,7 @@ title WordsExtraction
 
 participant TemplateController
 participant WordPicker
-participant SentenceProcessor
+participant SentenceController
 participant SystemDictionary
 participant Nouns
 participant Verbs
@@ -108,8 +108,8 @@ participant Adjectives
 
 WordPicker -> TemplateController : getWordCount()
 TemplateController --> WordPicker : templateWords[]
-WordPicker -> SentenceProcessor : getSyntacticTree()
-SentenceProcessor --> WordPicker : syntacticTree
+WordPicker -> SentenceController : getSyntacticTree()
+SentenceController --> WordPicker : syntacticTree
 WordPicker -> WordPicker : pickSentenceWords(senWords[])
 WordPicker -> SystemDictionary : pickDictionaryWords(dicWords[])
 SystemDictionary -> Nouns : getNouns(nounsCount)
@@ -131,16 +131,16 @@ title SentenceGeneration
 participant SentenceGenerator
 participant WordPicker
 participant TemplateController
-participant SentenceProcessor
+participant SentenceController
 
 SentenceGenerator -> TemplateController : getTemplateDesc()
 SentenceGenerator <-- TemplateController : templateDesc
 SentenceGenerator -> WordPicker : getWords()
 SentenceGenerator <-- WordPicker : words[]
 SentenceGenerator -> SentenceGenerator : generateSentenceDesc(templateDesc,words[])
-SentenceGenerator -> SentenceProcessor : createSentence(sentenceDesc)
-SentenceProcessor -> Sentence ++ : create(sentenceDesc)/'costruttore'/
-SentenceProcessor <-- Sentence : sentenceDesc
+SentenceGenerator -> SentenceController : createSentence(sentenceDesc)
+SentenceController -> Sentence ++ : create(sentenceDesc)/'costruttore'/
+SentenceController <-- Sentence : sentenceDesc
 
 }}
 
@@ -153,7 +153,7 @@ actor user
 participant IOController
 participant WordPicker
 participant SentenceGenerator
-participant SentenceProcessor
+participant SentenceController
 participant Validator 
 participant ApiCaller
 participant GoogleAPI
@@ -167,8 +167,8 @@ user -> WordPicker : InputProcess
 end
 
 WordPicker -> SentenceGenerator : WordPickingProcess
-SentenceGenerator -> SentenceProcessor : SentenceGenerationProcess
-SentenceProcessor -> Validator : verifyToxicity(sentenceDesc)
+SentenceGenerator -> SentenceController : SentenceGenerationProcess
+SentenceController -> Validator : verifyToxicity(sentenceDesc)
 Validator -> ApiCaller : getToxicityAnalysis(sentenceDesc)
 ApiCaller -> GoogleAPI : moderateText(apiKey, sentenceDesc)
 ApiCaller <-- GoogleAPI : toxicityAnalysis
@@ -194,9 +194,9 @@ title DisplaySentence
 
 actor user
 participant IOController
-participant SentenceProcessor
+participant SentenceController
 
-SentenceProcessor -> IOController : displaySentence(sentenceDesc)
+SentenceController -> IOController : displaySentence(sentenceDesc)
 IOController --> user: sentenceDesc
 
 }}

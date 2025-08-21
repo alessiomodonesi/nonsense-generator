@@ -1,6 +1,6 @@
 package com.gmms;
 
-public final class SentenceProcessor {
+public final class SentenceController {
     @SuppressWarnings("unused")
     private static Sentence inputSentence;
     @SuppressWarnings("unused")
@@ -11,7 +11,7 @@ public final class SentenceProcessor {
     private static boolean state = true;
 
     // costruttore
-    private SentenceProcessor() {
+    private SentenceController() {
     }
 
     public static void createSentence(String sentenceDesc) {
@@ -34,7 +34,7 @@ public final class SentenceProcessor {
     }
 
     // metodi di supporto non presenti nel design class model (metodi di
-    // SentenceProcessor)
+    // SentenceController)
 
     public static void setSentenceTree(SyntacticNode syntacticTree) {
         // a seconda delle esigenze potrebbe anche solo trattarsi di inputSentence

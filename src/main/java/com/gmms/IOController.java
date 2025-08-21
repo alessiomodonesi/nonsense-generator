@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class IOController {
     private static Scanner scanner = new Scanner(System.in);
 
-    private IOController(Validator validator, SentenceProcessor sentenceProcessor) {
+    private IOController(Validator validator, SentenceController SentenceController) {
     }
 
     // metodo solo per testing
@@ -59,7 +59,7 @@ public class IOController {
 
         if (input.equals("y")) {
             System.out.println("\nAlbero sintattico generato:");
-            System.out.println(SentenceProcessor.getSyntacticTree());
+            System.out.println(SentenceController.getSyntacticTree());
         }
     }
 

@@ -1,6 +1,8 @@
 @startuml Design Class Model
 
     class AppController {
+        instance : AppController
+        getInstance() : AppController
         start() : void
         getValidSentence() : String
         createTemplateController() : TemplateController
@@ -25,7 +27,7 @@
         getSentenceTree() : SyntacticNode
     }
 
-    class SentenceProcessor {
+    class SentenceController {
         inputSentence : Sentence
         nonSenseSentence : Sentence
         currentSentence : Sentence
@@ -130,98 +132,40 @@
         printTree(root : String) : void
     }
 
-    /'
-    ' --- contenimento e creazione ---
-    TemplateGenerator *-- "1" SentenceStructures
-    SystemDictionary *-- "1" Nouns
-    SystemDictionary *-- "1" Verbs
-    SystemDictionary *-- "1" Adjectives
-    TemplateController *-- "1" Template
-    TemplateGenerator ..> Template : <<create>>
+    Nouns -o SystemDictionary
+    Verbs -o SystemDictionary
+    Adjectives -o SystemDictionary
+    SyntacticNode -o Sentence
+    SentenceStructures -o TemplateGenerator
 
-    ' --- dipendenze principali dell'app ---
-    AppController ..> IOController
-    AppController ..> Validator
-    AppController ..> SentenceProcessor
-    AppController ..> TemplateController
+    ' IOController
+    AppController ..> IOController : gestione i/o 
+    Validator ..> IOController : gestione i/o 
 
-    ' --- IO / validazione / processing ---
-    IOController ..> Validator
-    IOController ..> SentenceProcessor
+    ' SentenceController
+    AppController ..> SentenceController : gestione sentence
+    SentenceController "1"--"*" Sentence : gestione istanze
+    SentenceController "1" -- "1" SentenceGenerator
+    SentenceController ..> SentenceGenerator : createSentence
+    SentenceController ..> Analyzer : analyzeSentence
+    Analyzer ..> ApiCaller : getSyntaxAnalysis
+    SentenceController ..> IOController : displaySentence
+    SentenceController ..> Validator : verifyToxicity
 
-    SentenceProcessor *-- "0..1" Sentence : current
-    SentenceProcessor *-- "0..1" Sentence : nonsense
-    Sentence *-- "1" SyntacticNode : root
-    SyntacticNode *-- "0..*" SyntacticNode : children
+    ' TemplateController
+    AppController ..> TemplateController : createTemplateController
+    TemplateController "1" -- "1" TemplateGenerator
+    TemplateController ..> TemplateGenerator : new TemplateGenerator
+    TemplateGenerator ..> Template : create
+    WordPicker ..> TemplateController : getWordCount
 
-    ' --- generator & word picking ---
-    SentenceGenerator ..> TemplateController
-    SentenceGenerator ..> WordPicker
-    SentenceGenerator ..> SentenceProcessor
-    WordPicker ..> SystemDictionary
+    ' WordPicker
+    AppController ..> WordPicker : startWordsExtraction
+    WordPicker ..> SentenceController : getSyntacticTree
+    WordPicker ..> SystemDictionary : pickDictionaryWords
 
-    ' --- analisi sintattica ---
-    Analyzer ..> ApiCaller
-    Analyzer ..> SyntacticNode
-    Analyzer ..> SentenceProcessor
-
-    Validator ..> ApiCaller
-    Validator ..> IOController
-    Validator ..> SyntacticNode
-    '/
-
-    /'
-        Vecchi collegamenti per confronto
-        SentenceStructures o- TemplateGenerator
-        Nouns -* SystemDictionary
-        Verbs -* SystemDictionary
-        Adjectives -* SystemDictionary
-
-        IOController "1" -- "1" Validator
-        IOController "1" -- "1" SentenceProcessor
-        Sentence "*"--"1" SentenceProcessor
-        SentenceProcessor "1" -- "1" Validator
-        SentenceProcessor "1" -- "1" Analyzer
-        SentenceProcessor "1" -- "1" SentenceGenerator
-        TemplateGenerator "1" -- "1" Template
-        TemplateController "1" -- "1" TemplateGenerator
-        TemplateController "1" -- "1" WordPicker
-        WordPicker "1" -- "1" SystemDictionary
-        WordPicker "1" -- "1" SentenceProcessor
-        ApiCaller "1" -- "1" Validator
-        ApiCaller "1" -- "1" Analyzer
-        SyntacticNode "1" -- "1" Analyzer 
-    '/
-
-    Nouns -* SystemDictionary
-    Verbs -* SystemDictionary
-    Adjectives -* SystemDictionary
-    SyntacticNode -* Sentence
-    SentenceStructures o- TemplateGenerator
-
-    App "1" -- "1" AppController
-
-    AppController "1" -- "1" IOController
-    AppController "1" -- "1" SentenceProcessor
-    AppController "1" -- "1" SentenceStructures
-    AppController "1" -- "1" TemplateController
-    AppController "1" -- "1" WordPicker
-
-    IOController "1" -- "1" SentenceProcessor
-    IOController "1" -- "1" Validator
-
-    Sentence "*"--"1" SentenceProcessor
-    SentenceProcessor "1" -- "1" SentenceGenerator
-    SentenceProcessor "1" -- "1" Analyzer
-    SentenceProcessor "1" -- "1" Validator
-    Analyzer "1" -- "1" ApiCaller
-    Validator "1" -- "1" ApiCaller
-    
-    Template "1" -- "1" TemplateGenerator
-    TemplateGenerator "1" -- "1" TemplateController
-    TemplateController "1" -- "1" WordPicker
-    
-    WordPicker "1" -- "1" SentenceProcessor
-    WordPicker "1" -- "1" SystemDictionary
+    ' Validator
+    AppController ..> Validator : verifySentence
+    Validator ..> ApiCaller : getToxicityAnalysis
 
 @enduml

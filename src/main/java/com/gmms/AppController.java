@@ -23,13 +23,13 @@ public class AppController {
 
             // --- INPUT PHASE ---
             input = getValidSentence();
-            SentenceProcessor.createSentence(input);
-            SentenceProcessor.displayProcess(0);
+            SentenceController.createSentence(input);
+            SentenceController.displayProcess(0);
 
             // --- ANALYSIS PHASE ---
-            SentenceProcessor.analysisProcess();
+            SentenceController.analysisProcess();
 
-            if (!SentenceProcessor.validationProcess()) {
+            if (!SentenceController.validationProcess()) {
                 IOController.showValidationError();
                 continue; // torna al ciclo while esterno
             }
@@ -49,13 +49,13 @@ public class AppController {
                     SentenceGenerator.generateSentenceDesc(controller);
 
                     // --- TOXICITY EVALUATION PHASE ---
-                    if (!SentenceProcessor.toxicityProcess()) {
+                    if (!SentenceController.toxicityProcess()) {
                         continue; // ricomincia il ciclo interno
                     }
                     break; // esce dal ciclo interno se tutto è ok
                 } catch (RetryInputException e) {
                     // RESET AND RESTART
-                    SentenceProcessor.resetSentenceState();
+                    SentenceController.resetSentenceState();
                     WordPicker.resetNumOfRetries();
                     System.out.println(e.getMessage());
                     backToStart = true;
@@ -68,7 +68,7 @@ public class AppController {
         }
 
         // --- DISPLAY SENTENCE PHASE ---
-        SentenceProcessor.displayProcess(1);
+        SentenceController.displayProcess(1);
     }
 
     // --- Metodi di supporto ---
@@ -85,8 +85,7 @@ public class AppController {
     }
 
     private TemplateController createTemplateController() {
-        TemplateGenerator generator = new TemplateGenerator();
-        TemplateController controller = new TemplateController(generator);
+        TemplateController controller = new TemplateController();
 
         System.out.println("Template generato: " + controller.getTemplateDesc());
         System.out.println("\nParole necessarie: " + Arrays.toString(controller.getWordCount()));

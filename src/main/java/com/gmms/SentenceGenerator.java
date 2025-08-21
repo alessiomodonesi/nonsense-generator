@@ -60,7 +60,7 @@ public class SentenceGenerator {
     }
 
     private static void createSentence() {
-        SentenceProcessor.createSentence(sentenceDesc);
+        SentenceController.createSentence(sentenceDesc);
     }
 
 }

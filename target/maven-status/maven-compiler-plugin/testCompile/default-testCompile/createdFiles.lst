@@ -8,5 +8,5 @@ com/gmms/IOControllerTest.class
 com/gmms/SentenceTest.class
 com/gmms/SentenceStructuresTest.class
 com/gmms/ValidatorTest.class
-com/gmms/SentenceProcessorTest.class
+com/gmms/SentenceControllerTest.class
 com/gmms/SystemDictionaryTest.class

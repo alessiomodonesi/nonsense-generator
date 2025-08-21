@@ -6,8 +6,8 @@ public class TemplateController {
 
     // costruttore che, appena viene creato un controller, usa il generator per
     // creare un nuovo Template
-    public TemplateController(TemplateGenerator generator) {
-        template = generator.generateTemplate();
+    public TemplateController() {
+        template = new TemplateGenerator().generateTemplate();
     }
 
     // restituisce l'array di interi che rappresenta quanti nomi, verbi e aggettivi
