@@ -1,38 +1,53 @@
 package com.gmms;
 
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.List;
-import org.junit.jupiter.api.BeforeAll;
+import java.util.Arrays;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.TestInstance;
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SystemDictionaryTest {
+    private List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
 
-    @BeforeAll
-    void testSetUpDic() {
+    @BeforeEach
+    void setUp() {
         try {
             SystemDictionary.getInstance().initializeDic();
         } catch (Exception e) {
-            System.out.println("ERRORE: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
     @Test
     @DisplayName("Verifica la generazione di parole dal dizionario")
     void testWordsPickingBaseCase() {
-        int[] wordsQt = new int[] { 3, 10, 10 };
-        SystemDictionary.getInstance().pickDictionaryWords(wordsQt);
-        assertFalse(SystemDictionary.getInstance().pickDictionaryWords(wordsQt).isEmpty());
-        OutOfBoundsExcpetion thrown = assertThrows(
-                OutOfBoundsExcpetion.class,
+        Map<String, List<String>> test = SystemDictionary.getInstance().pickDictionaryWords(new int[] { 3, 10, 10 });
+        for (int i = 0; i < test.size(); i++) {
+            assertFalse(test.get(types.get(i)).isEmpty());
+        }
+    }
+
+    @Test
+    @DisplayName("Verifica che viene lanciato un errore")
+    void testWordsPickingError() {
+        OutOfBoundsException thrown = assertThrows(
+                OutOfBoundsException.class,
                 () -> SystemDictionary.getInstance().pickDictionaryWords(new int[] { 0, -1, -1 }),
                 "Expected pickDictionaryWords() to throw, but it didn't");
-        assertFalse(thrown.getMessage().isBlank());
+        assertTrue(thrown.getMessage().contains("ERRORE: L'indice inserito non è valido"));
 
-        @SuppressWarnings("unused")
-        Map<String, List<String>> test = SystemDictionary.getInstance().pickDictionaryWords(new int[] { 0, 0, 0 });
+    }
+
+    @Test
+    @DisplayName("Verifica cosa accade se vengono richiesti troppi elementi")
+    void testPickingTooManyWords() {
+        Map<String, List<String>> test = SystemDictionary.getInstance()
+                .pickDictionaryWords(new int[] { 1000, 1000, 1000 });
+        for (int i = 0; i < test.size(); i++) {
+            assertFalse(test.get(types.get(i)).isEmpty());
+        }
     }
 }

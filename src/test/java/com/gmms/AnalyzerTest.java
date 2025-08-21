@@ -1,76 +1,81 @@
 package com.gmms;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.TestInstance;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+import static org.junit.jupiter.api.Assertions.*;
+
 class AnalyzerTest {
 
   @Test
-  @DisplayName("Verifica la creazione del SyntacticTree con un JSON valido")
   void testBuildSyntacticTreeWithValidJson() throws Exception {
     String jsonInput = """
+        {
+          "tokens": [
             {
-              "tokens": [
-                {
-                  "text": {"content": "Mangio", "beginOffset": 0},
-                  "partOfSpeech": {"tag": "VERB"},
-                  "dependencyEdge": {"headTokenIndex": 0, "label": "ROOT"},
-                  "lemma": "mangiare"
-                },
-                {
-                  "text": {"content": "una", "beginOffset": 6},
-                  "partOfSpeech": {"tag": "DET"},
-                  "dependencyEdge": {"headTokenIndex": 2, "label": "DET"},
-                  "lemma": "una"
-                },
-                {
-                  "text": {"content": "pizza", "beginOffset": 10},
-                  "partOfSpeech": {"tag": "NOUN"},
-                  "dependencyEdge": {"headTokenIndex": 0, "label": "OBJ"},
-                  "lemma": "pizza"
-                }
-              ]
+              "text": { "content": "Hello", "beginOffset": 0 },
+              "partOfSpeech": { "tag": "INTJ" },
+              "dependencyEdge": { "headTokenIndex": 0, "label": "ROOT" },
+              "lemma": "hello"
+            },
+            {
+              "text": { "content": "world", "beginOffset": 5 },
+              "partOfSpeech": { "tag": "NOUN" },
+              "dependencyEdge": { "headTokenIndex": 0, "label": "dobj" },
+              "lemma": "world"
             }
+          ]
+        }
         """;
 
     SyntacticNode root = Analyzer.buildSyntacticTree(jsonInput);
 
-    // Verifica che la radice non sia null e abbia il testo giusto
-    assertNotNull(root);
-    assertEquals("Mangio", root.getText());
-    assertEquals("ROOT", root.getDependencyLabel());
+    assertNotNull(root, "La radice non dovrebbe essere null");
+    assertEquals("Hello", root.getText(), "La radice dovrebbe essere 'Hello'");
+    assertEquals("ROOT", root.getDependencyLabel(), "La radice dovrebbe avere label ROOT");
+    assertEquals("INTJ", root.getPartOfSpeech(), "POS della radice inatteso");
+    assertEquals("hello", root.getLemma(), "Lemma della radice inatteso");
 
-    // Verifica che ci siano figli
-    assertFalse(root.getnode().isEmpty());
+    assertFalse(root.getnode().isEmpty(), "La radice dovrebbe avere almeno un figlio");
+    SyntacticNode child = root.getnode().get(0);
+    assertEquals("world", child.getText(), "Il figlio dovrebbe essere 'world'");
+    assertEquals("dobj", child.getDependencyLabel(), "Il figlio dovrebbe avere label 'dobj'");
+    assertEquals("NOUN", child.getPartOfSpeech(), "POS del figlio inatteso");
+    assertEquals("world", child.getLemma(), "Lemma del figlio inatteso");
 
-    // Verifica che uno dei figli sia "pizza"
-    boolean hasPizza = root.getnode().stream()
-        .anyMatch(child -> "pizza".equals(child.getText()));
-    assertTrue(hasPizza);
+    // Check stampa albero (formato generale, non exact match)
+    String printed = root.toString();
+    assertTrue(printed.contains("Hello [INTJ | ROOT]"));
+    assertTrue(printed.contains("world [NOUN | dobj]"));
   }
 
   @Test
-  @DisplayName("Verifica la creazione del SyntacticTree con un JSON senza tokens")
   void testBuildSyntacticTreeWithEmptyTokens() throws Exception {
     String jsonInput = """
-            {
-              "tokens": []
-            }
+        {
+          "tokens": []
+        }
         """;
 
     SyntacticNode root = Analyzer.buildSyntacticTree(jsonInput);
-    assertNull(root);
+    assertNull(root, "Con tokens vuoti il risultato deve essere null");
   }
 
   @Test
-  @DisplayName("Verifica la creazione del SyntacticTree con un JSON vuoto")
-  void testBuildSyntacticTreeWithMissingTokensField() throws Exception {
-    String jsonInput = "{}";
+  void testBuildSyntacticTreeWithMissingRoot() throws Exception {
+    String jsonInput = """
+        {
+          "tokens": [
+            {
+              "text": { "content": "hello", "beginOffset": 0 },
+              "partOfSpeech": { "tag": "INTJ" },
+              "dependencyEdge": { "headTokenIndex": 0, "label": "dep" },
+              "lemma": "hello"
+            }
+          ]
+        }
+        """;
 
     SyntacticNode root = Analyzer.buildSyntacticTree(jsonInput);
-    assertNull(root);
+    assertNull(root, "Se manca un ROOT esplicito, la radice deve essere null");
   }
 }
