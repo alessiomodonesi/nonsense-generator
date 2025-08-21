@@ -32,13 +32,25 @@ public final class SentenceController {
         state = false;
     }
 
+    public void generateSentenceDesc(){
+        SentenceGenerator.getInstance().generateSentenceDesc();
+    }
+
     public SyntacticNode getSyntacticTree() {
         return currentSentence.getSentenceTree();
+    }
+
+    private Map<String, List<String>> getWords() {
+        return WordPicker.getInstance().getWords();
     }
 
     // metodo solo per testing
     public String getSentenceDesc() {
         return currentSentence.getSentenceDesc();
+    }
+
+    private vStringoid getTemplateDesc() {
+        return TemplateController.getInstance().getTemplateDesc();
     }
 
     // metodi di supporto non presenti nel design class model (metodi di

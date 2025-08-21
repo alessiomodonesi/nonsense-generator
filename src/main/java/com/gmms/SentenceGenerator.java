@@ -21,8 +21,8 @@ public final class SentenceGenerator {
     // metodi di supporto non presenti nel design class model (metodi di
     // SentenceGenerator)
     public void generateSentenceDesc(TemplateController controller) {
-        getTemplateDesc(controller);
-        getWords();
+        this.getTemplateDesc(controller);
+        this.getWords();
         Random r = new Random();
 
         String[] wordsCategories = fillingWords.keySet().toArray(new String[fillingWords.keySet().size()]);
@@ -53,17 +53,17 @@ public final class SentenceGenerator {
             }
             categoryIndex++;
         }
-        createSentence();
+        this.createSentence();
     }
 
     // metodi di supporto non presenti nel design class model (chiamate ad altri
     // sottosistemi)
-    private void getTemplateDesc(TemplateController controller) {
-        sentenceDesc = controller.getTemplateDesc();
+    private void getTemplateDesc() {
+        sentenceDesc = SentenceController.getInstance().getTemplateDesc();
     }
 
     private void getWords() {
-        fillingWords = WordPicker.getInstance().getWords();
+        fillingWords = SentenceController.getInstance().getWords();
     }
 
     private void createSentence() {
