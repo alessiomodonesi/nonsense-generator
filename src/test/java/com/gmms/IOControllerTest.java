@@ -51,7 +51,7 @@ public class IOControllerTest {
     }
 
     @Test
-    @DisplayName("displaySentence con flag 0 deve mostrare la frase da analizzare")
+    @DisplayName("displaySentence con flag 0 deve mostrare la frase ricevuta in input")
     void testDisplaySentenceWithInputSentence() {
         String sentence = "Frase input di test";
         IOController.displaySentence(sentence, 0);
