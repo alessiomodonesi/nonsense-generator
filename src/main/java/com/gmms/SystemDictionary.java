@@ -7,8 +7,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-class OutOfBoundsExcpetion extends RuntimeException {
-    public OutOfBoundsExcpetion(String m) {
+class OutOfBoundsException extends RuntimeException {
+    public OutOfBoundsException(String m) {
         super(m);
     }
 }
@@ -129,7 +129,7 @@ public final class SystemDictionary {
                 try {
                     arr = json.getAsJsonArray(types.get(i));
                 } catch (Exception e) {
-                    throw new OutOfBoundsExcpetion("Non esiste il campo " + types.get(i) + " nel json");
+                    throw new OutOfBoundsException("Non esiste il campo " + types.get(i) + " nel json");
                 }
                 List<String> tmp = new ArrayList<String>();
                 for (int j = 0; j < arr.size(); j++) {
@@ -140,7 +140,7 @@ public final class SystemDictionary {
             nouns = new Nouns(wordsJson.get("NOUN"), sb);
             verbs = new Verbs(wordsJson.get("VERB"), sb);
             adjectives = new Adjectives(wordsJson.get("ADJECTIVE"), sb);
-        } catch (OutOfBoundsExcpetion e) {
+        } catch (OutOfBoundsException e) {
             throw e;
         } catch (Exception e) {
             throw e;
@@ -159,7 +159,7 @@ public final class SystemDictionary {
     public Map<String, List<String>> pickDictionaryWords(int[] words) {
         for (int tmp : words) {
             if (tmp < 0)
-                throw new OutOfBoundsExcpetion("ERRORE: L'indice inserito non è valido");
+                throw new OutOfBoundsException("ERRORE: L'indice inserito non è valido");
         }
         return createDictionary(nouns.getNouns(words[0]), verbs.getVerbs(words[1]), adjectives.getAdjectives(words[2]));
     }

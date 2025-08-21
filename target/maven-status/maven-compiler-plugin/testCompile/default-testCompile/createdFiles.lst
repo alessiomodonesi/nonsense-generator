@@ -1,12 +1,2 @@
-com/gmms/AnalyzerTest.class
-com/gmms/ApiCallerTest.class
 com/gmms/AppControllerTest.class
-com/gmms/SyntacticNodeTest.class
-com/gmms/SentenceGeneratorTest.class
-com/gmms/TemplateTest.class
-com/gmms/IOControllerTest.class
-com/gmms/SentenceTest.class
-com/gmms/SentenceStructuresTest.class
-com/gmms/ValidatorTest.class
-com/gmms/SentenceControllerTest.class
 com/gmms/SystemDictionaryTest.class

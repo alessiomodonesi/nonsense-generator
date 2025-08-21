@@ -1,15 +1,17 @@
 @startuml Design Class Model
 
+    ' STATIC
     class AppController {
-        instance : AppController
-        getInstance() : AppController
         start() : void
         getValidSentence() : String
         createTemplateController() : TemplateController
     }
 
+    ' SINGLETON
     class IOController {
+        instance : IOController
         scanner : Scanner
+        getInstance() : IOController
         inputSentence() : String
         showInputError() : void
         displaySentence(sentenceDesc : String, flag : int) : void
@@ -19,18 +21,24 @@
         showToxicityResults(toxicityLabel : String, toxicityLevel : double) : void
     }
 
+    ' SINGLETON
     class SentenceController {
+        instance : SentenceController
         inputSentence : Sentence
         nonSenseSentence : Sentence
         currentSentence : Sentence
         state : boolean
+        getInstance() : SentenceController
         createSentence(sentenceDesc : String) : void
         getSyntacticTree() : SyntacticNode
     }
 
+    ' SINGLETON
     class SentenceGenerator {
+        instance : SentenceGenerator
         sentenceDesc : String
         fillingWords : Map<String, List<String>>
+        getInstance() : SentenceGenerator
         generateSentenceDesc(controller : TemplateController) : void
     }
     
@@ -52,14 +60,20 @@
         printTree(root : String) : void
     }
 
+    ' SINGLETON
     class TemplateController {
+        instance : TemplateController
         template : Template
+        getInstance() : TemplateController
         getWordCount() : int[]
         getTemplateDesc() : String
     }
 
+    ' SINGLETON
     class TemplateGenerator {
+        instance : TemplateGenerator
         s : SentenceStructures
+        getInstance() : TemplateGenerator
         generateTemplate() : Template
     }
 
@@ -67,38 +81,35 @@
         templateDesc : String
         templateWords : int[]
         combinations : Map<Integer, List<int[]>>
-        create(randomStructure : String) : Template
     }
     
+    ' STATIC
     class Analyzer {
-        instance : Analyzer
-        getInstance() : Analyzer
         analyzeSentence(sentenceDesc : String) : void
         buildSyntacticTree(jsonInput : String) : SyntacticNode
     }
 
+    ' STATIC
     class Validator {
-        instance : Validator
-        getInstance() : Validator
         verifySentence(input : String) : boolean
         validateSentenceStructure(syntacticTree : SyntacticNode) : boolean
         verifyToxicity(sentenceDesc : String) : boolean
     }
 
+    ' STATIC
     class ApiCaller {
-        instance : ApiCaller
-        getInstance() : ApiCaller
         getSyntaxAnalysis(sentenceDesc : String) : String
         getToxicityAnalysis(sentenceDesc : String) : String
         getApiKey() : String
         makeCall(url : String, payload : String) : String
     }
 
+    ' SINGLETON
     class WordPicker {
         instance : WordPicker
-        getInstance() : WordPicker
-        numOfRetries : int
         generatedWords : Map<String, List<String>>
+        numOfRetries : int
+        getInstance() : WordPicker
         startWordsExtraction(controller : TemplateController) : void
         pickSentenceWords() : void
         getWords() : Map<String, List<String>>
@@ -113,12 +124,13 @@
         getRandomStructure() : String
     }
 
+    ' SINGLETON
     class SystemDictionary {
-        instance : SystemDictionary
-        getInstance() : SystemDictionary
         nouns : Nouns
         verbs : Verbs
         adjectives : Adjectives
+        instance : SystemDictionary
+        getInstance() : SystemDictionary
         createDictionary(nouns : List<String>, verbs : List<String>, adjectives : List<String>) : Map<String, List<String>>
         setupWordDic() : void
         initializeDic() : void
