@@ -171,19 +171,17 @@
 
     ' SentenceController
     AppController "1" --> "1" SentenceController : gestione sentence
-    SentenceController "1" -- "*" Sentence : gestione istanze
-    SentenceController "1" -- "1" SentenceGenerator
-    SentenceController "1" --> "1" SentenceGenerator : createSentence
+    SentenceController "1" -- "*" Sentence : creazione istanze
+    SentenceController "1" --> "1" SentenceGenerator : generateSentence
     SentenceController "1" --> "1" Analyzer : analyzeSentence
     Analyzer "1" --> "1" ApiCaller : getSyntaxAnalysis
     SentenceController "1" --> "1" IOController : displaySentence
     SentenceController "1" --> "1" Validator : verifyToxicity
 
     ' TemplateController
-    AppController "1" --> "1" TemplateController : createTemplateController
-    TemplateController "1" -- "1" TemplateGenerator
-    TemplateController "1" --> "1" TemplateGenerator : new TemplateGenerator
-    TemplateGenerator "1" --> "1" Template : create
+    AppController "1" --> "1" TemplateController : generateTemplate
+    TemplateController "1" --> "1" TemplateGenerator : generateTemplate
+    TemplateGenerator "1" --> "1" Template : creazione istanze
     WordPicker "1" --> "1" TemplateController : getWordCount
 
     ' WordPicker

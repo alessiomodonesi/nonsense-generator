@@ -11,7 +11,6 @@ com/gmms/AppController.class
 com/gmms/Analyzer$Token.class
 com/gmms/RetryInputException.class
 com/gmms/SystemDictionary$Verbs.class
-com/gmms/OutOfBoundsExcpetion.class
 com/gmms/Analyzer$SyntaxAnalysis.class
 com/gmms/Template.class
 com/gmms/SentenceController.class
@@ -23,5 +22,6 @@ com/gmms/SentenceStructures.class
 com/gmms/TemplateGenerator.class
 com/gmms/Sentence.class
 com/gmms/Analyzer.class
+com/gmms/OutOfBoundsException.class
 com/gmms/SystemDictionary.class
 com/gmms/Analyzer$JsonText.class
