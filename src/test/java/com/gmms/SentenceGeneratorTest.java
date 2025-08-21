@@ -1,25 +1,26 @@
 package com.gmms;
 
+import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.IOException;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 
-class SentenceGeneratorTest{
-    
+class SentenceGeneratorTest {
+
     @Test
     @DisplayName("Crea una frase nonsense correttamente")
-    void testGenerateSentenceDesc(){
+    void testGenerateSentenceDesc() {
         TemplateGenerator testGenerator = new TemplateGenerator()
         TemplateController testController = new TemplateController(testGenerator);
+
         SentenceGenerator.generateSentenceDesc(testController);
         String nonsense = SentenceProcessor.getSentenceDesc();
-        assertNotNull(nonsense)// o assertThrows(?)
+        assertNotNull(nonsense); // o assertThrows(?)
+
         boolean correctReplacement = true;
-        if(nonsense.contains("NOUN") || nonsense.contains("VERB") || nonsense.contains("ADJECTIVE")) incompleteReplacement = false;
-        assertTrue("Rimpiazzo di parole fallimentare", correctReplacement);
+        if(nonsense.contains("NOUN") || nonsense.contains("VERB") || nonsense.contains("ADJECTIVE"))
+            correctReplacement = false;
+            
+        assertTrue(correctReplacement,"Rimpiazzo di parole fallimentare");
     }
 }

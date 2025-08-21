@@ -36,7 +36,7 @@ public final class Analyzer {
     }
 
     // analizza il JSON in output dall'api e restituisce la radice
-    private static SyntacticNode buildSyntacticTree(String jsonInput) throws Exception {
+    public static SyntacticNode buildSyntacticTree(String jsonInput) throws Exception {
         Gson gson = new Gson();
         // Language lang = gson.fromJson(jsonInput, Language.class);
         // if (!lang.language.equals("it")) { throw new IOException(); }
