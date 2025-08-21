@@ -1,13 +1,21 @@
 package com.gmms;
 
 public final class TemplateController {
+    private static final TemplateController instance = new TemplateController();
+    private Template template; // contiene oggetto Template gestito dal controller
 
-    private final Template template; // contiene oggetto Template gestito dal controller
+    // costruttore
+    private TemplateController() {
+    }
 
-    // costruttore che, appena viene creato un controller, usa il generator per
-    // creare un nuovo Template
-    public TemplateController() {
-        template = new TemplateGenerator().generateTemplate();
+    // per inizializzare un singleton
+    public static TemplateController getInstance() {
+        return instance;
+    }
+
+    // chiama il generatore per il template
+    public void generateTemplate() {
+        template = TemplateGenerator.getInstance().generateTemplate();
     }
 
     // restituisce l'array di interi che rappresenta quanti nomi, verbi e aggettivi

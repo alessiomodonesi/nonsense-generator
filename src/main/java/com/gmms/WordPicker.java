@@ -38,9 +38,9 @@ public final class WordPicker {
         return instance;
     }
 
-    public void startWordsExtraction(TemplateController controller) {
+    public void startWordsExtraction() {
         if (templateWords == null)
-            templateWords = controller.getWordCount();
+            templateWords = TemplateController.getInstance().getWordCount();
 
         generatedWords = new HashMap<String, List<String>>();
         numOfRetries++;

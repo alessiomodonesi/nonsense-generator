@@ -4,52 +4,61 @@ import java.util.Arrays;
 
 // -- STATIC ---
 public final class AppController {
-    // costruttore
+    // alias statici ai singleton
+    private static final IOController io = IOController.getInstance();
+    private static final SentenceController sc = SentenceController.getInstance();
+    private static final TemplateController tc = TemplateController.getInstance();
+    private static final WordPicker wp = WordPicker.getInstance();
+
+    // costruttore privato
     private AppController() {
     }
 
     public static void start() throws Exception {
-        String input;
+        String input = new String();
 
         while (true) {
             boolean backToStart = false;
 
             // --- INPUT PHASE ---
             input = getValidSentence();
-            SentenceController.getInstance().createSentence(input);
-            SentenceController.getInstance().displayProcess(0);
+            sc.createSentence(input);
+            sc.displayProcess(0);
 
             // --- ANALYSIS PHASE ---
-            SentenceController.getInstance().analysisProcess();
+            sc.analysisProcess();
 
-            if (!SentenceController.getInstance().validationProcess()) {
-                IOController.getInstance().showValidationError();
+            if (!sc.validationProcess()) {
+                io.showValidationError();
                 continue; // torna al ciclo while esterno
             }
 
-            IOController.getInstance().showSyntacticTree();
+            io.showSyntacticTree();
 
             // --- TEMPLATE GENERATION PHASE ---
-            TemplateController controller = createTemplateController();
+            tc.generateTemplate();
+            System.out.println("Template generato: " + tc.getTemplateDesc());
+            System.out.println(
+                    "\nParole necessarie: " + Arrays.toString(tc.getWordCount()));
 
             do {
                 try {
                     // --- WORDS EXTRACTION PHASE ---
                     System.out.print("\nParole scelte: ");
-                    WordPicker.getInstance().startWordsExtraction(controller);
+                    wp.startWordsExtraction();
 
                     // --- SENTENCE GENERATION PHASE ---
-                    SentenceGenerator.getInstance().generateSentenceDesc(controller);
+                    sc.generateSentence();
 
                     // --- TOXICITY EVALUATION PHASE ---
-                    if (!SentenceController.getInstance().toxicityProcess()) {
+                    if (!sc.toxicityProcess()) {
                         continue; // ricomincia il ciclo interno
                     }
                     break; // esce dal ciclo interno se tutto è ok
                 } catch (RetryInputException e) {
                     // RESET AND RESTART
-                    SentenceController.getInstance().resetSentenceState();
-                    WordPicker.getInstance().resetNumOfRetries();
+                    sc.resetSentenceState();
+                    wp.resetNumOfRetries();
                     System.out.println(e.getMessage());
                     backToStart = true;
                     break; // esce dal ciclo interno, ma segna restart
@@ -61,28 +70,19 @@ public final class AppController {
         }
 
         // --- DISPLAY SENTENCE PHASE ---
-        SentenceController.getInstance().displayProcess(1);
+        sc.displayProcess(1);
     }
 
     // --- Metodi di supporto ---
 
     private static String getValidSentence() {
-        String input;
+        String input = new String();
         do {
-            input = IOController.getInstance().inputSentence();
+            input = io.inputSentence();
             if (!Validator.verifySentence(input)) {
-                IOController.getInstance().showInputError();
+                io.showInputError();
             }
         } while (!Validator.verifySentence(input));
         return input;
-    }
-
-    private static TemplateController createTemplateController() {
-        TemplateController controller = new TemplateController();
-
-        System.out.println("Template generato: " + controller.getTemplateDesc());
-        System.out.println("\nParole necessarie: " + Arrays.toString(controller.getWordCount()));
-
-        return controller;
     }
 }

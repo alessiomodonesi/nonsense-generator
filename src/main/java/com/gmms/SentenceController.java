@@ -1,5 +1,8 @@
 package com.gmms;
 
+import java.util.Map;
+import java.util.List;
+
 // --- SINGLETON ---
 public final class SentenceController {
     private static final SentenceController instance = new SentenceController();
@@ -32,24 +35,24 @@ public final class SentenceController {
         state = false;
     }
 
-    public void generateSentenceDesc(){
-        SentenceGenerator.getInstance().generateSentenceDesc();
+    public void generateSentence() {
+        SentenceGenerator.getInstance().generateSentence();
     }
 
     public SyntacticNode getSyntacticTree() {
         return currentSentence.getSentenceTree();
     }
 
-    private Map<String, List<String>> getWords() {
+    public Map<String, List<String>> getWords() {
         return WordPicker.getInstance().getWords();
     }
 
     // metodo solo per testing
-    public String getSentenceDesc() {
+    public String generateTemplate() {
         return currentSentence.getSentenceDesc();
     }
 
-    private vStringoid getTemplateDesc() {
+    public String getTemplateDesc() {
         return TemplateController.getInstance().getTemplateDesc();
     }
 

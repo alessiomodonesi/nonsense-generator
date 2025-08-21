@@ -20,8 +20,8 @@ public final class SentenceGenerator {
 
     // metodi di supporto non presenti nel design class model (metodi di
     // SentenceGenerator)
-    public void generateSentenceDesc(TemplateController controller) {
-        this.getTemplateDesc(controller);
+    public void generateSentence() {
+        this.getTemplateDesc();
         this.getWords();
         Random r = new Random();
 
