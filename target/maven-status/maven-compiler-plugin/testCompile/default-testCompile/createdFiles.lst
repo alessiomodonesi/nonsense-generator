@@ -5,5 +5,3 @@ com\gmms\AnalyzerTest.class
 com\gmms\TemplateTest.class
 com\gmms\SentenceStructuresTest.class
 com\gmms\ValidatorTest.class
-com\gmms\TemplateControllerTest.class
-com\gmms\TemplateGeneratorTest.class
