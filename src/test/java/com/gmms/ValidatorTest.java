@@ -10,27 +10,27 @@ class ValidatorTest {
     // --- Test per verifySentence() ---
     @Test
     void testVerifySentenceWithValidInput() {
-        assertTrue(Validator.getInstance().verifySentence("Ciao mondo"));
-        assertTrue(Validator.getInstance().verifySentence("Hello123"));
+        assertTrue(Validator.verifySentence("Ciao mondo"));
+        assertTrue(Validator.verifySentence("Hello123"));
     }
 
     @Test
     void testVerifySentenceWithInvalidInput() {
-        assertFalse(Validator.getInstance().verifySentence("     ")); // solo spazi
-        assertFalse(Validator.getInstance().verifySentence("123456")); // numeri senza lettere
-        assertFalse(Validator.getInstance().verifySentence("")); // stringa vuota
+        assertFalse(Validator.verifySentence("     ")); // solo spazi
+        assertFalse(Validator.verifySentence("123456")); // numeri senza lettere
+        assertFalse(Validator.verifySentence("")); // stringa vuota
     }
 
     // --- Test per validateSentenceStructure() ---
     @Test
     void testValidateSentenceStructure() {
         SyntacticNode root = new SyntacticNode("Mangio", "mangiare", "VERB");
-        assertTrue(Validator.getInstance().validateSentenceStructure(root));
+        assertTrue(Validator.validateSentenceStructure(root));
     }
 
     @Test
     void testValidateSentenceStructureWithNull() {
-        assertTrue(Validator.getInstance().validateSentenceStructure(null));
+        assertTrue(Validator.validateSentenceStructure(null));
     }
 
     // --- Test per verifyToxicity() con JSON simulato ---

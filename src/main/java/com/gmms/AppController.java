@@ -2,20 +2,13 @@ package com.gmms;
 
 import java.util.Arrays;
 
-// -- SINGLETON ---
+// -- STATIC ---
 public final class AppController {
-    private static final AppController instance = new AppController();
-
     // costruttore
     private AppController() {
     }
 
-    // per inizializzare un singleton
-    public static AppController getInstance() {
-        return instance;
-    }
-
-    public void start() throws Exception {
+    public static void start() throws Exception {
         String input;
 
         while (true) {
@@ -23,18 +16,18 @@ public final class AppController {
 
             // --- INPUT PHASE ---
             input = getValidSentence();
-            SentenceController.createSentence(input);
-            SentenceController.displayProcess(0);
+            SentenceController.getInstance().createSentence(input);
+            SentenceController.getInstance().displayProcess(0);
 
             // --- ANALYSIS PHASE ---
-            SentenceController.analysisProcess();
+            SentenceController.getInstance().analysisProcess();
 
-            if (!SentenceController.validationProcess()) {
-                IOController.showValidationError();
+            if (!SentenceController.getInstance().validationProcess()) {
+                IOController.getInstance().showValidationError();
                 continue; // torna al ciclo while esterno
             }
 
-            IOController.showSyntacticTree();
+            IOController.getInstance().showSyntacticTree();
 
             // --- TEMPLATE GENERATION PHASE ---
             TemplateController controller = createTemplateController();
@@ -46,16 +39,16 @@ public final class AppController {
                     WordPicker.getInstance().startWordsExtraction(controller);
 
                     // --- SENTENCE GENERATION PHASE ---
-                    SentenceGenerator.generateSentenceDesc(controller);
+                    SentenceGenerator.getInstance().generateSentenceDesc(controller);
 
                     // --- TOXICITY EVALUATION PHASE ---
-                    if (!SentenceController.toxicityProcess()) {
+                    if (!SentenceController.getInstance().toxicityProcess()) {
                         continue; // ricomincia il ciclo interno
                     }
                     break; // esce dal ciclo interno se tutto è ok
                 } catch (RetryInputException e) {
                     // RESET AND RESTART
-                    SentenceController.resetSentenceState();
+                    SentenceController.getInstance().resetSentenceState();
                     WordPicker.getInstance().resetNumOfRetries();
                     System.out.println(e.getMessage());
                     backToStart = true;
@@ -68,23 +61,23 @@ public final class AppController {
         }
 
         // --- DISPLAY SENTENCE PHASE ---
-        SentenceController.displayProcess(1);
+        SentenceController.getInstance().displayProcess(1);
     }
 
     // --- Metodi di supporto ---
 
-    private String getValidSentence() {
+    private static String getValidSentence() {
         String input;
         do {
-            input = IOController.inputSentence();
-            if (!Validator.getInstance().verifySentence(input)) {
-                IOController.showInputError();
+            input = IOController.getInstance().inputSentence();
+            if (!Validator.verifySentence(input)) {
+                IOController.getInstance().showInputError();
             }
-        } while (!Validator.getInstance().verifySentence(input));
+        } while (!Validator.verifySentence(input));
         return input;
     }
 
-    private TemplateController createTemplateController() {
+    private static TemplateController createTemplateController() {
         TemplateController controller = new TemplateController();
 
         System.out.println("Template generato: " + controller.getTemplateDesc());

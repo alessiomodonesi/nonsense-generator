@@ -4,7 +4,7 @@ public class App {
     public static void main(String[] args) {
         try {
             SystemDictionary.getInstance().initializeDic(); // crea ed inizializza il dizionario di sistema
-            AppController.getInstance().start(); // lancia il controller contenente la logica del programma
+            AppController.start(); // lancia il controller contenente la logica del programma
         } catch (Exception e) {
             System.err.println("Errore durante l'inizializzazione: " + e.getMessage());
         }

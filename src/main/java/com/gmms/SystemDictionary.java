@@ -53,7 +53,6 @@ public final class SystemDictionary {
         }
     }
 
-    // classe privata per gestire gli aggettivi del dizionario interno
     private static class Adjectives {
 
         // contiene la lista di aggettivi

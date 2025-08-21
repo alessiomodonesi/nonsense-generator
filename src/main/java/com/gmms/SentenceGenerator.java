@@ -4,16 +4,23 @@ import java.util.Map;
 import java.util.List;
 import java.util.Random;
 
+// --- SINGLETON ---
 public final class SentenceGenerator {
-    private static String sentenceDesc;
-    private static Map<String, List<String>> fillingWords;
+    private static final SentenceGenerator instance = new SentenceGenerator();
+    private String sentenceDesc;
+    private Map<String, List<String>> fillingWords;
 
     private SentenceGenerator() {
     }
 
+    // per inizializzare un singleton
+    public static SentenceGenerator getInstance() {
+        return instance;
+    }
+
     // metodi di supporto non presenti nel design class model (metodi di
     // SentenceGenerator)
-    public static void generateSentenceDesc(TemplateController controller) {
+    public void generateSentenceDesc(TemplateController controller) {
         getTemplateDesc(controller);
         getWords();
         Random r = new Random();
@@ -51,16 +58,16 @@ public final class SentenceGenerator {
 
     // metodi di supporto non presenti nel design class model (chiamate ad altri
     // sottosistemi)
-    private static void getTemplateDesc(TemplateController controller) {
+    private void getTemplateDesc(TemplateController controller) {
         sentenceDesc = controller.getTemplateDesc();
     }
 
-    private static void getWords() {
+    private void getWords() {
         fillingWords = WordPicker.getInstance().getWords();
     }
 
-    private static void createSentence() {
-        SentenceController.createSentence(sentenceDesc);
+    private void createSentence() {
+        SentenceController.getInstance().createSentence(sentenceDesc);
     }
 
 }

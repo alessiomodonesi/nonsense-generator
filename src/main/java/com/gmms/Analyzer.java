@@ -4,17 +4,10 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-// -- SINGLETON ---
+// -- STATIC ---
 public final class Analyzer {
-    private static final Analyzer instance = new Analyzer();
-
     // costruttore
     private Analyzer() {
-    }
-
-    // per inizializzare un singleton
-    public static Analyzer getInstance() {
-        return instance;
     }
 
     // Classi interne per il mapping del JSON
@@ -34,17 +27,15 @@ public final class Analyzer {
     private record SyntaxAnalysis(List<Token> tokens) {
     }
 
-    // private record Language(String language) {}
-
-    public void analyzeSentence(String sentenceDesc) throws Exception {
+    public static void analyzeSentence(String sentenceDesc) throws Exception {
         String jsonData = ApiCaller.getSyntaxAnalysis(sentenceDesc); // json in output dall'api
         // System.out.println(jsonData);
         SyntacticNode syntacticTree = buildSyntacticTree(jsonData);
-        SentenceController.setSentenceTree(syntacticTree);
+        SentenceController.getInstance().setSentenceTree(syntacticTree);
     }
 
     // analizza il JSON in output dall'api e restituisce la radice
-    public SyntacticNode buildSyntacticTree(String jsonInput) throws Exception {
+    public static SyntacticNode buildSyntacticTree(String jsonInput) throws Exception {
         Gson gson = new Gson();
         // Language lang = gson.fromJson(jsonInput, Language.class);
         // if (!lang.language.equals("it")) { throw new IOException(); }

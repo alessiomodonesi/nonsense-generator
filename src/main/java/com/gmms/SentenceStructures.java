@@ -6,7 +6,6 @@ import java.util.Scanner;
 import java.util.Random;
 
 public final class SentenceStructures {
-
     private File structures;
     private int dimension;
 

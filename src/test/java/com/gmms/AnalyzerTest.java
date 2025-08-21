@@ -36,7 +36,7 @@ class AnalyzerTest {
             }
         """;
 
-    SyntacticNode root = Analyzer.getInstance().buildSyntacticTree(jsonInput);
+    SyntacticNode root = Analyzer.buildSyntacticTree(jsonInput);
 
     // Verifica che la radice non sia null e abbia il testo giusto
     assertNotNull(root);
@@ -61,7 +61,7 @@ class AnalyzerTest {
             }
         """;
 
-    SyntacticNode root = Analyzer.getInstance().buildSyntacticTree(jsonInput);
+    SyntacticNode root = Analyzer.buildSyntacticTree(jsonInput);
     assertNull(root);
   }
 
@@ -70,7 +70,7 @@ class AnalyzerTest {
   void testBuildSyntacticTreeWithMissingTokensField() throws Exception {
     String jsonInput = "{}";
 
-    SyntacticNode root = Analyzer.getInstance().buildSyntacticTree(jsonInput);
+    SyntacticNode root = Analyzer.buildSyntacticTree(jsonInput);
     assertNull(root);
   }
 }

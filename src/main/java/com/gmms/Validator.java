@@ -5,20 +5,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-// -- SINGLETON ---
+// -- STATIC ---
 public final class Validator {
-    private static final Validator instance = new Validator();
-
     // costruttore
     private Validator() {
     }
 
-    // per inizializzare un singleton
-    public static Validator getInstance() {
-        return instance;
-    }
-
-    public boolean verifySentence(String input) {
+    public static boolean verifySentence(String input) {
         // Prima controlliamo che l'input non sia nullo.
         if (input.trim().isEmpty())
             return false;
@@ -28,16 +21,16 @@ public final class Validator {
         return input.matches(".*[a-zA-Z].*");
     }
 
-    public boolean validateSentenceStructure(SyntacticNode syntacticTree) {
+    public static boolean validateSentenceStructure(SyntacticNode syntacticTree) {
         boolean checkSentenceStructure = true;
         if (!checkSentenceStructure) {
-            IOController.showValidationError();
+            IOController.getInstance().showValidationError();
             return false;
         }
         return true;
     }
 
-    public boolean verifyToxicity(String sentenceDesc) throws Exception {
+    public static boolean verifyToxicity(String sentenceDesc) throws Exception {
         String maxName = new String();
         double maxConfidence = 0.0;
         double criticValue = 0.50;
@@ -66,11 +59,11 @@ public final class Validator {
         }
 
         if (maxConfidence >= criticValue) {
-            IOController.showToxicityError();
+            IOController.getInstance().showToxicityError();
             // System.out.println(maxName + " = " + maxConfidence);
             return false;
         } else {
-            IOController.showToxicityResults(maxName, maxConfidence);
+            IOController.getInstance().showToxicityResults(maxName, maxConfidence);
             return true;
         }
     }

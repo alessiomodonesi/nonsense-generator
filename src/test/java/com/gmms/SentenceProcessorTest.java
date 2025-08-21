@@ -9,29 +9,29 @@ class SentenceControllerTest {
     @Test
     @DisplayName("Crea un oggetto Sentence correttamente")
     void testCreateSentence() {
-        SentenceController.createSentence("frase di test");
-        assertNotNull(SentenceController.getSentenceDesc());
-        assertEquals("frase di test", SentenceController.getSentenceDesc());
+        SentenceController.getInstance().createSentence("frase di test");
+        assertNotNull(SentenceController.getInstance().getSentenceDesc());
+        assertEquals("frase di test", SentenceController.getInstance().getSentenceDesc());
     }
 
     @Test
     @DisplayName("Cambia la Sentence puntata ad una nuova creazione")
     void testSwitchBetweenSentences() {
-        SentenceController.createSentence("input test");
-        String input = SentenceController.getSentenceDesc();
-        SentenceController.createSentence("nonsense test");
-        assertTrue(!(input.equals(SentenceController.getSentenceDesc())));
+        SentenceController.getInstance().createSentence("input test");
+        String input = SentenceController.getInstance().getSentenceDesc();
+        SentenceController.getInstance().createSentence("nonsense test");
+        assertTrue(!(input.equals(SentenceController.getInstance().getSentenceDesc())));
     }
 
     @Test
     @DisplayName("Punta alla corretta istanza di Sentence a seconda del tipo di rigenerazione richiesta")
     void testSentenceRegeneration() {
-        SentenceController.createSentence("input test");
-        String input = SentenceController.getSentenceDesc();
-        SentenceController.createSentence("nonsense test");
-        SentenceController.createSentence(" regeneration nonsense test");
-        SentenceController.resetSentenceState();
-        assertEquals(input, SentenceController.getSentenceDesc());
+        SentenceController.getInstance().createSentence("input test");
+        String input = SentenceController.getInstance().getSentenceDesc();
+        SentenceController.getInstance().createSentence("nonsense test");
+        SentenceController.getInstance().createSentence(" regeneration nonsense test");
+        SentenceController.getInstance().resetSentenceState();
+        assertEquals(input, SentenceController.getInstance().getSentenceDesc());
     }
 
 }

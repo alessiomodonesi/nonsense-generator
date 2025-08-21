@@ -46,7 +46,7 @@ public final class WordPicker {
         numOfRetries++;
 
         if (numOfRetries == 0) {
-            wordsInput = SentenceController.getSyntacticTree();
+            wordsInput = SentenceController.getInstance().getSyntacticTree();
             pickedWordsSen = new HashMap<String, List<String>>();
         }
 
