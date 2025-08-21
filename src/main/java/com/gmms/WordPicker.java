@@ -15,22 +15,30 @@ class NoGeneratedWordsException extends RuntimeException {
     }
 }
 
-public final class WordPicker {
-    private static List<String> typesInputSentence = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJ"));
-    private static List<String> typesGeneratedWords = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
-    private static Map<String, List<String>> generatedWords = null;
-    private static Map<String, List<String>> wordsSentence = null;
-    private static Map<String, List<String>> pickedWordsSen = null;
-    private static SyntacticNode wordsInput = null;
-    private static List<String> tmpForNodes = null;
-    private static int[] templateWords = null;
-    private static int[] count = new int[3];
-    private static int numOfRetries = -1;
+// -- SINGLETON ---
+public class WordPicker {
+    private static final WordPicker instance = new WordPicker();
+    private List<String> typesInputSentence = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJ"));
+    private List<String> typesGeneratedWords = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
+    private Map<String, List<String>> generatedWords = null;
+    private Map<String, List<String>> wordsSentence = null;
+    private Map<String, List<String>> pickedWordsSen = null;
+    private SyntacticNode wordsInput = null;
+    private List<String> tmpForNodes = null;
+    private int[] templateWords = null;
+    private int[] count = new int[3];
+    private int numOfRetries = -1;
 
+    // costruttore
     private WordPicker() {
     }
 
-    public static void startWordsExtraction(TemplateController controller) {
+    // per inizializzare un singleton
+    public static WordPicker getInstance() {
+        return instance;
+    }
+
+    public void startWordsExtraction(TemplateController controller) {
         if (templateWords == null)
             templateWords = controller.getWordCount();
 
@@ -50,7 +58,7 @@ public final class WordPicker {
             dictionaryWords[i] -= pickedWordsSen.get(typesInputSentence.get(i)).size();
         }
 
-        Map<String, List<String>> pickedDictWords = SystemDictionary.pickDictionaryWords(dictionaryWords);
+        Map<String, List<String>> pickedDictWords = SystemDictionary.getInstance().pickDictionaryWords(dictionaryWords);
 
         for (int i = 0; i < typesInputSentence.size(); i++) {
             List<String> tmp = pickedWordsSen.get(typesInputSentence.get(i));
@@ -61,7 +69,7 @@ public final class WordPicker {
         System.out.println(generatedWords);
     }
 
-    private static void pickSentenceWords() {
+    private void pickSentenceWords() {
         /*
          * qt = [ x, y, z]
          * x = numero di sostantivi
@@ -113,13 +121,13 @@ public final class WordPicker {
         }
     }
 
-    public static Map<String, List<String>> getWords() {
+    public Map<String, List<String>> getWords() {
         if (generatedWords == null)
             throw new NoGeneratedWordsException("ERRORE: non sono state generate parole in precedenza");
         return generatedWords;
     }
 
-    private static void analyzeSyntacticTree(SyntacticNode syntactictree) {
+    private void analyzeSyntacticTree(SyntacticNode syntactictree) {
         wordsSentence = new HashMap<String, List<String>>();
         wordsSentence.put("NOUN", new ArrayList<String>());
         wordsSentence.put("VERB", new ArrayList<String>());
@@ -127,7 +135,7 @@ public final class WordPicker {
         loopOnNodes(syntactictree);
     }
 
-    private static void loopOnNodes(SyntacticNode node) {
+    private void loopOnNodes(SyntacticNode node) {
         if (node != null) {
             if (typesInputSentence.contains(node.getPartOfSpeech())) {
                 tmpForNodes = wordsSentence.get(node.getPartOfSpeech());
@@ -140,7 +148,7 @@ public final class WordPicker {
         }
     }
 
-    public static void resetNumOfRetries() {
+    public void resetNumOfRetries() {
         templateWords = null;
         pickedWordsSen = null;
         count = new int[3];

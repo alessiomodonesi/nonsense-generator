@@ -8,8 +8,20 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.io.IOException;
 
+// -- SINGLETON ---
 public class ApiCaller {
-  public static String getSyntaxAnalysis(String sentenceDesc) throws Exception {
+  private static final ApiCaller instance = new ApiCaller();
+
+  // costruttore
+  private ApiCaller() {
+  }
+
+  // per inizializzare un singleton
+  public static ApiCaller getInstance() {
+    return instance;
+  }
+
+  public String getSyntaxAnalysis(String sentenceDesc) throws Exception {
     String url = "https://language.googleapis.com/v1/documents:analyzeSyntax?key=" + getApiKey();
     String jsonPayload = String.format("""
         {
@@ -25,7 +37,7 @@ public class ApiCaller {
     return syntaxAnalysis;
   }
 
-  public static String getToxicityAnalysis(String sentenceDesc) throws Exception {
+  public String getToxicityAnalysis(String sentenceDesc) throws Exception {
     String url = "https://language.googleapis.com/v1/documents:moderateText?key=" + getApiKey();
     String jsonPayload = String.format("""
         {
@@ -40,7 +52,7 @@ public class ApiCaller {
     return toxicityAnalysis;
   }
 
-  private static String getApiKey() {
+  private String getApiKey() {
     String apiKey = "";
     try {
       // Specifica il percorso del file
@@ -61,7 +73,7 @@ public class ApiCaller {
     }
   }
 
-  private static String makeCall(String url, String payload) throws Exception {
+  private String makeCall(String url, String payload) throws Exception {
     HttpClient client = HttpClient.newHttpClient();
     HttpRequest request = HttpRequest.newBuilder()
         .uri(URI.create(url))

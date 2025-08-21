@@ -13,7 +13,8 @@ class OutOfBoundsExcpetion extends RuntimeException {
     }
 }
 
-public final class SystemDictionary {
+// -- SINGLETON ---
+public class SystemDictionary {
     private static class Nouns {
         List<String> nouns = null;
 
@@ -85,14 +86,20 @@ public final class SystemDictionary {
     private static Nouns nouns;
     private static Verbs verbs;
     private static Adjectives adjectives;
+    private static final SystemDictionary instance = new SystemDictionary();
 
     // Costruttore privato per non permettere di creare oggetti di tipo
     // SystemDictionary
     private SystemDictionary() {
     }
 
+    // per inizializzare un singleton
+    public static SystemDictionary getInstance() {
+        return instance;
+    }
+
     // Si occupa di prendere tre liste e unirle in un unico dizionario di java
-    private static Map<String, List<String>> createDictionary(List<String> noun, List<String> verbs,
+    private Map<String, List<String>> createDictionary(List<String> noun, List<String> verbs,
             List<String> adjectives) {
         Map<String, List<String>> test = new HashMap<>();
         test.put("NOUN", noun);
@@ -104,7 +111,7 @@ public final class SystemDictionary {
 
     // legge le parole di un dizionario interno
     // le salva in una mappa e poi inizializza gli oggetti
-    private static void setupWordDic() throws Exception {
+    private void setupWordDic() throws Exception {
         List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
         StringBuilder sb = new StringBuilder();
         String path = "./src/main/java/com/gmms/resources/dictionary.json";
@@ -141,7 +148,7 @@ public final class SystemDictionary {
         }
     }
 
-    public static void initializeDic() throws Exception {
+    public void initializeDic() throws Exception {
         try {
             setupWordDic();
         } catch (Exception e) {
@@ -150,7 +157,7 @@ public final class SystemDictionary {
     }
 
     // seleziona un sottoinsieme di parola dal dizionario
-    public static Map<String, List<String>> pickDictionaryWords(int[] words) {
+    public Map<String, List<String>> pickDictionaryWords(int[] words) {
         for (int tmp : words) {
             if (tmp < 0)
                 throw new OutOfBoundsExcpetion("ERRORE: L'indice inserito non è valido");

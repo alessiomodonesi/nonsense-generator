@@ -5,12 +5,20 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+// -- SINGLETON ---
 public final class Validator {
-    // Costruttore
+    private static final Validator instance = new Validator();
+
+    // costruttore
     private Validator() {
     }
 
-    public static boolean verifySentence(String input) {
+    // per inizializzare un singleton
+    public static Validator getInstance() {
+        return instance;
+    }
+
+    public boolean verifySentence(String input) {
         // Prima controlliamo che l'input non sia nullo.
         if (input.trim().isEmpty())
             return false;
@@ -20,7 +28,7 @@ public final class Validator {
         return input.matches(".*[a-zA-Z].*");
     }
 
-    public static boolean validateSentenceStructure(SyntacticNode syntacticTree) {
+    public boolean validateSentenceStructure(SyntacticNode syntacticTree) {
         boolean checkSentenceStructure = true;
         if (!checkSentenceStructure) {
             IOController.showValidationError();
@@ -29,13 +37,13 @@ public final class Validator {
         return true;
     }
 
-    public static boolean verifyToxicity(String sentenceDesc) throws Exception {
+    public boolean verifyToxicity(String sentenceDesc) throws Exception {
         String maxName = new String();
         double maxConfidence = 0.0;
         double criticValue = 0.50;
 
         // invocazione della funzione getToxicityAnalysis dalla classe ApiCaller
-        String toxicityAnalysis = ApiCaller.getToxicityAnalysis(sentenceDesc);
+        String toxicityAnalysis = ApiCaller.getInstance().getToxicityAnalysis(sentenceDesc);
         // System.out.println(toxicityAnalysis);
 
         // analizza la stringa JSON e ottieni l'oggetto radice

@@ -56,7 +56,7 @@ public class SentenceGenerator {
     }
 
     private static void getWords() {
-        fillingWords = WordPicker.getWords();
+        fillingWords = WordPicker.getInstance().getWords();
     }
 
     private static void createSentence() {

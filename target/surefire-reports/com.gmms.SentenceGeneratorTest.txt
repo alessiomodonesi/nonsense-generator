@@ -1,10 +1,10 @@
 -------------------------------------------------------------------------------
 Test set: com.gmms.SentenceGeneratorTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.005 s <<< FAILURE! -- in com.gmms.SentenceGeneratorTest
-com.gmms.SentenceGeneratorTest.testGenerateSentenceDesc -- Time elapsed: 0.004 s <<< ERROR!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.008 s <<< FAILURE! -- in com.gmms.SentenceGeneratorTest
+com.gmms.SentenceGeneratorTest.testGenerateSentenceDesc -- Time elapsed: 0.008 s <<< ERROR!
 com.gmms.NoGeneratedWordsException: ERRORE: non sono state generate parole in precedenza
-	at com.gmms.WordPicker.getWords(WordPicker.java:118)
+	at com.gmms.WordPicker.getWords(WordPicker.java:126)
 	at com.gmms.SentenceGenerator.getWords(SentenceGenerator.java:59)
 	at com.gmms.SentenceGenerator.generateSentenceDesc(SentenceGenerator.java:18)
 	at com.gmms.SentenceGeneratorTest.testGenerateSentenceDesc(SentenceGeneratorTest.java:13)

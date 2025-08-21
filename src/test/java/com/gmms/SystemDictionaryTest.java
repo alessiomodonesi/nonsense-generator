@@ -14,7 +14,7 @@ public class SystemDictionaryTest {
     @BeforeAll
     void testSetUpDic() {
         try {
-            SystemDictionary.initializeDic();
+            SystemDictionary.getInstance().initializeDic();
         } catch (Exception e) {
             System.out.println("ERRORE: " + e.getMessage());
         }
@@ -24,15 +24,15 @@ public class SystemDictionaryTest {
     @DisplayName("Verifica la generazione di parole dal dizionario")
     void testWordsPickingBaseCase() {
         int[] wordsQt = new int[] { 3, 10, 10 };
-        SystemDictionary.pickDictionaryWords(wordsQt);
-        assertFalse(SystemDictionary.pickDictionaryWords(wordsQt).isEmpty());
+        SystemDictionary.getInstance().pickDictionaryWords(wordsQt);
+        assertFalse(SystemDictionary.getInstance().pickDictionaryWords(wordsQt).isEmpty());
         OutOfBoundsExcpetion thrown = assertThrows(
                 OutOfBoundsExcpetion.class,
-                () -> SystemDictionary.pickDictionaryWords(new int[] { 0, -1, -1 }),
+                () -> SystemDictionary.getInstance().pickDictionaryWords(new int[] { 0, -1, -1 }),
                 "Expected pickDictionaryWords() to throw, but it didn't");
         assertFalse(thrown.getMessage().isBlank());
 
         @SuppressWarnings("unused")
-        Map<String, List<String>> test = SystemDictionary.pickDictionaryWords(new int[] { 0, 0, 0 });
+        Map<String, List<String>> test = SystemDictionary.getInstance().pickDictionaryWords(new int[] { 0, 0, 0 });
     }
 }

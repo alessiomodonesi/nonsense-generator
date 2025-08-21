@@ -54,14 +54,14 @@ public final class SentenceController {
     }
 
     public static void analysisProcess() throws Exception {
-        Analyzer.analyzeSentence(currentSentence.getSentenceDesc());
+        Analyzer.getInstance().analyzeSentence(currentSentence.getSentenceDesc());
     }
 
     public static boolean validationProcess() {
-        return Validator.validateSentenceStructure(currentSentence.getSentenceTree());
+        return Validator.getInstance().validateSentenceStructure(currentSentence.getSentenceTree());
     }
 
     public static boolean toxicityProcess() throws Exception {
-        return Validator.verifyToxicity(currentSentence.getSentenceDesc());
+        return Validator.getInstance().verifyToxicity(currentSentence.getSentenceDesc());
     }
 }

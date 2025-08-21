@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.gmms.SentenceControllerTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.008 s <<< FAILURE! -- in com.gmms.SentenceControllerTest
-com.gmms.SentenceControllerTest.testSentenceRegeneration -- Time elapsed: 0.003 s <<< FAILURE!
+Tests run: 3, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.003 s <<< FAILURE! -- in com.gmms.SentenceControllerTest
+com.gmms.SentenceControllerTest.testSentenceRegeneration -- Time elapsed: 0.002 s <<< FAILURE!
 org.opentest4j.AssertionFailedError: expected: <input test> but was: < regeneration nonsense test>
 	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)

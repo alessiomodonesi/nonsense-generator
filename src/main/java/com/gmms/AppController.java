@@ -2,16 +2,16 @@ package com.gmms;
 
 import java.util.Arrays;
 
+// -- SINGLETON ---
 public class AppController {
-    private static AppController instance = null;
+    private static final AppController instance = new AppController();
 
+    // costruttore
     private AppController() {
     }
 
     // per inizializzare un singleton
-    public static synchronized AppController getInstance() {
-        if (instance == null)
-            instance = new AppController();
+    public static AppController getInstance() {
         return instance;
     }
 
@@ -43,7 +43,7 @@ public class AppController {
                 try {
                     // --- WORDS EXTRACTION PHASE ---
                     System.out.print("\nParole scelte: ");
-                    WordPicker.startWordsExtraction(controller);
+                    WordPicker.getInstance().startWordsExtraction(controller);
 
                     // --- SENTENCE GENERATION PHASE ---
                     SentenceGenerator.generateSentenceDesc(controller);
@@ -56,7 +56,7 @@ public class AppController {
                 } catch (RetryInputException e) {
                     // RESET AND RESTART
                     SentenceController.resetSentenceState();
-                    WordPicker.resetNumOfRetries();
+                    WordPicker.getInstance().resetNumOfRetries();
                     System.out.println(e.getMessage());
                     backToStart = true;
                     break; // esce dal ciclo interno, ma segna restart
@@ -77,10 +77,10 @@ public class AppController {
         String input;
         do {
             input = IOController.inputSentence();
-            if (!Validator.verifySentence(input)) {
+            if (!Validator.getInstance().verifySentence(input)) {
                 IOController.showInputError();
             }
-        } while (!Validator.verifySentence(input));
+        } while (!Validator.getInstance().verifySentence(input));
         return input;
     }
 
