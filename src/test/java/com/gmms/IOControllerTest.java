@@ -108,10 +108,7 @@ public class IOControllerTest {
         IOController.showToxicityResults("Profanity", 0.233);
         String actualOutput = outContent.toString();
 
-        assertTrue(actualOutput.contains("\nLivello di tossicità della frase generata: "));
-        assertTrue(actualOutput.contains("Profanity"));
-        assertTrue(actualOutput.contains(" = "));
-        assertTrue(actualOutput.contains("0,233"));
+        assertTrue(actualOutput.contains("\nLivello di tossicità della frase generata: Profanity = 0,233"));
     }
 
 }
