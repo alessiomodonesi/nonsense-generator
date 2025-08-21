@@ -19,14 +19,6 @@
         showToxicityResults(toxicityLabel : String, toxicityLevel : double) : void
     }
 
-    class Sentence {
-        sentenceDesc : String
-        syntacticTree : SyntacticNode
-        setSentenceTree(syntacticTree : SyntacticNode) : void
-        getSentenceDesc() : String
-        getSentenceTree() : SyntacticNode
-    }
-
     class SentenceController {
         inputSentence : Sentence
         nonSenseSentence : Sentence
@@ -35,32 +27,29 @@
         createSentence(sentenceDesc : String) : void
         getSyntacticTree() : SyntacticNode
     }
+
+    class SentenceGenerator {
+        sentenceDesc : String
+        fillingWords : Map<String, List<String>>
+        generateSentenceDesc(controller : TemplateController) : void
+    }
     
-    class Validator {
-        verifySentence(input : String) : boolean
-        validateSentenceStructure(syntacticTree : SyntacticNode) : boolean
-        verifyToxicity(sentenceDesc : String) : boolean
+    class Sentence {
+        sentenceDesc : String
+        syntacticTree : SyntacticNode
+        setSentenceTree(syntacticTree : SyntacticNode) : void
+        getSentenceDesc() : String
+        getSentenceTree() : SyntacticNode
     }
 
-    class Analyzer {
-        analyzeSentence(sentenceDesc : String) : void
-        buildSyntacticTree(jsonInput : String) : SyntacticNode
-    }
-
-    class ApiCaller {
-        getSyntaxAnalysis(sentenceDesc : String) : String
-        getToxicityAnalysis(sentenceDesc : String) : String
-        getApiKey() : String
-        makeCall(url : String, payload : String) : String
-    }
-
-    /'GoogleAPI non è realmente una classe del nostro sistema'/
-
-    class Template {
-        templateDesc : String
-        templateWords : int[]
-        combinations : Map<Integer, List<int[]>>
-        create(randomStructure : String) : Template
+    class SyntacticNode {
+        text : String
+        lemma : String
+        partOfSpeech : String
+        dependency : String
+        node : List<SyntacticNode>
+        addChild(child : SyntacticNode, dependency : String) : void
+        printTree(root : String) : void
     }
 
     class TemplateController {
@@ -74,12 +63,68 @@
         generateTemplate() : Template
     }
 
+    class Template {
+        templateDesc : String
+        templateWords : int[]
+        combinations : Map<Integer, List<int[]>>
+        create(randomStructure : String) : Template
+    }
+    
+    class Analyzer {
+        instance : Analyzer
+        getInstance() : Analyzer
+        analyzeSentence(sentenceDesc : String) : void
+        buildSyntacticTree(jsonInput : String) : SyntacticNode
+    }
+
+    class Validator {
+        instance : Validator
+        getInstance() : Validator
+        verifySentence(input : String) : boolean
+        validateSentenceStructure(syntacticTree : SyntacticNode) : boolean
+        verifyToxicity(sentenceDesc : String) : boolean
+    }
+
+    class ApiCaller {
+        instance : ApiCaller
+        getInstance() : ApiCaller
+        getSyntaxAnalysis(sentenceDesc : String) : String
+        getToxicityAnalysis(sentenceDesc : String) : String
+        getApiKey() : String
+        makeCall(url : String, payload : String) : String
+    }
+
+    class WordPicker {
+        instance : WordPicker
+        getInstance() : WordPicker
+        numOfRetries : int
+        generatedWords : Map<String, List<String>>
+        startWordsExtraction(controller : TemplateController) : void
+        pickSentenceWords() : void
+        getWords() : Map<String, List<String>>
+        analyzeSyntacticTree(syntactictree : SyntacticNode) : void
+        loopOnNodes(node : SyntacticNode) : void
+        resetNumOfRetries() : void
+    }
+
     class SentenceStructures {
         structures : File
         dimension : int
         getRandomStructure() : String
     }
-    
+
+    class SystemDictionary {
+        instance : SystemDictionary
+        getInstance() : SystemDictionary
+        nouns : Nouns
+        verbs : Verbs
+        adjectives : Adjectives
+        createDictionary(nouns : List<String>, verbs : List<String>, adjectives : List<String>) : Map<String, List<String>>
+        setupWordDic() : void
+        initializeDic() : void
+        pickDictionaryWords(words : int[]) : Map<String, List<String>>
+    }
+
     class Nouns {
         nouns : List<String>
         getNouns(count : int) : List<String>
@@ -95,42 +140,7 @@
         getAdjectives(count : int) : List<String>
     }
 
-    class SystemDictionary {
-        nouns : Nouns
-        verbs : Verbs
-        adjectives : Adjectives
-        createDictionary(nouns : List<String>, verbs : List<String>, adjectives : List<String>) : Map<String, List<String>>
-        setupWordDic() : void
-        initializeDic() : void
-        pickDictionaryWords(words : int[]) : Map<String, List<String>>
-    }
-    
-    class WordPicker {
-        numOfRetries : int
-        generatedWords : Map<String, List<String>>
-        startWordsExtraction(controller : TemplateController) : void
-        pickSentenceWords() : void
-        getWords() : Map<String, List<String>>
-        analyzeSyntacticTree(syntactictree : SyntacticNode) : void
-        loopOnNodes(node : SyntacticNode) : void
-        resetNumOfRetries() : void
-    }
-
-    class SentenceGenerator {
-        sentenceDesc : String
-        fillingWords : Map<String, List<String>>
-        generateSentenceDesc(controller : TemplateController) : void
-    }
-
-    class SyntacticNode {
-        text : String
-        lemma : String
-        partOfSpeech : String
-        dependency : String
-        node : List<SyntacticNode>
-        addChild(child : SyntacticNode, dependency : String) : void
-        printTree(root : String) : void
-    }
+    '-----------------------------------------------------------------
 
     Nouns -o SystemDictionary
     Verbs -o SystemDictionary
