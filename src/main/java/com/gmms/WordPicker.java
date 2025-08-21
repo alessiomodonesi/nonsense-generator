@@ -1,14 +1,8 @@
 package com.gmms;
 
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Dictionary;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
-// errore Unchecked
+// errore unchecked
 class RetryInputException extends RuntimeException {
     public RetryInputException(String message) {
         super(message);
@@ -26,12 +20,12 @@ public final class WordPicker {
     private static List<String> typesGeneratedWords = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
     private static Map<String, List<String>> generatedWords = null;
     private static Map<String, List<String>> wordsSentence = null;
+    private static Map<String, List<String>> pickedWordsSen = null;
     private static SyntacticNode wordsInput = null;
     private static List<String> tmpForNodes = null;
-    private static Map<String, List<String>> pickedWordsSen = null;
-    private static Integer numOfRetries = -1;
     private static int[] templateWords = null;
     private static int[] count = new int[3];
+    private static int numOfRetries = -1;
 
     private WordPicker() {
     }
@@ -56,7 +50,7 @@ public final class WordPicker {
             dictionaryWords[i] -= pickedWordsSen.get(typesInputSentence.get(i)).size();
         }
 
-        Dictionary<String, List<String>> pickedDictWords = SystemDictionary.pickDictionaryWords(dictionaryWords);
+        Map<String, List<String>> pickedDictWords = SystemDictionary.pickDictionaryWords(dictionaryWords);
 
         for (int i = 0; i < typesInputSentence.size(); i++) {
             List<String> tmp = pickedWordsSen.get(typesInputSentence.get(i));
@@ -125,12 +119,12 @@ public final class WordPicker {
         return generatedWords;
     }
 
-    private static void analyzeSyntacticTree(SyntacticNode tree) {
+    private static void analyzeSyntacticTree(SyntacticNode syntactictree) {
         wordsSentence = new HashMap<String, List<String>>();
         wordsSentence.put("NOUN", new ArrayList<String>());
         wordsSentence.put("VERB", new ArrayList<String>());
         wordsSentence.put("ADJ", new ArrayList<String>());
-        loopOnNodes(tree);
+        loopOnNodes(syntactictree);
     }
 
     private static void loopOnNodes(SyntacticNode node) {

@@ -51,14 +51,14 @@ public class SyntacticNode {
         return partOfSpeech;
     }
 
-    // metodo per stampare l'albero in modo leggibile a partire da questo nodo
-    public String printTree(String indent) {
+    // metodo per stampare l'albero in modo leggibile a partire dal nodo radice
+    public String printTree(String root) {
         StringBuilder sb = new StringBuilder();
-        sb.append(indent);
+        sb.append(root);
         sb.append(text).append(" [").append(partOfSpeech).append(" | ").append(dependencyLabel).append("]");
         sb.append("\n");
         for (SyntacticNode child : node)
-            sb.append(child.printTree(indent + "  "));
+            sb.append(child.printTree(root + "  "));
         return sb.toString();
     }
 

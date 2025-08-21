@@ -7,19 +7,20 @@
     }
 
     class IOController {
+        scanner : Scanner
         inputSentence() : String
         showInputError() : void
         displaySentence(sentenceDesc : String, flag : int) : void
         showValidationError() : void
         showSyntacticTree() : void
         showToxicityError() : void
-        showToxicityResults(toxicityLevel : double) : void
+        showToxicityResults(toxicityLabel : String, toxicityLevel : double) : void
     }
 
     class Sentence {
         sentenceDesc : String
         syntacticTree : SyntacticNode
-        getSentenceTree(syntacticTree : SyntacticNode) : void
+        setSentenceTree(syntacticTree : SyntacticNode) : void
         getSentenceDesc() : String
         getSentenceTree() : SyntacticNode
     }
@@ -27,7 +28,7 @@
     class SentenceProcessor {
         inputSentence : Sentence
         nonSenseSentence : Sentence
-        tempSentence : Sentence
+        currentSentence : Sentence
         state : boolean
         createSentence(sentenceDesc : String) : void
         getSyntacticTree() : SyntacticNode
@@ -35,7 +36,7 @@
     
     class Validator {
         verifySentence(input : String) : boolean
-        validateSentenceStructure(SyntacticNode : <<syntacticTree>>) : boolean
+        validateSentenceStructure(syntacticTree : SyntacticNode) : boolean
         verifyToxicity(sentenceDesc : String) : boolean
     }
 
@@ -45,9 +46,9 @@
     }
 
     class ApiCaller {
-        getApiKey() : String
         getSyntaxAnalysis(sentenceDesc : String) : String
         getToxicityAnalysis(sentenceDesc : String) : String
+        getApiKey() : String
         makeCall(url : String, payload : String) : String
     }
 
@@ -56,6 +57,7 @@
     class Template {
         templateDesc : String
         templateWords : int[]
+        combinations : Map<Integer, List<int[]>>
         create(randomStructure : String) : Template
     }
 
@@ -66,50 +68,49 @@
     }
 
     class TemplateGenerator {
-        SentenceStructures : SentenceStructures
+        s : SentenceStructures
         generateTemplate() : Template
     }
 
     class SentenceStructures {
-        <<structures>> : File
+        structures : File
         getRandomStructure() : String
     }
     
     class Nouns {
         nouns : List<String>
         getNouns(count : int) : List<String>
-        getNounsCount() : int
     }
 
     class Verbs {
         verbs : List<String>
         getVerbs(count : int) : List<String>
-        getVerbsCount() : int
     }
 
     class Adjectives {
         adjectives : List<String>
         getAdjectives(count : int) : List<String>
-        getAdjectivesCount() : int
     }
 
     class SystemDictionary {
         nouns : Nouns
         verbs : Verbs
         adjectives : Adjectives
-        createDictionary(nouns : List<String>, verbs : List<String>, adjectives : List<String>) : Dictionary<K,V>
+        createDictionary(nouns : List<String>, verbs : List<String>, adjectives : List<String>) : Map<String, List<String>>
         setupWordDic() : void
         initializeDic() : void
-        pickDictionaryWords(words : int[]) : Dictionary<K,V>
-        getDictionaryWordsCount() : Map<String, Integer>
+        pickDictionaryWords(words : int[]) : Map<String, List<String>>
     }
     
     class WordPicker {
-        startWordsExtraction(controller : TemplateController, flagRetry : int) : void
-        pickSentenceWords(words : Map<String, List<String>>, qt : int[], flagRetry : int) : Map<String, List<String>>
+        numOfRetries : int
+        generatedWords : Map<String, List<String>>
+        startWordsExtraction(controller : TemplateController) : void
+        pickSentenceWords() : void
         getWords() : Map<String, List<String>>
-        analyzeSyntacticTree(tree : SyntacticNode) : Map<String, List<String>>
-        loopOnNodes (node : SyntacticNode) : void
+        analyzeSyntacticTree(syntactictree : SyntacticNode) : void
+        loopOnNodes(node : SyntacticNode) : void
+        resetNumOfRetries() : void
     }
 
     class SentenceGenerator {
@@ -122,12 +123,13 @@
         text : String
         lemma : String
         partOfSpeech : String
-        dependencyLabel : String
+        dependency : String
         node : List<SyntacticNode>
         addChild(child : SyntacticNode, dependency : String) : void
-        printTree(indent : String) : void
+        printTree(root : String) : void
     }
 
+    /'
     ' --- contenimento e creazione ---
     TemplateGenerator *-- "1" SentenceStructures
     SystemDictionary *-- "1" Nouns
@@ -165,6 +167,7 @@
     Validator ..> ApiCaller
     Validator ..> IOController
     Validator ..> SyntacticNode
+    '/
 
     /'
         Vecchi collegamenti per confronto
@@ -188,5 +191,36 @@
         ApiCaller "1" -- "1" Analyzer
         SyntacticNode "1" -- "1" Analyzer 
     '/
+
+    Nouns -* SystemDictionary
+    Verbs -* SystemDictionary
+    Adjectives -* SystemDictionary
+    SyntacticNode -* Sentence
+    SentenceStructures o- TemplateGenerator
+
+    App "1" -- "1" AppController
+
+    AppController "1" -- "1" IOController
+    AppController "1" -- "1" SentenceProcessor
+    AppController "1" -- "1" SentenceStructures
+    AppController "1" -- "1" TemplateController
+    AppController "1" -- "1" WordPicker
+
+    IOController "1" -- "1" SentenceProcessor
+    IOController "1" -- "1" Validator
+
+    Sentence "*"--"1" SentenceProcessor
+    SentenceProcessor "1" -- "1" SentenceGenerator
+    SentenceProcessor "1" -- "1" Analyzer
+    SentenceProcessor "1" -- "1" Validator
+    Analyzer "1" -- "1" ApiCaller
+    Validator "1" -- "1" ApiCaller
+    
+    Template "1" -- "1" TemplateGenerator
+    TemplateGenerator "1" -- "1" TemplateController
+    TemplateController "1" -- "1" WordPicker
+    
+    WordPicker "1" -- "1" SentenceProcessor
+    WordPicker "1" -- "1" SystemDictionary
 
 @enduml

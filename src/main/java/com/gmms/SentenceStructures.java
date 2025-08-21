@@ -10,9 +10,9 @@ public class SentenceStructures {
     private File structures;
     private int dimension;
 
-    public SentenceStructures() {
+    public SentenceStructures(String path) {
         dimension = 0;
-        this.structures = new File("./src/main/java/com/gmms/resources/SentenceStructures.txt");
+        this.structures = new File(path);
         try {
             Scanner sc = new Scanner(structures);
             while (sc.hasNextLine()) {
@@ -21,7 +21,7 @@ public class SentenceStructures {
             }
             sc.close();
         } catch (FileNotFoundException e) {
-            System.out.println("\nFile SentenceStructures non trovato: " + e);
+            System.err.println("\nFile SentenceStructures non trovato: " + e);
             System.exit(1);
         }
     }
@@ -39,7 +39,7 @@ public class SentenceStructures {
             randomStructure = sc.nextLine();
             sc.close();
         } catch (FileNotFoundException e) {
-            System.out.println("\nFile SentenceStructures non trovato: " + e);
+            System.err.println("\nFile SentenceStructures non trovato: " + e);
             System.exit(1);
         }
         return randomStructure;

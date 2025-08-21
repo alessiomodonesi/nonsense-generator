@@ -1,16 +1,7 @@
 package com.gmms;
 
+import java.util.*;
 import java.io.File;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Hashtable;
-import java.util.Scanner;
-import java.util.Collections;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.HashMap;
-import static java.util.Map.entry;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -40,9 +31,24 @@ public final class SystemDictionary {
             List<String> pickedWords = nouns.subList(0, count);
             return pickedWords;
         }
+    }
 
-        public int getNounsCount() {
-            return nouns.size();
+    private static class Verbs {
+        List<String> verbs = null;
+
+        public Verbs(List<String> words, StringBuilder sb) {
+            verbs = new ArrayList<>(words);
+            Collections.shuffle(verbs);
+            if (verbs.size() > 0)
+                sb.append("Verbo generato: " + verbs.get(0));
+        }
+
+        public List<String> getVerbs(int count) {
+            if (count > verbs.size())
+                count = verbs.size();
+            Collections.shuffle(verbs);
+            List<String> pickedWords = verbs.subList(0, count);
+            return pickedWords;
         }
     }
 
@@ -74,36 +80,6 @@ public final class SystemDictionary {
             List<String> pickedWords = adjectives.subList(0, count);
             return pickedWords;
         }
-
-        // get per ottenere la quantità di aggettivi presenti
-        public int getAdjectivesCount() {
-            if (adjectives == null)
-                return 0;
-            return adjectives.size();
-        }
-    }
-
-    private static class Verbs {
-        List<String> verbs = null;
-
-        public Verbs(List<String> words, StringBuilder sb) {
-            verbs = new ArrayList<>(words);
-            Collections.shuffle(verbs);
-            if (verbs.size() > 0)
-                sb.append("Verbo generato: " + verbs.get(0));
-        }
-
-        public List<String> getVerbs(int count) {
-            if (count > verbs.size())
-                count = verbs.size();
-            Collections.shuffle(verbs);
-            List<String> pickedWords = verbs.subList(0, count);
-            return pickedWords;
-        }
-
-        public int getVerbsCount() {
-            return verbs.size();
-        }
     }
 
     private static Nouns nouns;
@@ -116,9 +92,9 @@ public final class SystemDictionary {
     }
 
     // Si occupa di prendere tre liste e unirle in un unico dizionario di java
-    private static Dictionary<String, List<String>> createDictionary(List<String> noun, List<String> verbs,
+    private static Map<String, List<String>> createDictionary(List<String> noun, List<String> verbs,
             List<String> adjectives) {
-        Dictionary<String, List<String>> test = new Hashtable<>();
+        Map<String, List<String>> test = new HashMap<>();
         test.put("NOUN", noun);
         test.put("VERB", verbs);
         test.put("ADJECTIVE", adjectives);
@@ -174,16 +150,11 @@ public final class SystemDictionary {
     }
 
     // seleziona un sottoinsieme di parola dal dizionario
-    public static Dictionary<String, List<String>> pickDictionaryWords(int[] words) {
+    public static Map<String, List<String>> pickDictionaryWords(int[] words) {
         for (int tmp : words) {
             if (tmp < 0)
                 throw new OutOfBoundsExcpetion("ERRORE: L'indice inserito non è valido");
         }
         return createDictionary(nouns.getNouns(words[0]), verbs.getVerbs(words[1]), adjectives.getAdjectives(words[2]));
-    }
-
-    public static Map<String, Integer> getDictionaryWordsCount() {
-        return new HashMap<String, Integer>(Map.ofEntries(entry("NOUN", nouns.getNounsCount()),
-                entry("VERB", verbs.getVerbsCount()), entry("ADJECTIVE", adjectives.getAdjectivesCount())));
     }
 }

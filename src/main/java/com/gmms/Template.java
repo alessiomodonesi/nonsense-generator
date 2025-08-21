@@ -30,7 +30,6 @@ public class Template {
 
     // costruttore che riceve una struttura di frase casuale e crea un oggetto
     private Template(String randomStructure) {
-
         templateWords = new int[3];
         StringBuilder temporaryTemplate = new StringBuilder(); // template in formazione
         Random rand = new Random();

@@ -8,6 +8,7 @@ public class IOController {
     private IOController(Validator validator, SentenceProcessor sentenceProcessor) {
     }
 
+    // metodo solo per testing
     public static void setScannerForTesting(Scanner newScanner) {
         scanner = newScanner;
     }

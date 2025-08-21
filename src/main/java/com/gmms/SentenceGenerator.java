@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 public class SentenceGenerator {
-
     private static String sentenceDesc;
     private static Map<String, List<String>> fillingWords;
 
