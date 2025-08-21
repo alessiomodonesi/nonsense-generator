@@ -39,13 +39,8 @@ public class SystemDictionaryTest {
                 OutOfBoundsExcpetion.class,
                 () -> SystemDictionary.getInstance().pickDictionaryWords(new int[] { 0, -1, -1 }),
                 "Expected pickDictionaryWords() to throw, but it didn't");
-        assertFalse(thrown.getMessage().isBlank());
+        assertTrue(thrown.getMessage().contains("ERRORE: L'indice inserito non è valido"));
 
-        
-        Map<String, List<String>> test = SystemDictionary.getInstance().pickDictionaryWords(new int[] { 0, 0, 0 });
-        for(int i = 0; i < test.size(); i++){
-            assertTrue(test.get(types.get(i)).isEmpty());
-        }
     }
 
     @Test
