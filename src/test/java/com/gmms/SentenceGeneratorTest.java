@@ -9,8 +9,7 @@ class SentenceGeneratorTest {
     @Test
     @DisplayName("Crea una frase nonsense correttamente")
     void testGenerateSentenceDesc() {
-        TemplateController testController = new TemplateController();
-        SentenceGenerator.getInstance().generateSentenceDesc(testController);
+        SentenceGenerator.getInstance().generateSentence();
         String nonsense = SentenceController.getInstance().getSentenceDesc();
         assertNotNull(nonsense); // o assertThrows(?)
 

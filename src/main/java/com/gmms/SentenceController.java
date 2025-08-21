@@ -48,7 +48,7 @@ public final class SentenceController {
     }
 
     // metodo solo per testing
-    public String generateSentenceDesc() {
+    public String getSentenceDesc() {
         return currentSentence.getSentenceDesc();
     }
 
