@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.List;
 
-public class Template {
+public final class Template {
     // costanti per mappare i tipi di parola a interi
     private static final int NOUN_INDEX = 0;
     private static final int VERB_INDEX = 1;

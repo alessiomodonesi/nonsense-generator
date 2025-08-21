@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Random;
 
-public class SentenceStructures {
+public final class SentenceStructures {
 
     private File structures;
     private int dimension;

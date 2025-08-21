@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.Random;
 
-public class SentenceGenerator {
+public final class SentenceGenerator {
     private static String sentenceDesc;
     private static Map<String, List<String>> fillingWords;
 

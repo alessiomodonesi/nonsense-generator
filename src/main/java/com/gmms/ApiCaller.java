@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.io.IOException;
 
 // -- STATIC ---
-public class ApiCaller {
+public final class ApiCaller {
   // costruttore
   private ApiCaller() {
   }

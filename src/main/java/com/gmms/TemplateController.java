@@ -1,6 +1,6 @@
 package com.gmms;
 
-public class TemplateController {
+public final class TemplateController {
 
     private final Template template; // contiene oggetto Template gestito dal controller
 

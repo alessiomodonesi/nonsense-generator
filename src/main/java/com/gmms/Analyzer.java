@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // -- SINGLETON ---
-public class Analyzer {
+public final class Analyzer {
     private static final Analyzer instance = new Analyzer();
 
     // costruttore

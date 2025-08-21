@@ -2,7 +2,7 @@ package com.gmms;
 
 import java.util.Scanner;
 
-public class IOController {
+public final class IOController {
     private static Scanner scanner = new Scanner(System.in);
 
     private IOController(Validator validator, SentenceController SentenceController) {

@@ -5,7 +5,7 @@ import java.util.List;
 
 // rappresenta un singolo nodo nell'albero sintattico
 // ogni nodo contiene le informazioni del token e una lista dei suoi figli
-public class SyntacticNode {
+public final class SyntacticNode {
     private final String text; // parola contenuta nel nodo
     private final String lemma; // primitiva della parola
     private final String partOfSpeech; // ruolo della parola nella frase

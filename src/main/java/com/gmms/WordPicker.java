@@ -16,7 +16,7 @@ class NoGeneratedWordsException extends RuntimeException {
 }
 
 // -- SINGLETON ---
-public class WordPicker {
+public final class WordPicker {
     private static final WordPicker instance = new WordPicker();
     private List<String> typesInputSentence = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJ"));
     private List<String> typesGeneratedWords = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));

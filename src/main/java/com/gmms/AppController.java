@@ -3,7 +3,7 @@ package com.gmms;
 import java.util.Arrays;
 
 // -- SINGLETON ---
-public class AppController {
+public final class AppController {
     private static final AppController instance = new AppController();
 
     // costruttore

@@ -14,7 +14,7 @@ class OutOfBoundsExcpetion extends RuntimeException {
 }
 
 // -- SINGLETON ---
-public class SystemDictionary {
+public final class SystemDictionary {
     private static class Nouns {
         List<String> nouns = null;
 

@@ -1,6 +1,6 @@
 package com.gmms;
 
-public class Sentence {
+public final class Sentence {
 
     private String sentenceDesc;
     private SyntacticNode syntacticTree;
