@@ -43,7 +43,7 @@ public final class Validator {
         double criticValue = 0.50;
 
         // invocazione della funzione getToxicityAnalysis dalla classe ApiCaller
-        String toxicityAnalysis = ApiCaller.getInstance().getToxicityAnalysis(sentenceDesc);
+        String toxicityAnalysis = ApiCaller.getToxicityAnalysis(sentenceDesc);
         // System.out.println(toxicityAnalysis);
 
         // analizza la stringa JSON e ottieni l'oggetto radice

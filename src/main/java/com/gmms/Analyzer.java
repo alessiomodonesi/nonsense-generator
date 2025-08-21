@@ -37,7 +37,7 @@ public class Analyzer {
     // private record Language(String language) {}
 
     public void analyzeSentence(String sentenceDesc) throws Exception {
-        String jsonData = ApiCaller.getInstance().getSyntaxAnalysis(sentenceDesc); // json in output dall'api
+        String jsonData = ApiCaller.getSyntaxAnalysis(sentenceDesc); // json in output dall'api
         // System.out.println(jsonData);
         SyntacticNode syntacticTree = buildSyntacticTree(jsonData);
         SentenceController.setSentenceTree(syntacticTree);
