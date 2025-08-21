@@ -7,8 +7,6 @@ import java.util.Random;
 // --- SINGLETON ---
 public final class TemplateGenerator {
     private static final TemplateGenerator instance = new TemplateGenerator();
-    private final SentenceStructures s = new SentenceStructures(
-            "./src/main/java/com/gmms/resources/SentenceStructures.txt");
 
     // costanti per mappare i tipi di parola a interi
     private static final int NOUN_INDEX = 0;
@@ -38,7 +36,7 @@ public final class TemplateGenerator {
     }
 
     // genera e restituisce un nuovo oggetto Template
-    public Template generateTemplate() {
+    public Template generateTemplate(SentenceStructures s) {
         // ottiene una struttura di frase casuale da sentenceStructures
         String randomStructure = s.getRandomStructure();
         int[] templateWords = new int[3];

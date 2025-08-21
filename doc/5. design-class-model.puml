@@ -2,9 +2,12 @@
 
     ' STATIC
     class AppController {
+        io : IOController
+        sc : SentenceController
+        tc : TemplateController
+        wp : WordPicker
         start() : void
         getValidSentence() : String
-        createTemplateController() : TemplateController
     }
 
     ' SINGLETON
@@ -25,11 +28,12 @@
     class SentenceController {
         instance : SentenceController
         inputSentence : Sentence
-        nonSenseSentence : Sentence
+        nonsenseSentence : Sentence
         currentSentence : Sentence
         state : boolean
         getInstance() : SentenceController
         createSentence(sentenceDesc : String) : void
+        generateSentence() : void
         getSyntacticTree() : SyntacticNode
     }
 
@@ -39,7 +43,7 @@
         sentenceDesc : String
         fillingWords : Map<String, List<String>>
         getInstance() : SentenceGenerator
-        generateSentenceDesc(controller : TemplateController) : void
+        generateSentenceDesc() : void
     }
     
     class Sentence {
@@ -57,14 +61,16 @@
         dependency : String
         node : List<SyntacticNode>
         addChild(child : SyntacticNode, dependency : String) : void
-        printTree(root : String) : void
+        printTree(root : String) : String
     }
 
     ' SINGLETON
     class TemplateController {
         instance : TemplateController
         template : Template
+        s : SentenceStructures
         getInstance() : TemplateController
+        generateTemplate() : void
         getWordCount() : int[]
         getTemplateDesc() : String
     }
@@ -72,7 +78,7 @@
     ' SINGLETON
     class TemplateGenerator {
         instance : TemplateGenerator
-        s : SentenceStructures
+        combinations : Map<Integer, List<int[]>>
         getInstance() : TemplateGenerator
         generateTemplate() : Template
     }
@@ -80,7 +86,6 @@
     class Template {
         templateDesc : String
         templateWords : int[]
-        combinations : Map<Integer, List<int[]>>
     }
     
     ' STATIC
@@ -110,7 +115,7 @@
         generatedWords : Map<String, List<String>>
         numOfRetries : int
         getInstance() : WordPicker
-        startWordsExtraction(controller : TemplateController) : void
+        startWordsExtraction() : void
         pickSentenceWords() : void
         getWords() : Map<String, List<String>>
         analyzeSyntacticTree(syntactictree : SyntacticNode) : void
@@ -158,36 +163,36 @@
     Verbs -o SystemDictionary
     Adjectives -o SystemDictionary
     SyntacticNode -o Sentence
-    SentenceStructures -o TemplateGenerator
+    SentenceStructures -o TemplateController
 
     ' IOController
-    AppController ..> IOController : gestione i/o 
-    Validator ..> IOController : gestione i/o 
+    AppController "1" --> "1" IOController : gestione i/o 
+    Validator "1" --> "1" IOController : gestione i/o 
 
     ' SentenceController
-    AppController ..> SentenceController : gestione sentence
-    SentenceController "1"--"*" Sentence : gestione istanze
+    AppController "1" --> "1" SentenceController : gestione sentence
+    SentenceController "1" -- "*" Sentence : gestione istanze
     SentenceController "1" -- "1" SentenceGenerator
-    SentenceController ..> SentenceGenerator : createSentence
-    SentenceController ..> Analyzer : analyzeSentence
-    Analyzer ..> ApiCaller : getSyntaxAnalysis
-    SentenceController ..> IOController : displaySentence
-    SentenceController ..> Validator : verifyToxicity
+    SentenceController "1" --> "1" SentenceGenerator : createSentence
+    SentenceController "1" --> "1" Analyzer : analyzeSentence
+    Analyzer "1" --> "1" ApiCaller : getSyntaxAnalysis
+    SentenceController "1" --> "1" IOController : displaySentence
+    SentenceController "1" --> "1" Validator : verifyToxicity
 
     ' TemplateController
-    AppController ..> TemplateController : createTemplateController
+    AppController "1" --> "1" TemplateController : createTemplateController
     TemplateController "1" -- "1" TemplateGenerator
-    TemplateController ..> TemplateGenerator : new TemplateGenerator
-    TemplateGenerator ..> Template : create
-    WordPicker ..> TemplateController : getWordCount
+    TemplateController "1" --> "1" TemplateGenerator : new TemplateGenerator
+    TemplateGenerator "1" --> "1" Template : create
+    WordPicker "1" --> "1" TemplateController : getWordCount
 
     ' WordPicker
-    AppController ..> WordPicker : startWordsExtraction
-    WordPicker ..> SentenceController : getSyntacticTree
-    WordPicker ..> SystemDictionary : pickDictionaryWords
+    AppController "1" --> "1" WordPicker : startWordsExtraction
+    WordPicker "1" --> "1" SentenceController : getSyntacticTree
+    WordPicker "1" --> "1" SystemDictionary : pickDictionaryWords
 
     ' Validator
-    AppController ..> Validator : verifySentence
-    Validator ..> ApiCaller : getToxicityAnalysis
+    AppController "1" --> "1" Validator : verifySentence
+    Validator "1" --> "1" ApiCaller : getToxicityAnalysis
 
 @enduml

@@ -21,7 +21,7 @@ loop Inserimento fino a input valido
 end
 
 Validator -> SentenceController : createSentence(input) 
-SentenceController -> Sentence ++ : create(input)/'costruttore'/
+SentenceController -> Sentence ++ : create(input)
 Sentence --> SentenceController : sentenceDesc
 SentenceController -> IOController : displaySentence(sentenceDesc)
 IOController --> user : sentenceDesc
@@ -84,11 +84,10 @@ participant TemplateGenerator
 participant SentenceStructures
 
 user -> TemplateController : inputProcess
-TemplateController -> TemplateGenerator: generateTemplate()
+TemplateController -> TemplateGenerator: generateTemplate(sentenceStructure)
 TemplateGenerator -> SentenceStructures: getRandomStructure()
 SentenceStructures --> TemplateGenerator: randomStructure
-TemplateGenerator -> Template ++: create(randomStructure)
-Template --> TemplateGenerator: templateDesc,templateWords[]
+TemplateGenerator -> Template ++: create(templateDesc, templateWords[])
 TemplateGenerator --> TemplateController: templateDesc, templateWords[] 
 
 }}
@@ -110,8 +109,8 @@ WordPicker -> TemplateController : getWordCount()
 TemplateController --> WordPicker : templateWords[]
 WordPicker -> SentenceController : getSyntacticTree()
 SentenceController --> WordPicker : syntacticTree
-WordPicker -> WordPicker : pickSentenceWords(senWords[])
-WordPicker -> SystemDictionary : pickDictionaryWords(dicWords[])
+WordPicker -> WordPicker : pickSentenceWords()
+WordPicker -> SystemDictionary : pickDictionaryWords(dictionaryWords[])
 SystemDictionary -> Nouns : getNouns(nounsCount)
 SystemDictionary <-- Nouns : nouns[]
 SystemDictionary -> Verbs : getVerbs(verbsCount)
@@ -129,17 +128,19 @@ WordPicker <-- SystemDictionary : dictionary
 title SentenceGeneration
 
 participant SentenceGenerator
+participant SentenceController
 participant WordPicker
 participant TemplateController
-participant SentenceController
 
-SentenceGenerator -> TemplateController : getTemplateDesc()
+SentenceGenerator -> SentenceController : getTemplateDesc()
+SentenceController -> TemplateController : getTemplateDesc()
 SentenceGenerator <-- TemplateController : templateDesc
-SentenceGenerator -> WordPicker : getWords()
+SentenceGenerator -> SentenceController : getWords()
+SentenceController -> WordPicker : getWords()
 SentenceGenerator <-- WordPicker : words[]
-SentenceGenerator -> SentenceGenerator : generateSentenceDesc(templateDesc,words[])
+SentenceGenerator -> SentenceGenerator : generateSentence()
 SentenceGenerator -> SentenceController : createSentence(sentenceDesc)
-SentenceController -> Sentence ++ : create(sentenceDesc)/'costruttore'/
+SentenceController -> Sentence ++ : create(sentenceDesc)
 SentenceController <-- Sentence : sentenceDesc
 
 }}
@@ -182,7 +183,7 @@ end
 
 end
 
-IOController <- Validator : showToxicityResults(toxicityLevel)
+IOController <- Validator : showToxicityResults(toxicityLabel, toxicityLevel)
 IOController --> user : toxicityResults
 
 }}

@@ -3,6 +3,8 @@ package com.gmms;
 public final class TemplateController {
     private static final TemplateController instance = new TemplateController();
     private Template template; // contiene oggetto Template gestito dal controller
+    private final SentenceStructures s = new SentenceStructures(
+            "./src/main/java/com/gmms/resources/SentenceStructures.txt");
 
     // costruttore
     private TemplateController() {
@@ -15,7 +17,7 @@ public final class TemplateController {
 
     // chiama il generatore per il template
     public void generateTemplate() {
-        template = TemplateGenerator.getInstance().generateTemplate();
+        template = TemplateGenerator.getInstance().generateTemplate(this.s);
     }
 
     // restituisce l'array di interi che rappresenta quanti nomi, verbi e aggettivi
