@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: com.gmms.ApiCallerTest
+Test set: com.gmms.SyntacticNodeTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.856 s -- in com.gmms.ApiCallerTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in com.gmms.SyntacticNodeTest
