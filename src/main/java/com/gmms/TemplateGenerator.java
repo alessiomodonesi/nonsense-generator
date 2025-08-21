@@ -1,7 +1,6 @@
 package com.gmms;
 
 public class TemplateGenerator {
-
     private final SentenceStructures s = new SentenceStructures(
             "./src/main/java/com/gmms/resources/SentenceStructures.txt");
 

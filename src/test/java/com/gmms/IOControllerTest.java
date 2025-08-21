@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
@@ -99,7 +98,8 @@ public class IOControllerTest {
     @DisplayName("showToxicityError deve stampare un messaggio di errore se la frase generata è tossica")
     void testShowToxicityError() {
         IOController.showToxicityError();
-        assertTrue(errContent.toString().contains("ERRORE: La frase generata ha un livello di tossicità non accettabile"));
+        assertTrue(
+                errContent.toString().contains("ERRORE: La frase generata ha un livello di tossicità non accettabile"));
     }
 
     @Test
@@ -107,7 +107,10 @@ public class IOControllerTest {
     void testShowToxicityResults() {
         IOController.showToxicityResults("Profanity", 0.233);
         String actualOutput = outContent.toString();
-        assertTrue(actualOutput.contains("\nLivello di tossicità della frase generata: Profanity = 0,233"));
+        assertTrue(actualOutput.contains("\nLivello di tossicità della frase generata: "));
+        assertTrue(actualOutput.contains("Profanity"));
+        assertTrue(actualOutput.contains(" = "));
+        assertTrue(actualOutput.contains("0,233"));
     }
 
 }

@@ -3,6 +3,18 @@ package com.gmms;
 import java.util.Arrays;
 
 public class AppController {
+    private static AppController instance = null;
+
+    private AppController() {
+    }
+
+    // per inizializzare un singleton
+    public static synchronized AppController getInstance() {
+        if (instance == null)
+            instance = new AppController();
+        return instance;
+    }
+
     public void start() throws Exception {
         String input;
 
