@@ -13,6 +13,12 @@ class OutOfBoundsException extends RuntimeException {
     }
 }
 
+class DictionaryNotInitialized extends RuntimeException{
+    public DictionaryNotInitialized(String m) {
+        super(m);
+    }
+}
+
 // -- SINGLETON ---
 public final class SystemDictionary {
     private static class Nouns {
@@ -82,9 +88,9 @@ public final class SystemDictionary {
         }
     }
 
-    private static Nouns nouns;
-    private static Verbs verbs;
-    private static Adjectives adjectives;
+    private static Nouns nouns = null;
+    private static Verbs verbs = null;
+    private static Adjectives adjectives = null;
     private static final SystemDictionary instance = new SystemDictionary();
 
     // Costruttore privato per non permettere di creare oggetti di tipo
@@ -157,6 +163,9 @@ public final class SystemDictionary {
 
     // seleziona un sottoinsieme di parola dal dizionario
     public Map<String, List<String>> pickDictionaryWords(int[] words) {
+        if(nouns == null || verbs == null || adjectives == null){
+            throw new DictionaryNotInitialized("Il dizionario non e' stato inizializzato");
+        }
         for (int tmp : words) {
             if (tmp < 0)
                 throw new OutOfBoundsException("ERRORE: L'indice inserito non è valido");

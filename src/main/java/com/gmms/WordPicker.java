@@ -153,5 +153,6 @@ public final class WordPicker {
         pickedWordsSen = null;
         count = new int[3];
         numOfRetries = -1;
+        generatedWords = null;
     }
 }
