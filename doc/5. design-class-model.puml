@@ -159,65 +159,65 @@
 
     '-----------------------------------------------------------------
 
+    /' 
+        ' IOController
+        AppController "1" --> "1" IOController : gestione i/o 
+        Validator "1" --> "1" IOController : gestione i/o 
+
+        ' SentenceController
+        AppController "1" --> "1" SentenceController : gestione sentence
+        SentenceController "1" -- "*" Sentence : creazione istanze
+        SentenceController "1" --> "1" SentenceGenerator : generateSentence
+        SentenceController "1" --> "1" Analyzer : analyzeSentence
+        Analyzer "1" --> "1" ApiCaller : getSyntaxAnalysis
+        SentenceController "1" --> "1" IOController : displaySentence
+        SentenceController "1" --> "1" Validator : verifyToxicity
+
+        ' TemplateController
+        AppController "1" --> "1" TemplateController : generateTemplate
+        TemplateController "1" --> "1" TemplateGenerator : generateTemplate
+        TemplateGenerator "1" --> "1" Template : creazione istanze
+        WordPicker "1" --> "1" TemplateController : getWordCount
+
+        ' WordPicker
+        AppController "1" --> "1" WordPicker : startWordsExtraction
+        WordPicker "1" --> "1" SentenceController : getSyntacticTree
+        WordPicker "1" --> "1" SystemDictionary : pickDictionaryWords
+
+        ' Validator
+        AppController "1" --> "1" Validator : verifySentence
+        Validator "1" --> "1" ApiCaller : getToxicityAnalysis
+    '/ 
+
+    AppController "1" <--> "1" IOController : i/o handling
+    AppController "1" <--> "1" SentenceController : sentence handling
+    AppController "1" <--> "1" TemplateController : template handling
+    AppController "1" <--> "1" Validator : validation handling
+
+    SentenceController "1" <-- "1" SentenceGenerator : generates for
+    SentenceController "1" --> "1" SentenceGenerator : provides generation info to
+    SentenceController "1" --> "*" Sentence : manages
+
+    TemplateController "1" <-- "1" TemplateGenerator : generates for
+    TemplateController "1" --> "1" Template : manages
+
+
+    WordPicker "1" --> "1" SystemDictionary : picks words from 
+    WordPicker "1" --> "1" SentenceController : picks sentence words from 
+    'oppure si potrebbe collegare wordPicker a AppController nel grafico
+    WordPicker "1" --> "1" TemplateController : gets template info from 
+    WordPicker "1" <-- "1" SentenceController : gets picked words from 
+
+    Validator "1" --> "1" ApiCaller : calls
+    Validator "1" <-- "1" ApiCaller : provides toxicity analysis to 
+
+    Analyzer "1" --> "1" ApiCaller : calls
+    Analyzer "1" <-- "1" ApiCaller : provides sintax analysis to
+
+    Nouns -o SystemDictionary
+    Verbs -o SystemDictionary
+    Adjectives -o SystemDictionary
+    SyntacticNode -o Sentence
+    SentenceStructures -o TemplateController 
     
-/' 
-    ' IOController
-    AppController "1" --> "1" IOController : gestione i/o 
-    Validator "1" --> "1" IOController : gestione i/o 
-
-    ' SentenceController
-    AppController "1" --> "1" SentenceController : gestione sentence
-    SentenceController "1" -- "*" Sentence : creazione istanze
-    SentenceController "1" --> "1" SentenceGenerator : generateSentence
-    SentenceController "1" --> "1" Analyzer : analyzeSentence
-    Analyzer "1" --> "1" ApiCaller : getSyntaxAnalysis
-    SentenceController "1" --> "1" IOController : displaySentence
-    SentenceController "1" --> "1" Validator : verifyToxicity
-
-    ' TemplateController
-    AppController "1" --> "1" TemplateController : generateTemplate
-    TemplateController "1" --> "1" TemplateGenerator : generateTemplate
-    TemplateGenerator "1" --> "1" Template : creazione istanze
-    WordPicker "1" --> "1" TemplateController : getWordCount
-
-    ' WordPicker
-    AppController "1" --> "1" WordPicker : startWordsExtraction
-    WordPicker "1" --> "1" SentenceController : getSyntacticTree
-    WordPicker "1" --> "1" SystemDictionary : pickDictionaryWords
-
-    ' Validator
-    AppController "1" --> "1" Validator : verifySentence
-    Validator "1" --> "1" ApiCaller : getToxicityAnalysis
- '/
-AppController "1" <--> "1" IOController : i/o handling
-AppController "1" <--> "1" SentenceController : sentence handling
-AppController "1" <--> "1" TemplateController : template handling
-AppController "1" <--> "1" Validator : validation handling
-
-SentenceController "1" <-- "1" SentenceGenerator : generates for
-SentenceController "1" --> "1" SentenceGenerator : provides generation info to
-SentenceController "1" --> "*" Sentence : manages
-
-TemplateController "1" <-- "1" TemplateGenerator : generates for
-TemplateController "1" --> "1" Template : manages
-
-
-WordPicker "1" --> "1" SystemDictionary : picks words from 
-WordPicker "1" --> "1" SentenceController : picks sentence words from 
-'oppure si potrebbe collegare wordPicker a AppController nel grafico
-WordPicker "1" --> "1" TemplateController : gets template info from 
-WordPicker "1" <-- "1" SentenceController : gets picked words from 
-
-Validator "1" --> "1" ApiCaller : calls
-Validator "1" <-- "1" ApiCaller : provides toxicity analysis to 
-
-Analyzer "1" --> "1" ApiCaller : calls
-Analyzer "1" <-- "1" ApiCaller : provides sintax analysis to
-
-Nouns -o SystemDictionary
-Verbs -o SystemDictionary
-Adjectives -o SystemDictionary
-SyntacticNode -o Sentence
-SentenceStructures -o TemplateController 
-'ricordatemi perchè non colleghiamo sentenceStructures a TemplateGenerator
 @enduml
