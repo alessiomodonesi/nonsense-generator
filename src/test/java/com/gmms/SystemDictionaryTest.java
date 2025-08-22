@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,14 +12,21 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SystemDictionaryTest {
     private List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
 
-    @BeforeEach
-    void setUp() {
-        try {
-            SystemDictionary.getInstance().initializeDic();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+    @BeforeAll
+    @Test
+    @DisplayName("Verifica che venga lanciato l'errore se viene richiesto di generare parole senza aver inizializzato il dizionario")
+    static void setUp() {
+        DictionaryNotInitialized dictErr = assertThrows(DictionaryNotInitialized.class, 
+            () -> SystemDictionary.getInstance().pickDictionaryWords(new int[1]),
+            "DictionaryNotInitialized non e' stato lanciato");
+        assertTrue(dictErr.getMessage().contains("ERRORE: Il dizionario non e' stato inizializzato"));
+        try{
+                SystemDictionary.getInstance().initializeDic();
+            }catch(Exception a){
+
         }
     }
+
 
     @Test
     @DisplayName("Verifica la generazione di parole dal dizionario")
@@ -37,7 +44,7 @@ public class SystemDictionaryTest {
                 OutOfBoundsException.class,
                 () -> SystemDictionary.getInstance().pickDictionaryWords(new int[] { 0, -1, -1 }),
                 "Expected pickDictionaryWords() to throw, but it didn't");
-        assertTrue(thrown.getMessage().contains("ERRORE: L'indice inserito non è valido"));
+        assertTrue(thrown.getMessage().contains("ERRORE: Gli indici inseriti non sono validi"));
 
     }
 

@@ -161,14 +161,14 @@ public final class SystemDictionary {
         }
     }
 
-    // seleziona un sottoinsieme di parola dal dizionario
+    // seleziona un sottoinsieme di parole dal dizionario
     public Map<String, List<String>> pickDictionaryWords(int[] words) {
         if(nouns == null || verbs == null || adjectives == null){
-            throw new DictionaryNotInitialized("Il dizionario non e' stato inizializzato");
+            throw new DictionaryNotInitialized("ERRORE: Il dizionario non e' stato inizializzato");
         }
         for (int tmp : words) {
             if (tmp < 0)
-                throw new OutOfBoundsException("ERRORE: L'indice inserito non è valido");
+                throw new OutOfBoundsException("ERRORE: Gli indici inseriti non sono validi");
         }
         return createDictionary(nouns.getNouns(words[0]), verbs.getVerbs(words[1]), adjectives.getAdjectives(words[2]));
     }

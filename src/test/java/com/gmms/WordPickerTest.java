@@ -27,35 +27,44 @@ public class WordPickerTest {
         }
     }
 
+    //per fare in modo che venga resettato lo stato di wordpicker
+    //e per non avere delle parole generate salvate
     @AfterEach
     void reset() {
         WordPicker.getInstance().resetNumOfRetries();
     }
 
+    // --  Test per StartWordsExtraction() --
     @Test
     @DisplayName("Verifica che vengano scelte parole della frase in input durante la generazione delle parole")
     void testStartWordsExtraction() {
         String name = "penna";
-        WordPicker.getInstance().startWordsExtraction();
-        Map<String, List<String>> map = WordPicker.getInstance().getWords();
+        WordPicker.getInstance().startWordsExtraction();// fa generare le parole in base alla frase di test 
+        Map<String, List<String>> map = WordPicker.getInstance().getWords();//ritorna le parole generate
         Set<String> keys = map.keySet();
         for (int i = 0; i < map.size(); i++) {
-            if (keys.iterator().next() == "NOUN")
-                assertTrue(map.get(keys.iterator().next()).contains(name));
+            String tmp = keys.iterator().next();
+            if (tmp == "NOUN")
+                assertTrue(map.get(tmp).contains(name));//controlla che ci sia la parola penna nell'insieme dei noun
         }
     }
 
     @Test
-    @DisplayName("Verifica il lancio dell'errore in caso di non estrazione")
-    void testStartWordsExtractionError() {
-        NoGeneratedWordsException ng = assertThrows(NoGeneratedWordsException.class,
-                () -> WordPicker.getInstance().getWords(),
-                "NoGeneratedWordsException non e' stato lanciato");
-        assertTrue(ng.getMessage().contains("ERRORE: non sono state generate parole in precedenza"));
+    @DisplayName("Verifica che tra le parole generate ce ne deve sempre essere almeno una della frase in input dell'utente")
+    void testRetryInputException() {
+        RetryInputException retryexcept = assertThrows(RetryInputException.class, () -> {
+            while (true) {
+                WordPicker.getInstance().startWordsExtraction();//viene ripetuta la generazione delle parola fino a quando 
+                                                                //tutte le parole della frase in input non sono presenti  
+                                                                //tra le parole estratte
+            }
+        }, "RetryInputException non e' stato lanciato");
+        assertTrue(retryexcept.getMessage().contains("ERRORE: nessuna parola dell'user selezionata"));
     }
 
+    // -- Test per getWords() --
     @Test
-    @DisplayName("Verifica la generazione di parole")
+    @DisplayName("Verifica che vengano restituite le parole dopo che sono state scelte")
     void testGenerationOfRandomWords() {
         WordPicker.getInstance().startWordsExtraction();
         Map<String, List<String>> map = WordPicker.getInstance().getWords();
@@ -66,13 +75,11 @@ public class WordPickerTest {
     }
 
     @Test
-    @DisplayName("Verifica che tra le parole generate ce ne deve sempre essere almeno una della frase in input dell'utente")
-    void testRetryInputException() {
-        RetryInputException retryexcept = assertThrows(RetryInputException.class, () -> {
-            while (true) {
-                WordPicker.getInstance().startWordsExtraction();
-            }
-        }, "RetryInputException non e' stato lanciato");
-        assertTrue(retryexcept.getMessage().contains("ERRORE: nessuna parola dell'user selezionata"));
+    @DisplayName("Verifica se viene lanciato un errore nel caso in cui non sono state generate parole in precedenza")
+    void testStartWordsExtractionError() {
+        NoGeneratedWordsException ng = assertThrows(NoGeneratedWordsException.class,
+                () -> WordPicker.getInstance().getWords(),
+                "NoGeneratedWordsException non e' stato lanciato");
+        assertTrue(ng.getMessage().contains("ERRORE: non sono state generate parole in precedenza"));
     }
 }
