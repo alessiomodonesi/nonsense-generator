@@ -1,13 +1,13 @@
 -------------------------------------------------------------------------------
 Test set: com.gmms.SentenceGeneratorTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.004 s <<< FAILURE! -- in com.gmms.SentenceGeneratorTest
-com.gmms.SentenceGeneratorTest.testGenerateSentenceDesc -- Time elapsed: 0.003 s <<< ERROR!
-java.lang.NullPointerException: Cannot read field "templateDesc" because "this.template" is null
-	at com.gmms.TemplateController.getTemplateDesc(TemplateController.java:31)
-	at com.gmms.SentenceController.getTemplateDesc(SentenceController.java:56)
-	at com.gmms.SentenceGenerator.getTemplateDesc(SentenceGenerator.java:62)
-	at com.gmms.SentenceGenerator.generateSentence(SentenceGenerator.java:24)
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.002 s <<< FAILURE! -- in com.gmms.SentenceGeneratorTest
+com.gmms.SentenceGeneratorTest.testGenerateSentenceDesc -- Time elapsed: 0.002 s <<< ERROR!
+com.gmms.NoGeneratedWordsException: ERRORE: non sono state generate parole in precedenza
+	at com.gmms.WordPicker.getWords(WordPicker.java:126)
+	at com.gmms.SentenceController.getWords(SentenceController.java:47)
+	at com.gmms.SentenceGenerator.getWords(SentenceGenerator.java:66)
+	at com.gmms.SentenceGenerator.generateSentence(SentenceGenerator.java:25)
 	at com.gmms.SentenceGeneratorTest.testGenerateSentenceDesc(SentenceGeneratorTest.java:12)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)

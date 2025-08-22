@@ -7,6 +7,7 @@ com/gmms/SentenceStructuresTest.class
 com/gmms/ValidatorTest.class
 com/gmms/SentenceControllerTest.class
 com/gmms/SystemDictionaryTest.class
+com/gmms/WordPickerTest.class
 com/gmms/ApiCallerTest$1.class
 com/gmms/SyntacticNodeTest.class
 com/gmms/TemplateTest.class

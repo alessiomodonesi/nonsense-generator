@@ -28,7 +28,7 @@ public class WordPickerTest {
     }
 
     @AfterEach
-    void reset(){
+    void reset() {
         WordPicker.getInstance().resetNumOfRetries();
     }
 
@@ -37,20 +37,19 @@ public class WordPickerTest {
     void testStartWordsExtraction() {
         String name = "penna";
         WordPicker.getInstance().startWordsExtraction();
-        Map<String , List<String>> map = WordPicker.getInstance().getWords();
+        Map<String, List<String>> map = WordPicker.getInstance().getWords();
         Set<String> keys = map.keySet();
-        for(int i = 0; i < map.size(); i++){
-            if(keys.iterator().next()== "NOUN")
+        for (int i = 0; i < map.size(); i++) {
+            if (keys.iterator().next() == "NOUN")
                 assertTrue(map.get(keys.iterator().next()).contains(name));
         }
     }
 
-    
     @Test
     @DisplayName("Verifica il lancio dell'errore in caso di non estrazione")
     void testStartWordsExtractionError() {
         NoGeneratedWordsException ng = assertThrows(NoGeneratedWordsException.class,
-                () -> WordPicker.getInstance().getWords(), 
+                () -> WordPicker.getInstance().getWords(),
                 "NoGeneratedWordsException non e' stato lanciato");
         assertTrue(ng.getMessage().contains("ERRORE: non sono state generate parole in precedenza"));
     }
@@ -59,18 +58,18 @@ public class WordPickerTest {
     @DisplayName("Verifica la generazione di parole")
     void testGenerationOfRandomWords() {
         WordPicker.getInstance().startWordsExtraction();
-        Map<String , List<String>> map = WordPicker.getInstance().getWords();
+        Map<String, List<String>> map = WordPicker.getInstance().getWords();
         Set<String> keys = map.keySet();
-        for(int i = 0; i < map.size(); i++){
+        for (int i = 0; i < map.size(); i++) {
             assertFalse(map.get(keys.iterator().next()).isEmpty());
         }
     }
 
     @Test
     @DisplayName("Verifica che tra le parole generate ce ne deve sempre essere almeno una della frase in input dell'utente")
-    void testRetryInputException(){
-        RetryInputException retryexcept = assertThrows(RetryInputException.class, () ->{
-            while(true){
+    void testRetryInputException() {
+        RetryInputException retryexcept = assertThrows(RetryInputException.class, () -> {
+            while (true) {
                 WordPicker.getInstance().startWordsExtraction();
             }
         }, "RetryInputException non e' stato lanciato");
