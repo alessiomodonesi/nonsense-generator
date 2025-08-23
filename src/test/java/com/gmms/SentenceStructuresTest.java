@@ -12,9 +12,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 
-//provo per risolvere l'errore nel testing
 @TestInstance(Lifecycle.PER_CLASS)
-// ok worka
 class SentenceStructuresTest {
     private File tempFile;
 

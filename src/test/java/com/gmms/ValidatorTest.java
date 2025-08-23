@@ -7,7 +7,6 @@ import org.junit.jupiter.api.TestInstance;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ValidatorTest {
 
-    // --- Test per verifySentence() ---
     @Test
     void testVerifySentenceWithValidInput() {
         assertTrue(Validator.verifySentence("Ciao mondo"));
@@ -21,7 +20,6 @@ class ValidatorTest {
         assertFalse(Validator.verifySentence("")); // stringa vuota
     }
 
-    // --- Test per validateSentenceStructure() ---
     @Test
     void testValidateSentenceStructure() {
         SyntacticNode root = new SyntacticNode("Mangio", "mangiare", "VERB");
@@ -33,7 +31,6 @@ class ValidatorTest {
         assertTrue(Validator.validateSentenceStructure(null));
     }
 
-    // --- Test per verifyToxicity() con JSON simulato ---
     @Test
     void testVerifyToxicityNonToxic() throws Exception {
         String json = """
@@ -45,7 +42,7 @@ class ValidatorTest {
                     }
                 """;
 
-        // Simuliamo la chiamata ApiCaller restituendo il JSON fittizio
+        // simuliamo la chiamata ApiCaller restituendo il JSON fittizio
         boolean result = testVerifyToxicityWithJson(json);
         assertTrue(result);
     }
@@ -65,9 +62,9 @@ class ValidatorTest {
         assertFalse(result);
     }
 
-    // --- Metodo helper per simulare verifyToxicity senza ApiCaller ---
+    // metodo helper per simulare verifyToxicity senza ApiCaller
     private boolean testVerifyToxicityWithJson(String json) throws Exception {
-        // Copia della logica di verifyToxicity, senza chiamare ApiCaller
+        // copia della logica di verifyToxicity, senza chiamare ApiCaller
         double maxConfidence = 0.0;
         double criticValue = 0.50;
 

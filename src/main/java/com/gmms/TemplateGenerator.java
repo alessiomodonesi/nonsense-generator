@@ -27,6 +27,7 @@ public final class TemplateGenerator {
                     new int[] { ADJECTIVE_INDEX, NOUN_INDEX, VERB_INDEX },
                     new int[] { ADJECTIVE_INDEX, NOUN_INDEX, ADJECTIVE_INDEX }));
 
+    // costruttore
     private TemplateGenerator() {
     }
 
@@ -55,7 +56,7 @@ public final class TemplateGenerator {
 
             for (int j = 0; j < alternatives.length; j++) {
 
-                // Aggiungi uno spazio se non è il primo elemento
+                // aggiungi uno spazio se non è il primo elemento
                 if (j > 0)
                     temporaryTemplate.append(" ");
 

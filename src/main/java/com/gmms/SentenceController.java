@@ -7,9 +7,7 @@ import java.util.List;
 public final class SentenceController {
     private static final SentenceController instance = new SentenceController();
 
-    @SuppressWarnings("unused")
     private Sentence inputSentence;
-
     @SuppressWarnings("unused")
     private Sentence nonsenseSentence;
 
@@ -69,7 +67,7 @@ public final class SentenceController {
     public void resetSentenceState() {
         state = true;
         // ultima istruzione aggiunta per evitare il failure del test, medito se creare
-        // il metodo updateCurrentSentnce();
+        // il metodo updateCurrentSentence();
         this.currentSentence = this.inputSentence;
     }
 

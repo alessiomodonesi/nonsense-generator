@@ -10,7 +10,7 @@ public final class AppController {
     private static final TemplateController tc = TemplateController.getInstance();
     private static final WordPicker wp = WordPicker.getInstance();
 
-    // costruttore privato
+    // costruttore
     private AppController() {
     }
 
@@ -73,7 +73,7 @@ public final class AppController {
         sc.displayProcess(1);
     }
 
-    // --- Metodi di supporto ---
+    // --- metodi di supporto ---
 
     private static String getValidSentence() {
         String input = new String();

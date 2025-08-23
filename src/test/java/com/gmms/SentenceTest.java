@@ -2,7 +2,6 @@ package com.gmms;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.DisplayName;
 
 class SentenceTest {
@@ -22,7 +21,7 @@ class SentenceTest {
     void testSetAndGetSentenceTree() {
         Sentence sentence = new Sentence("Frase con albero sintattico");
 
-        // Creiamo un mock/fake per SyntacticNode
+        // creiamo un mock/fake per SyntacticNode
         SyntacticNode syntacticNode = new SyntacticNode("studia", "studiare", "ROOT");
         sentence.setSentenceTree(syntacticNode);
 

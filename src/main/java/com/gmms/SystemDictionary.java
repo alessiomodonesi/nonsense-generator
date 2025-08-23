@@ -7,13 +7,15 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+// custom exception
 class OutOfBoundsException extends RuntimeException {
     public OutOfBoundsException(String m) {
         super(m);
     }
 }
 
-class DictionaryNotInitialized extends RuntimeException{
+// custom exception
+class DictionaryNotInitialized extends RuntimeException {
     public DictionaryNotInitialized(String m) {
         super(m);
     }
@@ -21,9 +23,12 @@ class DictionaryNotInitialized extends RuntimeException{
 
 // -- SINGLETON ---
 public final class SystemDictionary {
+    // inner-class
     private static class Nouns {
-        List<String> nouns = null;
+        List<String> nouns = null; // contiene la lista di nomi
 
+        // salva i nomi nella lista e, se words non era vuoto, scrive
+        // un elemento randomico della lista nello stringbuilder
         public Nouns(List<String> words, StringBuilder sb) {
             nouns = new ArrayList<>(words);
             Collections.shuffle(nouns);
@@ -31,6 +36,9 @@ public final class SystemDictionary {
                 sb.append("Nome generato: " + nouns.get(0));
         }
 
+        // ritorna una lista con la quantità richiesta di nomi
+        // se vengono chiesti più nomi di quelli presenti nella lista,
+        // ritorna la lista intera
         public List<String> getNouns(int count) {
             if (count > nouns.size())
                 count = nouns.size();
@@ -40,9 +48,11 @@ public final class SystemDictionary {
         }
     }
 
+    // inner-class
     private static class Verbs {
         List<String> verbs = null;
 
+        // costruttore
         public Verbs(List<String> words, StringBuilder sb) {
             verbs = new ArrayList<>(words);
             Collections.shuffle(verbs);
@@ -59,16 +69,11 @@ public final class SystemDictionary {
         }
     }
 
+    // inner-class
     private static class Adjectives {
-
-        // contiene la lista di aggettivi
         List<String> adjectives = null;
 
-        /*
-         * salva gli aggettivi nella lista e , se words non era vuoto, scrive un
-         * elemento
-         * randomico della lista nello stringbuilder
-         */
+        // costruttore
         public Adjectives(List<String> words, StringBuilder sb) {
             adjectives = new ArrayList<>(words);
             Collections.shuffle(adjectives);
@@ -76,9 +81,6 @@ public final class SystemDictionary {
                 sb.append("Aggettivo generato: " + adjectives.get(0));
         }
 
-        // ritorna una lista con la quantità richiesta di aggettivi
-        // se chiede più aggettivi di quelli presenti nella lista, ritorna la lista
-        // intera
         public List<String> getAdjectives(int count) {
             if (count > adjectives.size())
                 count = adjectives.size();
@@ -93,8 +95,7 @@ public final class SystemDictionary {
     private static Adjectives adjectives = null;
     private static final SystemDictionary instance = new SystemDictionary();
 
-    // Costruttore privato per non permettere di creare oggetti di tipo
-    // SystemDictionary
+    // costruttore
     private SystemDictionary() {
     }
 
@@ -103,7 +104,7 @@ public final class SystemDictionary {
         return instance;
     }
 
-    // Si occupa di prendere tre liste e unirle in un unico dizionario di java
+    // si occupa di prendere tre liste e unirle in un unico dizionario di java
     private Map<String, List<String>> createDictionary(List<String> noun, List<String> verbs,
             List<String> adjectives) {
         Map<String, List<String>> test = new HashMap<>();
@@ -163,7 +164,7 @@ public final class SystemDictionary {
 
     // seleziona un sottoinsieme di parole dal dizionario
     public Map<String, List<String>> pickDictionaryWords(int[] words) {
-        if(nouns == null || verbs == null || adjectives == null){
+        if (nouns == null || verbs == null || adjectives == null) {
             throw new DictionaryNotInitialized("ERRORE: Il dizionario non e' stato inizializzato");
         }
         for (int tmp : words) {

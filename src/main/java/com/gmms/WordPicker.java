@@ -2,21 +2,23 @@ package com.gmms;
 
 import java.util.*;
 
-// errore unchecked
+// custom exception
 class RetryInputException extends RuntimeException {
     public RetryInputException(String message) {
         super(message);
     }
 }
 
+// custom exception
 class NoGeneratedWordsException extends RuntimeException {
     public NoGeneratedWordsException(String message) {
         super(message);
     }
 }
 
-class TemplateNotFillable extends RuntimeException{
-    public TemplateNotFillable(String message){
+// custom exception
+class TemplateNotFillable extends RuntimeException {
+    public TemplateNotFillable(String message) {
         super(message);
     }
 }
@@ -24,6 +26,7 @@ class TemplateNotFillable extends RuntimeException{
 // -- SINGLETON ---
 public final class WordPicker {
     private static final WordPicker instance = new WordPicker();
+    private static final Random rand = new Random();
     private List<String> typesInputSentence = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJ"));
     private List<String> typesGeneratedWords = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
     private Map<String, List<String>> generatedWords = null;
@@ -34,7 +37,7 @@ public final class WordPicker {
     private int[] templateWords = null;
     private int[] count = new int[3];
     private int numOfRetries = -1;
-    private final static Random rand = new Random();
+
     // costruttore
     private WordPicker() {
     }
@@ -69,11 +72,11 @@ public final class WordPicker {
         for (int i = 0; i < typesInputSentence.size(); i++) {
             List<String> tmp = pickedWordsSen.get(typesInputSentence.get(i));
             tmp.addAll(pickedDictWords.get(typesGeneratedWords.get(i)));
-            if(tmp.size() < templateWords[i]){
-                if(tmp.size() == 0){
+            if (tmp.size() < templateWords[i]) {
+                if (tmp.size() == 0) {
                     throw new TemplateNotFillable("ERRORE: non e` possibile riempire il template");
                 }
-                for(int j = 0; tmp.size() < templateWords[i]; j++){
+                for (int j = 0; tmp.size() < templateWords[i]; j++) {
                     // - j per non scegliere tra le parole appena aggiunte
                     tmp.add(tmp.get(rand.nextInt(tmp.size() - j)));
                 }
@@ -91,14 +94,12 @@ public final class WordPicker {
          * y = numero di verbi
          * z = numero di aggettivi
          */
-
         int emptyWordsMap = 0;
         List<String> tmp = new ArrayList<String>();
 
         if (numOfRetries != 0) {
             for (int i = 0; i < typesInputSentence.size(); i++) {
                 tmp = wordsSentence.get(typesInputSentence.get(i));
-
                 count[i] -= 1;
 
                 if (count[i] <= 0) {
@@ -113,7 +114,6 @@ public final class WordPicker {
             for (int i = 0; i < typesInputSentence.size(); i++) {
                 pickedWordsSen.put(typesInputSentence.get(i), new ArrayList<String>());
                 count[i] = ((int) Math.round((((double) templateWords[i]) * 0.75)));
-
                 tmp = wordsSentence.get(typesInputSentence.get(i));
 
                 if (count[i] > tmp.size())

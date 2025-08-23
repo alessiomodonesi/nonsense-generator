@@ -10,6 +10,7 @@ public final class SentenceGenerator {
     private String sentenceDesc;
     private Map<String, List<String>> fillingWords;
 
+    // costruttore
     private SentenceGenerator() {
     }
 
@@ -75,7 +76,7 @@ public final class SentenceGenerator {
         SentenceController.getInstance().createSentence(sentenceDesc);
     }
 
-    // funzioni per il testing
+    // metodi per il testing
     public void setSentenceDesc(String testTemplate) {
         this.sentenceDesc = testTemplate;
     }

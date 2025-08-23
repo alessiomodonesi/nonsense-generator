@@ -9,6 +9,7 @@ public final class SentenceStructures {
     private File structures;
     private int dimension;
 
+    // costruttore
     public SentenceStructures(String path) {
         dimension = 0;
         this.structures = new File(path);

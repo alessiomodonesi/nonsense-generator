@@ -1,7 +1,6 @@
 package com.gmms;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -80,7 +79,7 @@ class SyntacticNodeTest {
     @DisplayName("printTree: se la dependencyLabel è null viene stampato 'null'")
     void printTree_handlesNullDependency() {
         SyntacticNode node = new SyntacticNode("Ciao", "ciao", "INTJ");
-        // Non settiamo la label
+        // non settiamo la label
         String expected = "Ciao [INTJ | null]\n";
         assertEquals(expected, node.toString());
     }

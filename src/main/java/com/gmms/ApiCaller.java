@@ -48,21 +48,21 @@ public final class ApiCaller {
   private static String getApiKey() {
     String apiKey = "";
     try {
-      // Specifica il percorso del file
+      // specifica il percorso del file
       Path filePath = Path.of(".api_key");
 
-      // Leggi il contenuto del file in una stringa
+      // leggi il contenuto del file in una stringa
       apiKey = Files.readString(filePath);
 
-      // Rimuovi eventuali spazi bianchi o interruzioni di riga
+      // rimuovi eventuali spazi bianchi o interruzioni di riga
       apiKey = apiKey.trim();
 
       return apiKey;
 
     } catch (IOException e) {
-      // Gestisci l'errore se il file non viene trovato
+      // gestisci l'errore se il file non viene trovato
       System.err.println("Errore durante la lettura del file della chiave API: " + e.getMessage());
-      return e.toString(); // Termina il programma se la chiave non può essere letta
+      return e.toString(); // termina il programma se la chiave non può essere letta
     }
   }
 
@@ -70,7 +70,7 @@ public final class ApiCaller {
     HttpClient client = HttpClient.newHttpClient();
     HttpRequest request = HttpRequest.newBuilder()
         .uri(URI.create(url))
-        .header("Content-Type", "application/json") // Imposta l'header richiesto per il JSON
+        .header("Content-Type", "application/json") // imposta l'header richiesto per il JSON
         .POST(HttpRequest.BodyPublishers.ofString(
             payload))
         .build();

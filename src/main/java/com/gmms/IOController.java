@@ -7,6 +7,7 @@ public final class IOController {
     private static final IOController instance = new IOController();
     private Scanner scanner = new Scanner(System.in);
 
+    // costruttore
     private IOController() {
     }
 

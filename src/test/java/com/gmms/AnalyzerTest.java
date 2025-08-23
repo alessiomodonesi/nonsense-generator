@@ -1,7 +1,6 @@
 package com.gmms;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class AnalyzerTest {
@@ -42,7 +41,7 @@ class AnalyzerTest {
     assertEquals("NOUN", child.getPartOfSpeech(), "POS del figlio inatteso");
     assertEquals("world", child.getLemma(), "Lemma del figlio inatteso");
 
-    // Check stampa albero (formato generale, non exact match)
+    // check stampa albero (formato generale, non exact match)
     String printed = root.toString();
     assertTrue(printed.contains("Hello [INTJ | ROOT]"));
     assertTrue(printed.contains("world [NOUN | dobj]"));

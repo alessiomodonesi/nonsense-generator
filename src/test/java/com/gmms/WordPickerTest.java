@@ -27,25 +27,24 @@ public class WordPickerTest {
         }
     }
 
-    //per fare in modo che venga resettato lo stato di wordpicker
-    //e per non avere delle parole generate salvate
+    // per fare in modo che venga resettato lo stato di wordpicker
+    // e per non avere delle parole generate salvate
     @AfterEach
     void reset() {
         WordPicker.getInstance().resetNumOfRetries();
     }
 
-    // --  Test per StartWordsExtraction() --
     @Test
     @DisplayName("Verifica che vengano scelte parole della frase in input durante la generazione delle parole")
     void testStartWordsExtraction() {
         String name = "penna";
-        WordPicker.getInstance().startWordsExtraction();// fa generare le parole in base alla frase di test 
-        Map<String, List<String>> map = WordPicker.getInstance().getWords();//ritorna le parole generate
+        WordPicker.getInstance().startWordsExtraction(); // fa generare le parole in base alla frase di test
+        Map<String, List<String>> map = WordPicker.getInstance().getWords(); // ritorna le parole generate
         Set<String> keys = map.keySet();
         for (int i = 0; i < map.size(); i++) {
             String tmp = keys.iterator().next();
             if (tmp == "NOUN")
-                assertTrue(map.get(tmp).contains(name));//controlla che ci sia la parola penna nell'insieme dei noun
+                assertTrue(map.get(tmp).contains(name)); // controlla che ci sia la parola penna nell'insieme dei noun
         }
     }
 
@@ -54,15 +53,15 @@ public class WordPickerTest {
     void testRetryInputException() {
         RetryInputException retryexcept = assertThrows(RetryInputException.class, () -> {
             while (true) {
-                WordPicker.getInstance().startWordsExtraction();//viene ripetuta la generazione delle parola fino a quando 
-                                                                //tutte le parole della frase in input non sono presenti  
-                                                                //tra le parole estratte
+                // viene ripetuta la generazione delle parola fino a quando
+                // tutte le parole della frase in input non sono presenti
+                // tra le parole estratte
+                WordPicker.getInstance().startWordsExtraction();
             }
         }, "RetryInputException non e' stato lanciato");
         assertTrue(retryexcept.getMessage().contains("ERRORE: nessuna parola dell'user selezionata"));
     }
 
-    // -- Test per getWords() --
     @Test
     @DisplayName("Verifica che vengano restituite le parole dopo che sono state scelte")
     void testGenerationOfRandomWords() {

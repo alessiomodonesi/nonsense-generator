@@ -10,8 +10,7 @@ public final class Analyzer {
     private Analyzer() {
     }
 
-    // Classi interne per il mapping del JSON
-    // Queste classi rispecchiano fedelmente la struttura del JSON di input.
+    // classi interne per il mapping del JSON
     private record JsonText(String content, int beginOffset) {
     }
 
@@ -37,9 +36,6 @@ public final class Analyzer {
     // analizza il JSON in output dall'api e restituisce la radice
     public static SyntacticNode buildSyntacticTree(String jsonInput) throws Exception {
         Gson gson = new Gson();
-        // Language lang = gson.fromJson(jsonInput, Language.class);
-        // if (!lang.language.equals("it")) { throw new IOException(); }
-
         SyntaxAnalysis analysis = gson.fromJson(jsonInput, SyntaxAnalysis.class);
         List<Token> parsedTokens = analysis.tokens;
 
