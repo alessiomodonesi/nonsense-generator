@@ -1,6 +1,7 @@
 com/gmms/AnalyzerTest.class
 com/gmms/ApiCallerTest.class
 com/gmms/AppControllerTest.class
+com/gmms/TemplateGeneratorTest.class
 com/gmms/SentenceGeneratorTest.class
 com/gmms/IOControllerTest.class
 com/gmms/SentenceStructuresTest.class
@@ -12,3 +13,5 @@ com/gmms/ApiCallerTest$1.class
 com/gmms/SyntacticNodeTest.class
 com/gmms/TemplateTest.class
 com/gmms/SentenceTest.class
+com/gmms/TemplateControllerTest.class
+com/gmms/TemplateGeneratorTest$FakeSentenceStructures.class
