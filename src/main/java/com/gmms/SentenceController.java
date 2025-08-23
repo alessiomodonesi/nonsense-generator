@@ -6,13 +6,9 @@ import java.util.List;
 // --- SINGLETON ---
 public final class SentenceController {
     private static final SentenceController instance = new SentenceController();
-
     private Sentence inputSentence;
-    @SuppressWarnings("unused")
     private Sentence nonsenseSentence;
-
     private Sentence currentSentence;
-    private boolean state = true;
 
     // costruttore
     private SentenceController() {
@@ -23,14 +19,20 @@ public final class SentenceController {
         return instance;
     }
 
-    public void createSentence(String sentenceDesc) {
-        currentSentence = new Sentence(sentenceDesc);
-        if (state)
-            inputSentence = currentSentence;
-        else
-            nonsenseSentence = currentSentence;
+    // crea una nuova Sentence
+    public void createSentence(String desc) {
+        Sentence s = new Sentence(desc);
 
-        state = false;
+        if (inputSentence == null) {
+            // prima chiamata: è l'input "buono"
+            inputSentence = s;
+            currentSentence = inputSentence;
+            return;
+        }
+
+        // chiamate successive: considerale "nonsense/rigenerate"
+        nonsenseSentence = s;
+        currentSentence = nonsenseSentence;
     }
 
     public void generateSentence() {
@@ -45,30 +47,22 @@ public final class SentenceController {
         return WordPicker.getInstance().getWords();
     }
 
-    // metodo solo per testing
-    public String getSentenceDesc() {
-        return currentSentence.getSentenceDesc();
-    }
-
     public String getTemplateDesc() {
         return TemplateController.getInstance().getTemplateDesc();
     }
 
-    // metodi di supporto non presenti nel design class model (metodi di
-    // SentenceController)
+    // metodi di supporto non presenti nel design class model
 
     public void setSentenceTree(SyntacticNode syntacticTree) {
         // a seconda delle esigenze potrebbe anche solo trattarsi di inputSentence
         currentSentence.setSentenceTree(syntacticTree);
     }
 
-    // resetta la sentence considerata in caso si debba far ripartire la generazione
-    // dall'input utente
+    // torna a puntare alla frase di input
     public void resetSentenceState() {
-        state = true;
-        // ultima istruzione aggiunta per evitare il failure del test, medito se creare
-        // il metodo updateCurrentSentence();
-        this.currentSentence = this.inputSentence;
+        if (inputSentence != null) {
+            currentSentence = inputSentence;
+        }
     }
 
     // chiamate ad altri sottosistemi
@@ -87,5 +81,17 @@ public final class SentenceController {
 
     public boolean toxicityProcess() throws Exception {
         return Validator.verifyToxicity(currentSentence.getSentenceDesc());
+    }
+
+    // metodi solo per testing
+
+    public String getSentenceDesc() {
+        return currentSentence.getSentenceDesc();
+    }
+
+    public void hardResetForTests() {
+        inputSentence = null;
+        nonsenseSentence = null;
+        currentSentence = null;
     }
 }

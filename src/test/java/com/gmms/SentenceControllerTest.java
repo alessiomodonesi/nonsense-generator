@@ -3,8 +3,14 @@ package com.gmms;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
 
 class SentenceControllerTest {
+
+    @BeforeEach
+    void resetController() {
+        SentenceController.getInstance().hardResetForTests();
+    }
 
     @Test
     @DisplayName("Crea un oggetto Sentence correttamente")
@@ -33,5 +39,4 @@ class SentenceControllerTest {
         SentenceController.getInstance().resetSentenceState();
         assertEquals(input, SentenceController.getInstance().getSentenceDesc());
     }
-
 }
