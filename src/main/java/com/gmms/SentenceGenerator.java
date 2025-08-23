@@ -22,7 +22,7 @@ public final class SentenceGenerator {
     // SentenceGenerator)
     public void generateSentence() {
         // modifiche fatte per rendere fattibile il testing
-        if (sentenceDesc != null && !sentenceDesc.contains("template di test")) {
+        if (sentenceDesc == null || !sentenceDesc.contains("template di test")) {
             this.getTemplateDesc();
             this.getWords();
         } else
