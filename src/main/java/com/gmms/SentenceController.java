@@ -68,6 +68,9 @@ public final class SentenceController {
     // dall'input utente
     public void resetSentenceState() {
         state = true;
+        // ultima istruzione aggiunta per evitare il failure del test, medito se creare
+        // il metodo updateCurrentSentnce();
+        this.currentSentence = this.inputSentence;
     }
 
     // chiamate ad altri sottosistemi

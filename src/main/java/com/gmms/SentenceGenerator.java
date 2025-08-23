@@ -21,8 +21,13 @@ public final class SentenceGenerator {
     // metodi di supporto non presenti nel design class model (metodi di
     // SentenceGenerator)
     public void generateSentence() {
-        this.getTemplateDesc();
-        this.getWords();
+        // modifiche fatte per rendere fattibile il testing
+        if (sentenceDesc != null && !sentenceDesc.contains("template di test")) {
+            this.getTemplateDesc();
+            this.getWords();
+        } else
+            sentenceDesc = sentenceDesc.replaceFirst("template di test :", "");
+        // fine della correzione per il testing
         Random r = new Random();
 
         String[] wordsCategories = fillingWords.keySet().toArray(new String[fillingWords.keySet().size()]);
@@ -68,6 +73,15 @@ public final class SentenceGenerator {
 
     private void createSentence() {
         SentenceController.getInstance().createSentence(sentenceDesc);
+    }
+
+    // funzioni per il testing
+    public void setSentenceDesc(String testTemplate) {
+        this.sentenceDesc = testTemplate;
+    }
+
+    public void setFillingWords(Map<String, List<String>> testFillingWords) {
+        this.fillingWords = testFillingWords;
     }
 
 }

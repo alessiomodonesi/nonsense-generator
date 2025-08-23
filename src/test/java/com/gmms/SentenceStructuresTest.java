@@ -4,11 +4,17 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 
+//provo per risolvere l'errore nel testing
+@TestInstance(Lifecycle.PER_CLASS)
+// ok worka
 class SentenceStructuresTest {
     private File tempFile;
 
