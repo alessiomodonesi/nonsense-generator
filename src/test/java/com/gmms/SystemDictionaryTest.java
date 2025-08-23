@@ -64,6 +64,3 @@ try{
         }
     }
 }
-
-
-codice da testare tra qualche ora
