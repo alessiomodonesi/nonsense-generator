@@ -15,6 +15,12 @@ class NoGeneratedWordsException extends RuntimeException {
     }
 }
 
+class TemplateNotFillable extends RuntimeException{
+    public TemplateNotFillable(String message){
+        super(message);
+    }
+}
+
 // -- SINGLETON ---
 public final class WordPicker {
     private static final WordPicker instance = new WordPicker();
@@ -28,7 +34,7 @@ public final class WordPicker {
     private int[] templateWords = null;
     private int[] count = new int[3];
     private int numOfRetries = -1;
-
+    private final static Random rand = new Random();
     // costruttore
     private WordPicker() {
     }
@@ -63,6 +69,15 @@ public final class WordPicker {
         for (int i = 0; i < typesInputSentence.size(); i++) {
             List<String> tmp = pickedWordsSen.get(typesInputSentence.get(i));
             tmp.addAll(pickedDictWords.get(typesGeneratedWords.get(i)));
+            if(tmp.size() < templateWords[i]){
+                if(tmp.size() == 0){
+                    throw new TemplateNotFillable("ERRORE: non e` possibile riempire il template");
+                }
+                for(int j = 0; tmp.size() < templateWords[i]; j++){
+                    // - j per non scegliere tra le parole appena aggiunte
+                    tmp.add(tmp.get(rand.nextInt(tmp.size() - j)));
+                }
+            }
             generatedWords.put(typesGeneratedWords.get(i), tmp);
         }
 
