@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Risultato - GMMS</title>
+    <link rel="stylesheet" href="/app.css" />
+</head>
+
+<body class="bg">
+    <main class="container">
+        <section class="card">
+            <div class="header-row">
+                <h1 class="title">Risultati</h1>
+                <a href="/nonsense" class="btn-ghost">Nuova frase</a>
+            </div>
+
+            <div class="grid">
+                <!-- 1) INPUT -->
+                <div class="panel">
+                    <h2 class="panel-title">Input</h2>
+                    <p class="mono" th:text="${input}">Testo input</p>
+                </div>
+
+                <!-- 2) SYNTACTIC TREE (mostra solo se presente) -->
+                <div class="panel" th:if="${syntacticTree}">
+                    <h2 class="panel-title">Syntactic Tree</h2>
+                    <pre class="pre" th:text="${syntacticTree}">(albero sintattico)</pre>
+                </div>
+
+                <!-- 3) TEMPLATE -->
+                <div class="panel">
+                    <h2 class="panel-title">Template</h2>
+                    <p class="template" th:text="${template}">[template]</p>
+                    <div class="badge-row">
+                        <span class="badge">Parole necessarie:</span>
+                        <span class="chip" th:text="${wordCount}">[1, 2, 3]</span>
+                    </div>
+                </div>
+
+                <!-- 4) TOSSICITÀ -->
+                <div class="panel ok" th:if="${toxicityOk}">
+                    <h2 class="panel-title">Tossicità</h2>
+                    <p class="status-ok">OK - livello accettabile</p>
+                </div>
+                <div class="panel warn" th:if="${!toxicityOk}">
+                    <h2 class="panel-title">Tossicità</h2>
+                    <p class="status-warn">Troppo alta – inserisci una nuova frase.</p>
+                    <a th:href="@{/nonsense(err=${'Tossicità troppo alta, riprova'})}" class="btn-primary">
+                        Torna all'input
+                    </a>
+                </div>
+
+                <!-- 5) FRASE NONSENSE -->
+                <div class="panel">
+                    <h2 class="panel-title">Frase generata (nonsense)</h2>
+                    <blockquote class="quote" th:text="${generatedSentence}">
+                        La penna cade.
+                    </blockquote>
+                </div>
+            </div>
+
+        </section>
+
+        <footer class="footer">
+            <span>GMMS Web UI • Spring Boot + Thymeleaf</span>
+        </footer>
+    </main>
+</body>
+
+</html>

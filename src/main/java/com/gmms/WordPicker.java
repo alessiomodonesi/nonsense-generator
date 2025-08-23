@@ -3,13 +3,6 @@ package com.gmms;
 import java.util.*;
 
 // custom exception
-class RetryInputException extends RuntimeException {
-    public RetryInputException(String message) {
-        super(message);
-    }
-}
-
-// custom exception
 class NoGeneratedWordsException extends RuntimeException {
     public NoGeneratedWordsException(String message) {
         super(message);

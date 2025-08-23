@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>GMMS - NonSense Generator</title>
+    <link rel="stylesheet" href="/app.css" />
+</head>
+
+<body class="bg">
+    <main class="container">
+        <section class="card">
+            <h1 class="title">NonSense Generator</h1>
+            <p class="subtitle">Inserisci una frase di input e scegli se mostrare il Syntactic Tree.</p>
+
+            <div th:if="${error}" class="alert">
+                <span th:text="${error}">Errore</span>
+            </div>
+
+            <form th:action="@{/nonsense/process}" method="post" class="form">
+                <label for="sentence" class="label">Frase in input</label>
+                <textarea id="sentence" name="sentence" class="textarea" rows="4"
+                    placeholder="Scrivi qui la tua frase..." th:text="${form.sentence}"></textarea>
+
+                <label class="switch">
+                    <input type="checkbox" name="showTree" th:checked="${form.showTree}" />
+                    <span>Mostra Syntactic Tree</span>
+                </label>
+
+                <button type="submit" class="btn-primary">Conferma &amp; Genera</button>
+            </form>
+        </section>
+
+        <footer class="footer">
+            <span>GMMS Web UI • Spring Boot + Thymeleaf</span>
+        </footer>
+    </main>
+</body>
+
+</html>
