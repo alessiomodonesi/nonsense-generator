@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,24 +11,22 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SystemDictionaryTest {
     private List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
 
-
-    private void setUp(){
-try{
-                SystemDictionary.getInstance().initializeDic();
-            }catch(Exception e){
+    private void setUp() {
+        try {
+            SystemDictionary.getInstance().initializeDic();
+        } catch (Exception e) {
 
         }
-}
-    
-    @Test
-    @DisplayName("Verifica che venga lanciato l'errore se viene richiesto di generare parole senza aver inizializzato il dizionario")
-    static void testErrorPickDictWords() {
-        DictionaryNotInitialized dictErr = assertThrows(DictionaryNotInitialized.class, 
-            () -> SystemDictionary.getInstance().pickDictionaryWords(new int[1]),
-            "DictionaryNotInitialized non e' stato lanciato");
-        assertTrue(dictErr.getMessage().contains("ERRORE: Il dizionario non e' stato inizializzato"));
     }
 
+    @Test
+    @DisplayName("Verifica che venga lanciato l'errore se viene richiesto di generare parole senza aver inizializzato il dizionario")
+    void testErrorPickDictWords() {
+        DictionaryNotInitialized dictErr = assertThrows(DictionaryNotInitialized.class,
+                () -> SystemDictionary.getInstance().pickDictionaryWords(new int[1]),
+                "DictionaryNotInitialized non e' stato lanciato");
+        assertTrue(dictErr.getMessage().contains("ERRORE: Il dizionario non e' stato inizializzato"));
+    }
 
     @Test
     @DisplayName("Verifica la generazione di parole dal dizionario")
