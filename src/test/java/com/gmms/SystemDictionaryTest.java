@@ -12,25 +12,29 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SystemDictionaryTest {
     private List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
 
-    @BeforeAll
+
+    private void setUp(){
+try{
+                SystemDictionary.getInstance().initializeDic();
+            }catch(Exception e){
+
+        }
+}
+    
     @Test
     @DisplayName("Verifica che venga lanciato l'errore se viene richiesto di generare parole senza aver inizializzato il dizionario")
-    static void setUp() {
+    static void testErrorPickDictWords() {
         DictionaryNotInitialized dictErr = assertThrows(DictionaryNotInitialized.class, 
             () -> SystemDictionary.getInstance().pickDictionaryWords(new int[1]),
             "DictionaryNotInitialized non e' stato lanciato");
         assertTrue(dictErr.getMessage().contains("ERRORE: Il dizionario non e' stato inizializzato"));
-        try{
-                SystemDictionary.getInstance().initializeDic();
-            }catch(Exception a){
-
-        }
     }
 
 
     @Test
     @DisplayName("Verifica la generazione di parole dal dizionario")
     void testWordsPickingBaseCase() {
+        setUp();
         Map<String, List<String>> test = SystemDictionary.getInstance().pickDictionaryWords(new int[] { 3, 10, 10 });
         for (int i = 0; i < test.size(); i++) {
             assertFalse(test.get(types.get(i)).isEmpty());
@@ -40,6 +44,7 @@ public class SystemDictionaryTest {
     @Test
     @DisplayName("Verifica che viene lanciato un errore")
     void testWordsPickingError() {
+        setUp();
         OutOfBoundsException thrown = assertThrows(
                 OutOfBoundsException.class,
                 () -> SystemDictionary.getInstance().pickDictionaryWords(new int[] { 0, -1, -1 }),
@@ -51,6 +56,7 @@ public class SystemDictionaryTest {
     @Test
     @DisplayName("Verifica cosa accade se vengono richiesti troppi elementi")
     void testPickingTooManyWords() {
+        setUp();
         Map<String, List<String>> test = SystemDictionary.getInstance()
                 .pickDictionaryWords(new int[] { 1000, 1000, 1000 });
         for (int i = 0; i < test.size(); i++) {
@@ -58,3 +64,6 @@ public class SystemDictionaryTest {
         }
     }
 }
+
+
+codice da testare tra qualche ora
