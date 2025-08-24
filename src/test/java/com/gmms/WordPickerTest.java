@@ -3,6 +3,7 @@ package com.gmms;
 import java.util.Map;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
@@ -30,14 +31,13 @@ public class WordPickerTest {
             tempFile.deleteOnExit();
             try (FileWriter fw = new FileWriter(tempFile)) {
                 fw.write(json);
-                sd.initializeDic(tempFile.getAbsolutePath());
             } catch (Exception e) {
             }
+            sd.initializeDic(tempFile.getAbsolutePath());
         } catch (Exception e) {
         }
         String inputSentence = "La penna cade";
         try {
-            sd.initializeDic("./src/main/resources/data/Dictionary.json");
             sc.createSentence(inputSentence);
             sc.analysisProcess();
             tc.generateTemplate();
@@ -86,9 +86,10 @@ public class WordPickerTest {
     void testGenerationOfRandomWords() {
         WordPicker.getInstance().startWordsExtraction();
         Map<String, List<String>> map = WordPicker.getInstance().getWords();
-        Set<String> keys = map.keySet();
+        int[] count = tc.getWordCount();
+        String[] types = new String[]{"NOUN", "VERB", "ADJECTIVE"};
         for (int i = 0; i < map.size(); i++) {
-            assertFalse(map.get(keys.iterator().next()).isEmpty());
+            assertTrue(map.get(types[i]).size() == count[i]);
         }
     }
 
