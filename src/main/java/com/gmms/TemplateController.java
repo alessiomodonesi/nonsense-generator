@@ -1,5 +1,6 @@
 package com.gmms;
 
+// --- SINGLETON ---
 public final class TemplateController {
     private static final TemplateController instance = new TemplateController();
     private Template template; // contiene oggetto Template gestito dal controller
@@ -17,7 +18,7 @@ public final class TemplateController {
 
     // chiama il generatore per il template
     public void generateTemplate() {
-        template = TemplateGenerator.getInstance().generateTemplate(this.s);
+        template = TemplateGenerator.getInstance().generateTemplate(s);
     }
 
     // restituisce l'array di interi che rappresenta quanti nomi, verbi e aggettivi
@@ -33,6 +34,6 @@ public final class TemplateController {
 
     // metodo solo per WebController
     public void resetVar() {
-        this.template = null;
+        template = null;
     }
 }

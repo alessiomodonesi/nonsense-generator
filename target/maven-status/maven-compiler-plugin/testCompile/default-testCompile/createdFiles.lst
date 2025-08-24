@@ -1,6 +1,5 @@
 com/gmms/AnalyzerTest.class
 com/gmms/ApiCallerTest.class
-com/gmms/AppControllerTest.class
 com/gmms/TemplateGeneratorTest.class
 com/gmms/SentenceGeneratorTest.class
 com/gmms/IOControllerTest.class

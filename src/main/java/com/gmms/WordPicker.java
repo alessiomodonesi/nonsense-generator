@@ -163,21 +163,22 @@ public final class WordPicker {
     }
 
     public void resetNumOfRetries() {
-        this.generatedWords = null;
-        this.pickedWordsSen = null;
-        this.templateWords = null;
-        this.count = new int[3];
-        this.numOfRetries = -1;
+        generatedWords = null;
+        pickedWordsSen = null;
+        templateWords = null;
+        count = new int[3];
+        numOfRetries = -1;
     }
 
+    // metodo solo per WebController
     public void resetVar() {
-        this.generatedWords = null;
-        this.wordsSentence = null;
-        this.pickedWordsSen = null;
-        this.wordsInput = null;
-        this.tmpForNodes = null;
-        this.templateWords = null;
-        this.count = new int[3];
-        this.numOfRetries = -1;
+        generatedWords = null;
+        wordsSentence = null;
+        pickedWordsSen = null;
+        wordsInput = null;
+        tmpForNodes = null;
+        templateWords = null;
+        count = new int[3];
+        numOfRetries = -1;
     }
 }

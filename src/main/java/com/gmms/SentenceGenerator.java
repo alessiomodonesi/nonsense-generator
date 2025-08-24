@@ -25,8 +25,8 @@ public final class SentenceGenerator {
     public void generateSentence() {
         // modifiche fatte per rendere fattibile il testing
         if (sentenceDesc == null || !sentenceDesc.contains("template di test")) {
-            this.getTemplateDesc();
-            this.getWords();
+            getTemplateDesc();
+            getWords();
         } else
             sentenceDesc = sentenceDesc.replaceFirst("template di test :", "");
         // fine della correzione per il testing
@@ -60,13 +60,13 @@ public final class SentenceGenerator {
             }
             categoryIndex++;
         }
-        this.createSentence();
+        createSentence();
     }
 
     // metodo solo per WebController
     public void resetVar() {
-        this.sentenceDesc = new String();
-        this.fillingWords = new HashMap<>();
+        sentenceDesc = new String();
+        fillingWords = new HashMap<>();
     }
 
     // metodi di supporto non presenti nel design class model (chiamate ad altri
@@ -85,11 +85,11 @@ public final class SentenceGenerator {
 
     // metodi per il testing
     public void setSentenceDesc(String testTemplate) {
-        this.sentenceDesc = testTemplate;
+        sentenceDesc = testTemplate;
     }
 
     public void setFillingWords(Map<String, List<String>> testFillingWords) {
-        this.fillingWords = testFillingWords;
+        fillingWords = testFillingWords;
     }
 
 }

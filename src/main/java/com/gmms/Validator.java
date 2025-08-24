@@ -10,7 +10,7 @@ public final class Validator {
     private static final Validator instance = new Validator();
     private String maxName = new String();
     private double maxConfidence = 0.0;
-    private double criticValue = 0.50;
+    private double criticValue = 0.75;
 
     // costruttore
     private Validator() {
@@ -58,30 +58,30 @@ public final class Validator {
             // estrai il valore di 'confidence' più alto
             String name = categoryObject.get("name").getAsString();
             double confidence = categoryObject.get("confidence").getAsDouble();
-            if (confidence > this.maxConfidence) {
-                this.maxName = name;
-                this.maxConfidence = confidence;
+            if (confidence > maxConfidence) {
+                maxName = name;
+                maxConfidence = confidence;
             }
         }
 
-        if (this.maxConfidence >= this.criticValue) {
+        if (maxConfidence >= criticValue) {
             IOController.getInstance().showToxicityError();
             // System.out.println(maxName + " = " + maxConfidence);
             return false;
         } else {
-            IOController.getInstance().showToxicityResults(this.maxName, this.maxConfidence);
+            IOController.getInstance().showToxicityResults(maxName, maxConfidence);
             return true;
         }
     }
 
     // metodi solo per WebController
     public String getToxicityDetails() {
-        String roundedLevel = String.format("%.3f", this.maxConfidence);
-        return this.maxName + " = " + roundedLevel;
+        String roundedLevel = String.format("%.3f", maxConfidence);
+        return maxName + " = " + roundedLevel;
     }
 
     public void resetVar() {
-        this.maxName = new String();
-        this.maxConfidence = 0.0;
+        maxName = new String();
+        maxConfidence = 0.0;
     }
 }
