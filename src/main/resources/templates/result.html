@@ -20,7 +20,7 @@
                 <!-- INPUT -->
                 <div class="panel">
                     <h2 class="panel-title">Frase da analizzare</h2>
-                    <p class="mono" th:text="${input}"></p>
+                    <blockquote class="quote" th:text="${input}"></blockquote>
                 </div>
 
                 <!-- SYNTACTIC TREE (mostra solo se presente) -->
@@ -35,7 +35,7 @@
                     <p class="template" th:text="${template}"></p>
                     <div class="badge-row">
                         <span class="badge">Parole necessarie:</span>
-                        <span class="chip" th:text="${wordCount}"></span>
+                        <span class="chip chip--count" th:text="${wordCount}"></span>
                     </div>
                 </div>
 
@@ -61,7 +61,6 @@
                     <p class="status-warn">Troppo alta - Inserisci una nuova frase</p>
                     <a th:href="@{/nonsense/retry}" class="btn-primary">Torna all'input</a>
                 </div>
-
 
                 <!-- FRASE NONSENSE -->
                 <div class="panel" th:if="${toxicityOk}">
