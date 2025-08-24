@@ -92,13 +92,22 @@ La versione a riga di comando utilizza la classe `App`.
 
 La versione web utilizza la classe `WebApp` e fornisce un’interfaccia browser.
 
-1. Avvia la webapp con Maven:
+1. Avvio rapido in sviluppo, esegui direttamente con Maven:
 
    ```bash
    mvn spring-boot:run
    ```
 
-   Oppure, dopo il packaging:
+Oppure:
+
+1. Avvio da JAR, prima compila ed impacchetta l’applicazione:
+
+   ```bash
+   mvn -q -DskipTests clean package
+   ```
+
+   Questo comando genera il file `target/nonsense-generator-1.0-SNAPSHOT.jar`
+   A questo punto puoi avviare la WebApp con:
 
    ```bash
    java -jar target/nonsense-generator-1.0-SNAPSHOT.jar
@@ -106,7 +115,7 @@ La versione web utilizza la classe `WebApp` e fornisce un’interfaccia browser.
 
 2. Apri il browser su:
 
-   ```
+   ```bash
    http://localhost:8080/nonsense
    ```
 
