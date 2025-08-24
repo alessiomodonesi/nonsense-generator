@@ -13,9 +13,9 @@ public class SystemDictionaryTest {
 
     private void setUp() {
         try {
-            SystemDictionary.getInstance().initializeDic();
+            SystemDictionary.getInstance().initializeDic(); // crea ed inizializza il dizionario di sistema
         } catch (Exception e) {
-
+            System.err.println("Errore durante l'inizializzazione: " + e.getMessage());
         }
     }
 
@@ -24,8 +24,8 @@ public class SystemDictionaryTest {
     void testErrorPickDictWords() {
         DictionaryNotInitialized dictErr = assertThrows(DictionaryNotInitialized.class,
                 () -> SystemDictionary.getInstance().pickDictionaryWords(new int[1]),
-                "DictionaryNotInitialized non e' stato lanciato");
-        assertTrue(dictErr.getMessage().contains("ERRORE: Il dizionario non e' stato inizializzato"));
+                "DictionaryNotInitialized non è stato lanciato");
+        assertTrue(dictErr.getMessage().contains("ERRORE: Il dizionario non è stato inizializzato"));
     }
 
     @Test

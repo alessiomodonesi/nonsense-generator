@@ -12,9 +12,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class TemplateControllerTest {
-
         private static final Path STRUCTURES_PATH = Path
-                        .of("./src/main/java/com/gmms/resources/SentenceStructures.txt");
+                        .of("./src/main/resources/data/Structures.txt");
 
         @BeforeEach
         void resetSingletonState() throws Exception {
