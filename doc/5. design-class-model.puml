@@ -97,6 +97,9 @@
     ' SINGLETON
     class Validator {
         instance : Validator
+        maxName : String
+        maxConfidence : double
+        criticValue : double
         getInstance() : Validator
         verifySentence(input : String) : boolean
         validateSentenceStructure(syntacticTree : SyntacticNode) : boolean

@@ -58,10 +58,9 @@
                 <div class="panel warn" th:if="${!toxicityOk}">
                     <h2 class="panel-title">Tossicità</h2>
                     <p class="status-warn">Troppo alta - Inserisci una nuova frase</p>
-                    <a th:href="@{/nonsense(err=${'Tossicità troppo alta, riprova'})}" class="btn-primary">
-                        Torna all'input
-                    </a>
+                    <a th:href="@{/nonsense/retry}" class="btn-primary">Torna all'input</a>
                 </div>
+
 
                 <!-- FRASE NONSENSE -->
                 <div class="panel" th:if="${toxicityOk}">

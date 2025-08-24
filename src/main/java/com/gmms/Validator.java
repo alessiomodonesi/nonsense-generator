@@ -10,7 +10,7 @@ public final class Validator {
     private static final Validator instance = new Validator();
     private String maxName = new String();
     private double maxConfidence = 0.0;
-    private double criticValue = 0.50;
+    private double criticValue = 0.75;
 
     // costruttore
     private Validator() {

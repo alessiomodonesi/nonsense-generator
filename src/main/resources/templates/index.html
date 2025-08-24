@@ -9,14 +9,30 @@
 </head>
 
 <body class="bg">
+    <!-- Modal errore -->
+    <div id="errModal" class="modal" th:classappend="${error} ? ' is-open' : ''" role="dialog" aria-modal="true"
+        aria-labelledby="errTitle" aria-hidden="true">
+        <div class="modal__backdrop" data-close="true"></div>
+
+        <div class="modal__dialog" role="document" tabindex="-1">
+            <div class="modal__header">
+                <h2 id="errTitle" class="modal__title">⚠️ Si è verificato un problema</h2>
+                <button type="button" class="modal__close" title="Chiudi" aria-label="Chiudi"
+                    data-close="true">×</button>
+            </div>
+            <div class="modal__body">
+                <p th:text="${error}">Messaggio di errore</p>
+            </div>
+            <div class="modal__footer">
+                <button type="button" class="btn-primary" data-close="true">OK</button>
+            </div>
+        </div>
+    </div>
+
     <main class="container">
         <section class="card">
             <h1 class="title">Generatore non-sense</h1>
             <p class="subtitle">Inserisci una frase di input e scegli se mostrare il Syntactic Tree.</p>
-
-            <div th:if="${error}" class="alert">
-                <span th:text="${error}">Errore</span>
-            </div>
 
             <form th:action="@{/nonsense/process}" method="post" class="form">
                 <label for="sentence" class="label">Frase in input</label>
@@ -38,55 +54,7 @@
             <span>GMMS Web UI • Spring Boot + Thymeleaf</span>
         </footer>
     </main>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.querySelector('form');
-            const btn = document.getElementById('treeToggle');
-            const input = document.getElementById('showTreeInput');
-            const textarea = document.getElementById('sentence');
-
-            // Focus iniziale sulla textarea
-            if (textarea) textarea.focus();
-
-            // Toggle ON/OFF + rimozione focus dal bottone
-            btn.addEventListener('click', () => {
-                const on = btn.getAttribute('aria-pressed') === 'true';
-                btn.setAttribute('aria-pressed', String(!on));
-                input.value = String(!on);
-                btn.querySelector('.toggle-text').textContent = !on
-                    ? 'Syntactic Tree: ON'
-                    : 'Syntactic Tree: OFF';
-                btn.blur(); // evita che Enter successivo ri-attivi il toggle
-            });
-
-            // Il toggle non reagisce a Enter
-            btn.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.keyCode === 13) e.preventDefault();
-            });
-
-            // Nella textarea: Enter invia, Shift+Enter va a capo
-            textarea.addEventListener('keydown', (e) => {
-                if ((e.key === 'Enter' || e.keyCode === 13) && !e.shiftKey) {
-                    e.preventDefault();
-                    form.requestSubmit(); // migliore di form.submit()
-                }
-            });
-
-            // Fallback globale: se premi Enter e NON sei su un bottone, invia il form
-            document.addEventListener('keydown', (e) => {
-                if ((e.key === 'Enter' || e.keyCode === 13) && !e.shiftKey) {
-                    const el = document.activeElement;
-                    const isToggle = el === btn;
-                    const isButton = el && el.tagName === 'BUTTON';
-                    if (!isToggle && !isButton) {
-                        e.preventDefault();
-                        form.requestSubmit();
-                    }
-                }
-            });
-        });
-    </script>
+    <script src="/index.js"></script>
 </body>
 
 </html>

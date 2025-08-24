@@ -4,6 +4,7 @@ import com.gmms.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +26,7 @@ public class WebController {
     }
 
     @PostMapping("/process") // POST /nonsense/process
-    public String process(@ModelAttribute("form") InputForm form, Model model) throws Exception {
+    public String process(@ModelAttribute("form") InputForm form, Model model, RedirectAttributes ra) throws Exception {
         String sentence = form.getSentence() == null ? "" : form.getSentence().trim();
         if (!Validator.getInstance().verifySentence(sentence)) {
             model.addAttribute("error", "Input non valido. Inserisci una frase corretta.");
@@ -76,8 +77,11 @@ public class WebController {
         if (toxicityOk) {
             model.addAttribute("generatedSentence", sc.getSentenceDesc());
             model.addAttribute("toxicityDetails", Validator.getInstance().getToxicityDetails());
-        } else
-            model.addAttribute("generatedSentence", null);
+        } else {
+            ra.addFlashAttribute("error", "Tossicità troppo alta, riprova");
+            return "redirect:/nonsense"; // URL pulito
+        }
+
         return "result";
     }
 
@@ -91,6 +95,13 @@ public class WebController {
     // address: / → redirect alla home /nonsense
     @GetMapping(path = { "/", "" }, params = "redirect")
     public String rootRedirect() {
+        return "redirect:/nonsense";
+    }
+
+    // redirect in caso di tossicità troppo elevata
+    @GetMapping("/retry")
+    public String retry(RedirectAttributes ra) {
+        ra.addFlashAttribute("error", "Tossicità troppo alta, riprova");
         return "redirect:/nonsense";
     }
 

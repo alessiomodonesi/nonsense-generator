@@ -77,7 +77,7 @@ public final class WordPicker {
             generatedWords.put(typesGeneratedWords.get(i), tmp);
         }
 
-        System.out.println("Parole scelte:");
+        System.out.println("\nParole scelte:");
         generatedWords.forEach((pos, words) -> {
             System.out.println(" - " + pos + ": " + String.join(", ", words));
         });
@@ -127,7 +127,10 @@ public final class WordPicker {
             }
         }
         if (emptyWordsMap == 3) {
-            System.out.println(pickedWordsSen);
+            System.out.println("\nParole scelte:");
+            pickedWordsSen.forEach((pos, words) -> {
+                System.out.println(" - " + pos + ": " + String.join(", ", words));
+            });
             throw new RetryInputException("\nERRORE: nessuna parola dell'user selezionata\n");
         }
     }
