@@ -107,6 +107,7 @@ Oppure:
    ```
 
    Questo comando genera il file `target/nonsense-generator-1.0-SNAPSHOT.jar`
+  
    A questo punto puoi avviare la WebApp con:
 
    ```bash
