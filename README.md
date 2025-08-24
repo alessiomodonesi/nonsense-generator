@@ -78,16 +78,10 @@ Il progetto può essere eseguito in due modalità: **CLI** (da terminale) oppure
 
 La versione a riga di comando utilizza la classe `App`.
 
-1. Compila ed impacchetta:
+1. Avvia la CLI con Maven:
 
    ```bash
-   mvn -q -DskipTests clean package
-   ```
-
-2. Avvia la CLI:
-
-   ```bash
-   java -cp target/nonsense-generator-1.0-SNAPSHOT.jar com.gmms.App
+   mvn exec:java -Dexec.mainClass=com.gmms.App
    ```
 
 👉 Verrà richiesto l’input direttamente da terminale.
