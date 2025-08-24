@@ -1,6 +1,8 @@
 package com.gmms;
 
 import java.util.Map;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
@@ -16,9 +18,26 @@ public class WordPickerTest {
 
     @BeforeAll
     static void setUp() {
+        String json = """
+                    {
+                        "NOUN": ["cane", "gatto", "albero"],
+                        "VERB": ["correre", "saltare", "nuotare"],
+                        "ADJECTIVE": ["grande", "veloce", "rosso"]
+                    }
+                """;
+        try {
+            File tempFile = File.createTempFile("dict_test", ".json");
+            tempFile.deleteOnExit();
+            try (FileWriter fw = new FileWriter(tempFile)) {
+                fw.write(json);
+                sd.initializeDic(tempFile.getAbsolutePath());
+            } catch (Exception e) {
+            }
+        } catch (Exception e) {
+        }
         String inputSentence = "La penna cade";
         try {
-            sd.initializeDic();
+            sd.initializeDic("./src/main/resources/data/Dictionary.json");
             sc.createSentence(inputSentence);
             sc.analysisProcess();
             tc.generateTemplate();
@@ -58,7 +77,7 @@ public class WordPickerTest {
                 // tra le parole estratte
                 WordPicker.getInstance().startWordsExtraction();
             }
-        }, "RetryInputException non e' stato lanciato");
+        }, "RetryInputException non è stato lanciato");
         assertTrue(retryexcept.getMessage().contains("ERRORE: nessuna parola dell'user selezionata"));
     }
 
@@ -80,5 +99,33 @@ public class WordPickerTest {
                 () -> WordPicker.getInstance().getWords(),
                 "NoGeneratedWordsException non e' stato lanciato");
         assertTrue(ng.getMessage().contains("ERRORE: non sono state generate parole in precedenza"));
+    }
+
+    @Test
+    @DisplayName("Verifica se viene lanciato l'errore nel caso in cui non riesce a generare abbastanza parole per fillare il template")
+    void testCantFillTemplateError() {
+        sd.reset();
+        String json = """
+                    {
+                        "NOUN": [],
+                        "VERB": [],
+                        "ADJECTIVE": []
+                    }
+                """;
+        try {
+            File tempFile = File.createTempFile("dict_test2", ".json");
+            tempFile.deleteOnExit();
+            try (FileWriter fw = new FileWriter(tempFile)) {
+                fw.write(json);
+                
+            } catch (Exception e) {
+            }
+            sd.initializeDic(tempFile.getAbsolutePath());
+        } catch (Exception e) {
+        }
+
+        TemplateNotFillable tf = assertThrows(TemplateNotFillable.class, () ->
+        WordPicker.getInstance().startWordsExtraction(), "TemplateNotFillable non è stato lanciato");
+        assertTrue(tf.getMessage().contains("ERRORE: non è possibile riempire il template"));
     }
 }

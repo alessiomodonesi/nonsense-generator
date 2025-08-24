@@ -13,7 +13,7 @@ public class WebApp {
     @PostConstruct
     public void initDictionary() {
         try {
-            SystemDictionary.getInstance().initializeDic(); // crea ed inizializza il dizionario di sistema
+            SystemDictionary.getInstance().initializeDic("./src/main/resources/data/Dictionary.json"); // crea ed inizializza il dizionario di sistema
         } catch (Exception e) {
             System.err.println("Errore durante l'inizializzazione: " + e.getMessage());
         }

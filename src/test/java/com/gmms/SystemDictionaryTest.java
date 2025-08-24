@@ -1,5 +1,7 @@
 package com.gmms;
 
+import java.io.FileWriter;
+import java.io.File;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +12,53 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SystemDictionaryTest {
     private List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
+    // Percorso reale del file usato dalla tua classe
+
+    @Test
+    @DisplayName("Verifica eccezione se manca un campo nel JSON (VERB)")
+    void testJsonMissingField() throws Exception {
+        // Crea un file temporaneo
+        File tempJsonFile = File.createTempFile("test_dict", ".json");
+        tempJsonFile.deleteOnExit(); // Lo rimuove automaticamente al termine del test
+
+        // Scrivi un JSON malformato dato che mancano i verbi
+        String malformedJson = """
+                    {
+                        "NOUN": ["cane", "gatto"],
+                        "ADJECTIVE": ["grande", "veloce"]
+                    }
+                """;
+
+        try (FileWriter fw = new FileWriter(tempJsonFile)) {
+            fw.write(malformedJson);
+        }
+
+        // Verifica che l'eccezione venga lanciata
+        assertThrows(OutOfBoundsException.class, () -> {
+            SystemDictionary.getInstance().initializeDic(tempJsonFile.getAbsolutePath());
+        });
+    }
+
+    private File createTempDictionaryFile(String jsonContent) throws Exception {
+        File tempFile = File.createTempFile("dict_test", ".json");
+        tempFile.deleteOnExit();
+        try (FileWriter fw = new FileWriter(tempFile)) {
+            fw.write(jsonContent);
+        }
+        return tempFile;
+    }
 
     private void setUp() {
+        String json = """
+                    {
+                        "NOUN": ["cane", "gatto", "albero"],
+                        "VERB": ["correre", "saltare", "nuotare"],
+                        "ADJECTIVE": ["grande", "veloce", "rosso"]
+                    }
+                """;
+        SystemDictionary.getInstance().reset();
         try {
-            SystemDictionary.getInstance().initializeDic(); // crea ed inizializza il dizionario di sistema
+            SystemDictionary.getInstance().initializeDic(createTempDictionaryFile(json).getAbsolutePath()); // crea ed inizializza il dizionario di sistema
         } catch (Exception e) {
             System.err.println("Errore durante l'inizializzazione: " + e.getMessage());
         }
@@ -32,9 +77,9 @@ public class SystemDictionaryTest {
     @DisplayName("Verifica la generazione di parole dal dizionario")
     void testWordsPickingBaseCase() {
         setUp();
-        Map<String, List<String>> test = SystemDictionary.getInstance().pickDictionaryWords(new int[] { 3, 10, 10 });
+        Map<String, List<String>> test = SystemDictionary.getInstance().pickDictionaryWords(new int[] { 2,2,2 });
         for (int i = 0; i < test.size(); i++) {
-            assertFalse(test.get(types.get(i)).isEmpty());
+            assertTrue(test.get(types.get(i)).size() == 2);
         }
     }
 
@@ -45,7 +90,7 @@ public class SystemDictionaryTest {
         OutOfBoundsException thrown = assertThrows(
                 OutOfBoundsException.class,
                 () -> SystemDictionary.getInstance().pickDictionaryWords(new int[] { 0, -1, -1 }),
-                "Expected pickDictionaryWords() to throw, but it didn't");
+                "pickDictionaryWords non è stato lanciato");
         assertTrue(thrown.getMessage().contains("ERRORE: Gli indici inseriti non sono validi"));
 
     }

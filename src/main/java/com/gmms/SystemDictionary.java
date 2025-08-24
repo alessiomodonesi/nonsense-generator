@@ -1,6 +1,7 @@
 package com.gmms;
 
 import java.util.*;
+
 import java.io.File;
 
 import com.google.gson.JsonArray;
@@ -117,10 +118,9 @@ public final class SystemDictionary {
 
     // legge le parole di un dizionario interno
     // le salva in una mappa e poi inizializza gli oggetti
-    private void setupWordDic() throws Exception {
+    private void setupWordDic(String path) throws Exception {
         List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
         StringBuilder sb = new StringBuilder();
-        String path = "./src/main/resources/data/Dictionary.json";
         JsonObject json = null;
         String text = "";
         try {
@@ -133,11 +133,8 @@ public final class SystemDictionary {
             Map<String, List<String>> wordsJson = new HashMap<String, List<String>>();
             JsonArray arr = null;
             for (int i = 0; i < types.size(); i++) {
-                try {
-                    arr = json.getAsJsonArray(types.get(i));
-                } catch (Exception e) {
-                    throw new OutOfBoundsException("Non esiste il campo " + types.get(i) + " nel json");
-                }
+                arr = json.getAsJsonArray(types.get(i));
+                if(arr == null)throw new OutOfBoundsException("Non esiste il campo " + types.get(i) + " nel json");
                 List<String> tmp = new ArrayList<String>();
                 for (int j = 0; j < arr.size(); j++) {
                     tmp.add(arr.get(j).getAsString());
@@ -154,9 +151,9 @@ public final class SystemDictionary {
         }
     }
 
-    public void initializeDic() throws Exception {
+    public void initializeDic(String path) throws Exception {
         try {
-            setupWordDic();
+            setupWordDic(path);
         } catch (Exception e) {
             throw e;
         }
@@ -172,5 +169,12 @@ public final class SystemDictionary {
                 throw new OutOfBoundsException("ERRORE: Gli indici inseriti non sono validi");
         }
         return createDictionary(nouns.getNouns(words[0]), verbs.getVerbs(words[1]), adjectives.getAdjectives(words[2]));
+    }
+
+    //per testing
+    public void reset(){
+        nouns = null;
+        verbs = null;
+        adjectives = null;
     }
 }
