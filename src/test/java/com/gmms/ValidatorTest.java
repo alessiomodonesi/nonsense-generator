@@ -4,29 +4,31 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ValidatorTest {
+    // alias per il singleton
+    private static final Validator va = Validator.getInstance();
 
     @Test
     void testVerifySentenceWithValidInput() {
-        assertTrue(Validator.getInstance().verifySentence("Ciao mondo"));
-        assertTrue(Validator.getInstance().verifySentence("Hello123"));
+        assertTrue(va.verifySentence("Ciao mondo"));
+        assertTrue(va.verifySentence("Hello123"));
     }
 
     @Test
     void testVerifySentenceWithInvalidInput() {
-        assertFalse(Validator.getInstance().verifySentence("     ")); // solo spazi
-        assertFalse(Validator.getInstance().verifySentence("123456")); // numeri senza lettere
-        assertFalse(Validator.getInstance().verifySentence("")); // stringa vuota
+        assertFalse(va.verifySentence("     ")); // solo spazi
+        assertFalse(va.verifySentence("123456")); // numeri senza lettere
+        assertFalse(va.verifySentence("")); // stringa vuota
     }
 
     @Test
     void testValidateSentenceStructure() {
         SyntacticNode root = new SyntacticNode("Mangio", "mangiare", "VERB");
-        assertTrue(Validator.getInstance().validateSentenceStructure(root));
+        assertTrue(va.validateSentenceStructure(root));
     }
 
     @Test
     void testValidateSentenceStructureWithNull() {
-        assertTrue(Validator.getInstance().validateSentenceStructure(null));
+        assertTrue(va.validateSentenceStructure(null));
     }
 
     @Test
