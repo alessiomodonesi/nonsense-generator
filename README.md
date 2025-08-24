@@ -1,30 +1,143 @@
 # nonsense-generator
 
-`nonsense-generator` è un generatore di frasi casuali. Partendo da un input testuale fornito dall'utente, l'applicazione genera una frase casuale seguendo una logica di elaborazione interna. Combina parole estratte dalla frase fornita in input e da un dizionario con template generati randomicamente a partire da SentencesStructures predefinite. L'applicazione sfrutta le funzionalità delle API Google Cloud Natural Language "analyzeSyntax" e "moderateText" per analizzare la sintassi della frasi in input e validare la tossicità della frase nonsense generata.
+`nonsense-generator` è un generatore di frasi casuali.  
+Partendo da un input testuale fornito dall'utente, l'applicazione genera una frase nonsense seguendo una logica di elaborazione interna.  
+Combina parole estratte dalla frase fornita in input e da un dizionario con template generati randomicamente a partire da `SentenceStructures` predefinite.  
 
-## Utilizzo
+L'applicazione sfrutta le API **Google Cloud Natural Language**:
 
-1. **Inserimento della frase**: all'avvio dell'app viene chiesto all'utente di inserire una frase. Se l'utente inserisce una stringa vuota o non contenente lettere, gli viene chiesto di inserire nuovamente una frase come input.
-2. **Analisi della frase**: l'app analizza la frase in input dal punto di vista sintattico e ne ricava il rispettivo albero, che può essere mostrato se l'utente lo richiede.
-3. **Generazione del Template**: l'app, a partire da un ampio insieme di sentence structures, del tipo "Il %s il %s in un %s e %s.", genera un template. I segnaposti generici "%s" vengono sostituiti con segnaposti specifici per nomi, verbi e aggettivi inserendo randomicamente 1, 2 o 3 componenti grammaticali secondo una logica associativa grammaticalmente corretta. Il template ottenuto avrà quindi questa forma: "Il [NOUN] [ADJECTIVE] il [VERB] in un [NOUN] [VERB] e [NOUN]".
-4. **Scelta delle parole**: una volta che il template è stato generato, l'app prepara una combinazione di parole estratte dalla frase originale, data in input dall'utente, e parole selezionate a caso da un dizionario interno all'app.
-5. **Generazione della frase nonsense**: l'app inserisce le parole appena estratte all'interno del template, sostituendole ai rispettivi segnaposti che ne indicano la tipologia.
-6. **Validazione della tossicità**: una volta che la frase nonsense è stata generata, l'app ne analizza la tossicità. Qualora venga registrata una tossicità troppo elevata, l'app tenta di ri-generare una nuova frase diminuendo man mano le parole selezionate dalla frase in input. Tuttavia, se si dovesse arrivare al punto in cui la frase in output presenti solamente parole estratte dal dizionario, l'app chiederebbe all'utente di re-inserire una nuova frase. Questo assicura che nella frase nonsense sia sempre presente almeno un termine della frase in input.
+- `analyzeSyntax` → analizza la sintassi della frase in input e costruisce l’albero sintattico.
+- `moderateText` → valida la tossicità della frase nonsense generata.
 
-## Manuale di installazione
+---
 
-Per compilare ed eseguire il progetto è necessario avere un ambiente di sviluppo Java correttamente configurato.
+## Funzionamento (logica interna)
 
-### 1. Prerequisiti
+1. **Inserimento della frase**  
+   L’utente inserisce una frase. Se la frase è vuota o non contiene lettere, viene richiesto un nuovo input.
+2. **Analisi sintattica**  
+   L’app analizza la frase e ricava l’albero sintattico (opzionale a scelta dell’utente).
+3. **Generazione del template**  
+   Da un insieme di `SentenceStructures` (es. `"Il %s il %s in un %s e %s."`), l’app genera un template con placeholder grammaticali (`[NOUN]`, `[VERB]`, `[ADJ]`).
+4. **Selezione parole**  
+   Il template viene riempito con parole tratte sia dall’input sia dal dizionario interno.
+5. **Generazione nonsense**  
+   Il template completato diventa una frase nonsense.
+6. **Validazione tossicità**  
+   Se la frase generata è troppo tossica, l’app prova a rigenerarla riducendo progressivamente i termini dell’input.  
+   Se restano solo parole di dizionario, viene richiesto un nuovo input.
 
-- **Java Development Kit (JDK)**: è richiesta la versione 21 o superiore. Verificare la versione tramite la riga di comando "java --version".
-- **Apache Maven**: il progetto utilizza Maven per l'esecuzione. Verificare tramite "mvn --version" che la versione sia 3.11 o superiore.
-- **Git**: è necessario per clonare la repository del progetto.
-- **API Key di Google Cloud**: è necessario possedere una chiave API valida per i servizi di Natural Language.
-- **Connessione internet**: è richiesta una connessione internet per permettere all'applicazione di comunicare con le API di Google Cloud.
+---
 
-### 2. Procedura di esecuzione
+## Requisiti
 
-- **Clonare la repository**: "git clone <https://github.com/alessiomodonesi/nonsense-generator.git">.
-- **Configurare la chiave API**: spostarsi nella cartella Root del progetto clonato, creare un file di testo chiamato ".api_key" ed inserire al suo interno la propria chiave API di Google Cloud.
-- **Compilare ed eseguire il programma**: il file "pom.xml" è già configurato per eseguire l'applicazione tramite il plugin "exec-maven-plugin". Per fare ciò, dal terminale bisogna sportarsi nella cartella Root del progetto e lanciare i comandi "mvn clean install" e "mvn compile exec:java". Quest'ultimo comando si occuperà di scaricare tutte le dipendenze necessarie, compilare il codice sorgente e avviare l'applicazione.
+- **Java Development Kit (JDK)**: versione **21** o superiore  
+  Verifica con:
+
+  ```bash
+  java --version
+  ```
+
+- **Apache Maven**: versione **3.11+**  
+  Verifica con:
+
+  ```bash
+  mvn --version
+  ```
+
+- **Git**: per clonare la repository.
+- **API Key di Google Cloud**: necessaria per i servizi *Natural Language*.
+- **Connessione Internet**: indispensabile per l’uso delle API.
+
+---
+
+## Installazione
+
+Clona la repository ed entra nella cartella:
+
+```bash
+git clone https://github.com/alessiomodonesi/nonsense-generator.git
+cd nonsense-generator
+```
+
+Configura la tua API Key creando un file `.api_key` nella root del progetto:
+
+```bash
+echo "LA_TUA_API_KEY" > .api_key
+```
+
+---
+
+## Esecuzione
+
+Il progetto può essere eseguito in due modalità: **CLI** (da terminale) oppure **WebApp** (interfaccia web con Spring Boot + Thymeleaf).
+
+---
+
+### 🔹 Modalità CLI (terminale)
+
+La versione a riga di comando utilizza la classe `App`.
+
+1. Compila ed impacchetta:
+
+   ```bash
+   mvn -q -DskipTests clean package
+   ```
+
+2. Avvia la CLI:
+
+   ```bash
+   java -cp target/nonsense-generator-1.0-SNAPSHOT.jar com.gmms.App
+   ```
+
+👉 Verrà richiesto l’input direttamente da terminale.
+
+---
+
+### 🔹 Modalità WebApp (Spring Boot)
+
+La versione web utilizza la classe `WebApp` e fornisce un’interfaccia browser.
+
+1. Avvia la webapp con Maven:
+
+   ```bash
+   mvn spring-boot:run
+   ```
+
+   Oppure, dopo il packaging:
+
+   ```bash
+   java -jar target/nonsense-generator-1.0-SNAPSHOT.jar
+   ```
+
+2. Apri il browser su:
+
+   ```
+   http://localhost:8080/nonsense
+   ```
+
+3. Dall’interfaccia potrai:
+   - inserire la frase in input
+   - decidere se mostrare il Syntactic Tree
+   - visualizzare template, parole selezionate, tossicità e frase nonsense.
+
+---
+
+## Dipendenze principali
+
+Dal file `pom.xml`:
+
+- **Spring Boot Starter Web** → server web embedded (Tomcat).
+- **Spring Boot Starter Thymeleaf** → template engine per le viste HTML.
+- **Spring Boot Starter Validation** → validazione degli input.
+- **Google Cloud Language API** → analisi sintattica e moderazione testo.
+- **Gson** → serializzazione/deserializzazione JSON.
+- **JUnit Jupiter** → per i test unitari.
+
+---
+
+## Note finali
+
+- È consigliato eseguire la WebApp direttamente con `java -jar` per evitare i warning di Maven.  
+- Durante lo sviluppo puoi usare `mvn spring-boot:run` per sfruttare l’hot-reload.  
+- La modalità CLI resta utile per debug o ambienti senza interfaccia grafica.
