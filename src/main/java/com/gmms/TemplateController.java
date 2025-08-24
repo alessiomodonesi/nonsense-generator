@@ -4,7 +4,7 @@ public final class TemplateController {
     private static final TemplateController instance = new TemplateController();
     private Template template; // contiene oggetto Template gestito dal controller
     private final SentenceStructures s = new SentenceStructures(
-            "./src/main/resources/SentenceStructures.txt");
+            "./src/main/resources/data/Structures.txt");
 
     // costruttore
     private TemplateController() {

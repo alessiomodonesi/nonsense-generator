@@ -48,7 +48,6 @@ public class WebController {
             model.addAttribute("syntacticTree", sc.getSyntacticTree());
 
         model.addAttribute("showTree", form.isShowTree());
-
         tc.generateTemplate();
         model.addAttribute("template", tc.getTemplateDesc());
         model.addAttribute("wordCount", Arrays.toString(tc.getWordCount()));
@@ -78,18 +77,18 @@ public class WebController {
             model.addAttribute("generatedSentence", sc.getSentenceDesc());
             model.addAttribute("toxicityDetails", Validator.getInstance().getToxicityDetails());
         } else
-            model.addAttribute("generatedSentence", null); // o non aggiungere proprio l’attributo
+            model.addAttribute("generatedSentence", null);
         return "result";
     }
 
-    // comodo: se qualcuno va su /process senza prefisso,
+    // se qualcuno va su /process senza prefisso,
     // lo porto alla home corretta
     @GetMapping("/process")
     public String getProcessDirect() {
         return "redirect:/nonsense";
     }
 
-    // ancora più comodo: / → redirect alla home /nonsense
+    // address: / → redirect alla home /nonsense
     @GetMapping(path = { "/", "" }, params = "redirect")
     public String rootRedirect() {
         return "redirect:/nonsense";

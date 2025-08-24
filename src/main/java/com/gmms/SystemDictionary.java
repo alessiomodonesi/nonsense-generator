@@ -120,7 +120,7 @@ public final class SystemDictionary {
     private void setupWordDic() throws Exception {
         List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
         StringBuilder sb = new StringBuilder();
-        String path = "./src/main/resources/dictionary.json";
+        String path = "./src/main/resources/data/Dictionary.json";
         JsonObject json = null;
         String text = "";
         try {

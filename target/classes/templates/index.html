@@ -20,16 +20,15 @@
 
             <form th:action="@{/nonsense/process}" method="post" class="form">
                 <label for="sentence" class="label">Frase in input</label>
-                <textarea id="sentence" name="sentence" class="textarea" rows="4"
+                <textarea id="sentence" name="sentence" class="textarea" rows="4" autofocus
                     placeholder="Scrivi qui la tua frase..." th:text="${form.sentence}"></textarea>
 
-                <div class="switch-row">
-                    <label class="toggle">
-                        <input type="checkbox" name="showTree" th:checked="${form.showTree}" />
-                        <span class="slider"></span>
-                    </label>
-                    <span class="switch-label">Mostra Syntactic Tree</span>
-                </div>
+                <!-- Toggle Tree (ON di default) -->
+                <button type="button" id="treeToggle" class="toggle-btn" aria-pressed="true" tabindex="-1">
+                    <span class="toggle-dot" aria-hidden="true"></span>
+                    <span class="toggle-text">Syntactic Tree: ON</span>
+                </button>
+                <input type="hidden" name="showTree" id="showTreeInput" value="true" />
 
                 <button type="submit" class="btn-primary">Conferma &amp; Genera</button>
             </form>
@@ -39,16 +38,55 @@
             <span>GMMS Web UI • Spring Boot + Thymeleaf</span>
         </footer>
     </main>
-</body>
 
-<script>
-    const textarea = document.getElementById("sentence");
-    textarea.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault(); // blocca il newline
-            this.form.submit(); // invia il form
-        }
-    });
-</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('form');
+            const btn = document.getElementById('treeToggle');
+            const input = document.getElementById('showTreeInput');
+            const textarea = document.getElementById('sentence');
+
+            // Focus iniziale sulla textarea
+            if (textarea) textarea.focus();
+
+            // Toggle ON/OFF + rimozione focus dal bottone
+            btn.addEventListener('click', () => {
+                const on = btn.getAttribute('aria-pressed') === 'true';
+                btn.setAttribute('aria-pressed', String(!on));
+                input.value = String(!on);
+                btn.querySelector('.toggle-text').textContent = !on
+                    ? 'Syntactic Tree: ON'
+                    : 'Syntactic Tree: OFF';
+                btn.blur(); // evita che Enter successivo ri-attivi il toggle
+            });
+
+            // Il toggle non reagisce a Enter
+            btn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.keyCode === 13) e.preventDefault();
+            });
+
+            // Nella textarea: Enter invia, Shift+Enter va a capo
+            textarea.addEventListener('keydown', (e) => {
+                if ((e.key === 'Enter' || e.keyCode === 13) && !e.shiftKey) {
+                    e.preventDefault();
+                    form.requestSubmit(); // migliore di form.submit()
+                }
+            });
+
+            // Fallback globale: se premi Enter e NON sei su un bottone, invia il form
+            document.addEventListener('keydown', (e) => {
+                if ((e.key === 'Enter' || e.keyCode === 13) && !e.shiftKey) {
+                    const el = document.activeElement;
+                    const isToggle = el === btn;
+                    const isButton = el && el.tagName === 'BUTTON';
+                    if (!isToggle && !isButton) {
+                        e.preventDefault();
+                        form.requestSubmit();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
 
 </html>
