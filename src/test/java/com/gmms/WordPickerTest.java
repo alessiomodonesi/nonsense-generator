@@ -3,7 +3,6 @@ package com.gmms;
 import java.util.Map;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
@@ -87,7 +86,7 @@ public class WordPickerTest {
         WordPicker.getInstance().startWordsExtraction();
         Map<String, List<String>> map = WordPicker.getInstance().getWords();
         int[] count = tc.getWordCount();
-        String[] types = new String[]{"NOUN", "VERB", "ADJECTIVE"};
+        String[] types = new String[] { "NOUN", "VERB", "ADJECTIVE" };
         for (int i = 0; i < map.size(); i++) {
             assertTrue(map.get(types[i]).size() == count[i]);
         }
@@ -118,15 +117,14 @@ public class WordPickerTest {
             tempFile.deleteOnExit();
             try (FileWriter fw = new FileWriter(tempFile)) {
                 fw.write(json);
-                
             } catch (Exception e) {
             }
             sd.initializeDic(tempFile.getAbsolutePath());
         } catch (Exception e) {
         }
 
-        TemplateNotFillable tf = assertThrows(TemplateNotFillable.class, () ->
-        WordPicker.getInstance().startWordsExtraction(), "TemplateNotFillable non è stato lanciato");
+        TemplateNotFillable tf = assertThrows(TemplateNotFillable.class,
+                () -> WordPicker.getInstance().startWordsExtraction(), "TemplateNotFillable non è stato lanciato");
         assertTrue(tf.getMessage().contains("ERRORE: non è possibile riempire il template"));
     }
 }

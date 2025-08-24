@@ -134,7 +134,8 @@ public final class SystemDictionary {
             JsonArray arr = null;
             for (int i = 0; i < types.size(); i++) {
                 arr = json.getAsJsonArray(types.get(i));
-                if(arr == null)throw new OutOfBoundsException("Non esiste il campo " + types.get(i) + " nel json");
+                if (arr == null)
+                    throw new OutOfBoundsException("Non esiste il campo " + types.get(i) + " nel json");
                 List<String> tmp = new ArrayList<String>();
                 for (int j = 0; j < arr.size(); j++) {
                     tmp.add(arr.get(j).getAsString());
@@ -171,8 +172,8 @@ public final class SystemDictionary {
         return createDictionary(nouns.getNouns(words[0]), verbs.getVerbs(words[1]), adjectives.getAdjectives(words[2]));
     }
 
-    //per testing
-    public void reset(){
+    // metodo solo per testing
+    public void reset() {
         nouns = null;
         verbs = null;
         adjectives = null;

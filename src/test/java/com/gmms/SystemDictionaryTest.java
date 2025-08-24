@@ -12,16 +12,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SystemDictionaryTest {
     private List<String> types = new ArrayList<String>(Arrays.asList("NOUN", "VERB", "ADJECTIVE"));
-    // Percorso reale del file usato dalla tua classe
 
     @Test
     @DisplayName("Verifica eccezione se manca un campo nel JSON (VERB)")
     void testJsonMissingField() throws Exception {
-        // Crea un file temporaneo
+        // crea un file temporaneo
         File tempJsonFile = File.createTempFile("test_dict", ".json");
-        tempJsonFile.deleteOnExit(); // Lo rimuove automaticamente al termine del test
+        tempJsonFile.deleteOnExit(); // lo rimuove automaticamente al termine del test
 
-        // Scrivi un JSON malformato dato che mancano i verbi
+        // scrivi un JSON malformato dato che mancano i verbi
         String malformedJson = """
                     {
                         "NOUN": ["cane", "gatto"],
@@ -33,7 +32,7 @@ public class SystemDictionaryTest {
             fw.write(malformedJson);
         }
 
-        // Verifica che l'eccezione venga lanciata
+        // verifica che l'eccezione venga lanciata
         assertThrows(OutOfBoundsException.class, () -> {
             SystemDictionary.getInstance().initializeDic(tempJsonFile.getAbsolutePath());
         });
@@ -58,7 +57,8 @@ public class SystemDictionaryTest {
                 """;
         SystemDictionary.getInstance().reset();
         try {
-            SystemDictionary.getInstance().initializeDic(createTempDictionaryFile(json).getAbsolutePath()); // crea ed inizializza il dizionario di sistema
+            // crea ed inizializza il dizionario di sistema
+            SystemDictionary.getInstance().initializeDic(createTempDictionaryFile(json).getAbsolutePath());
         } catch (Exception e) {
             System.err.println("Errore durante l'inizializzazione: " + e.getMessage());
         }
@@ -77,7 +77,7 @@ public class SystemDictionaryTest {
     @DisplayName("Verifica la generazione di parole dal dizionario")
     void testWordsPickingBaseCase() {
         setUp();
-        Map<String, List<String>> test = SystemDictionary.getInstance().pickDictionaryWords(new int[] { 2,2,2 });
+        Map<String, List<String>> test = SystemDictionary.getInstance().pickDictionaryWords(new int[] { 2, 2, 2 });
         for (int i = 0; i < test.size(); i++) {
             assertTrue(test.get(types.get(i)).size() == 2);
         }
