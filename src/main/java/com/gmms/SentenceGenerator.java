@@ -1,6 +1,7 @@
 package com.gmms;
 
 import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -60,6 +61,12 @@ public final class SentenceGenerator {
             categoryIndex++;
         }
         this.createSentence();
+    }
+
+    // metodo solo per WebController
+    public void resetVar() {
+        this.sentenceDesc = new String();
+        this.fillingWords = new HashMap<>();
     }
 
     // metodi di supporto non presenti nel design class model (chiamate ad altri

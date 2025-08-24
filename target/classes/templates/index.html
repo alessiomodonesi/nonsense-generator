@@ -18,7 +18,7 @@
             <div class="modal__header">
                 <h2 id="errTitle" class="modal__title">⚠️ Si è verificato un problema</h2>
                 <button type="button" class="modal__close" title="Chiudi" aria-label="Chiudi"
-                    data-close="true">×</button>
+                    data-close="true">x</button>
             </div>
             <div class="modal__body">
                 <p th:text="${error}">Messaggio di errore</p>
@@ -33,7 +33,6 @@
         <section class="card">
             <h1 class="title">Generatore non-sense</h1>
             <p class="subtitle">Inserisci una frase di input e scegli se mostrare il Syntactic Tree.</p>
-
             <form th:action="@{/nonsense/process}" method="post" class="form">
                 <label for="sentence" class="label">Frase in input</label>
                 <textarea id="sentence" name="sentence" class="textarea" rows="4" autofocus

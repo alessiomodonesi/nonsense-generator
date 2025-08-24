@@ -65,6 +65,13 @@ public final class SentenceController {
         }
     }
 
+    // metodo solo per WebController
+    public void resetVar() {
+        this.inputSentence = null;
+        this.nonsenseSentence = null;
+        this.currentSentence = null;
+    }
+
     // chiamate ad altri sottosistemi
 
     public void displayProcess(int flag) {

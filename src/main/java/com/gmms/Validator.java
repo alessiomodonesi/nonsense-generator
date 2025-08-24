@@ -10,7 +10,7 @@ public final class Validator {
     private static final Validator instance = new Validator();
     private String maxName = new String();
     private double maxConfidence = 0.0;
-    private double criticValue = 0.75;
+    private double criticValue = 0.50;
 
     // costruttore
     private Validator() {
@@ -78,5 +78,10 @@ public final class Validator {
     public String getToxicityDetails() {
         String roundedLevel = String.format("%.3f", this.maxConfidence);
         return this.maxName + " = " + roundedLevel;
+    }
+
+    public void resetVar() {
+        this.maxName = new String();
+        this.maxConfidence = 0.0;
     }
 }

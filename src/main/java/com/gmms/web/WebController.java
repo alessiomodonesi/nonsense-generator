@@ -105,6 +105,17 @@ public class WebController {
         return "redirect:/nonsense";
     }
 
+    // per reset globale
+    @GetMapping("/reset")
+    public String reset(RedirectAttributes ra) {
+        SentenceController.getInstance().resetVar();
+        SentenceGenerator.getInstance().resetVar();
+        TemplateController.getInstance().resetVar();
+        Validator.getInstance().resetVar();
+        WordPicker.getInstance().resetVar();
+        return "redirect:/nonsense"; // torna alla pagina input
+    }
+
     public static class InputForm {
         private String sentence;
         private boolean showTree;

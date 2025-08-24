@@ -30,4 +30,9 @@ public final class TemplateController {
     public String getTemplateDesc() {
         return template.templateDesc;
     }
+
+    // metodo solo per WebController
+    public void resetVar() {
+        this.template = null;
+    }
 }
