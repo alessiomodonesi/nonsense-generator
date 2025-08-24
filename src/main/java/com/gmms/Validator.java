@@ -5,13 +5,23 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-// -- STATIC ---
+// -- SINGLETON ---
 public final class Validator {
+    private static final Validator instance = new Validator();
+    private String maxName = new String();
+    private double maxConfidence = 0.0;
+    private double criticValue = 0.50;
+
     // costruttore
     private Validator() {
     }
 
-    public static boolean verifySentence(String input) {
+    // per inizializzare un singleton
+    public static Validator getInstance() {
+        return instance;
+    }
+
+    public boolean verifySentence(String input) {
         // Prima controlliamo che l'input non sia nullo.
         if (input.trim().isEmpty())
             return false;
@@ -21,7 +31,7 @@ public final class Validator {
         return input.matches(".*[a-zA-Z].*");
     }
 
-    public static boolean validateSentenceStructure(SyntacticNode syntacticTree) {
+    public boolean validateSentenceStructure(SyntacticNode syntacticTree) {
         boolean checkSentenceStructure = true;
         if (!checkSentenceStructure) {
             IOController.getInstance().showValidationError();
@@ -30,11 +40,7 @@ public final class Validator {
         return true;
     }
 
-    public static boolean verifyToxicity(String sentenceDesc) throws Exception {
-        String maxName = new String();
-        double maxConfidence = 0.0;
-        double criticValue = 0.50;
-
+    public boolean verifyToxicity(String sentenceDesc) throws Exception {
         // invocazione della funzione getToxicityAnalysis dalla classe ApiCaller
         String toxicityAnalysis = ApiCaller.getToxicityAnalysis(sentenceDesc);
         // System.out.println(toxicityAnalysis);
@@ -52,19 +58,25 @@ public final class Validator {
             // estrai il valore di 'confidence' più alto
             String name = categoryObject.get("name").getAsString();
             double confidence = categoryObject.get("confidence").getAsDouble();
-            if (confidence > maxConfidence) {
-                maxName = name;
-                maxConfidence = confidence;
+            if (confidence > this.maxConfidence) {
+                this.maxName = name;
+                this.maxConfidence = confidence;
             }
         }
 
-        if (maxConfidence >= criticValue) {
+        if (this.maxConfidence >= this.criticValue) {
             IOController.getInstance().showToxicityError();
             // System.out.println(maxName + " = " + maxConfidence);
             return false;
         } else {
-            IOController.getInstance().showToxicityResults(maxName, maxConfidence);
+            IOController.getInstance().showToxicityResults(this.maxName, this.maxConfidence);
             return true;
         }
+    }
+
+    // metodi solo per WebController
+    public String getToxicityDetails() {
+        String roundedLevel = String.format("%.3f", this.maxConfidence);
+        return this.maxName + " = " + roundedLevel;
     }
 }

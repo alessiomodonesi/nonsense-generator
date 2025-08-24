@@ -6,6 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/nonsense") // <— prefisso unico
@@ -23,7 +27,7 @@ public class WebController {
     @PostMapping("/process") // POST /nonsense/process
     public String process(@ModelAttribute("form") InputForm form, Model model) throws Exception {
         String sentence = form.getSentence() == null ? "" : form.getSentence().trim();
-        if (!Validator.verifySentence(sentence)) {
+        if (!Validator.getInstance().verifySentence(sentence)) {
             model.addAttribute("error", "Input non valido. Inserisci una frase corretta.");
             return "index";
         }
@@ -33,16 +37,17 @@ public class WebController {
         WordPicker wp = WordPicker.getInstance();
 
         sc.createSentence(sentence);
+        model.addAttribute("input", sentence);
         sc.analysisProcess();
         if (!sc.validationProcess()) {
             model.addAttribute("error", "Validazione fallita. Inserisci un'altra frase.");
             return "index";
         }
 
-        if (form.isShowTree()) {
-            // usa un tuo getter disponibile, qui d'esempio:
+        if (form.isShowTree())
             model.addAttribute("syntacticTree", sc.getSyntacticTree());
-        }
+
+        model.addAttribute("showTree", form.isShowTree());
 
         tc.generateTemplate();
         model.addAttribute("template", tc.getTemplateDesc());
@@ -50,6 +55,14 @@ public class WebController {
 
         try {
             wp.startWordsExtraction();
+            Map<String, List<String>> chosenSnapshot = wp.getWords().entrySet().stream()
+                    .collect(Collectors.toMap(
+                            Map.Entry::getKey,
+                            e -> List.copyOf(e.getValue()), // copia immutabile della lista
+                            (a, b) -> a,
+                            LinkedHashMap::new // mantieni l’ordine
+                    ));
+            model.addAttribute("chosenWords", chosenSnapshot);
             sc.generateSentence();
         } catch (RetryInputException e) {
             sc.resetSentenceState();
@@ -60,20 +73,23 @@ public class WebController {
 
         boolean toxicityOk = sc.toxicityProcess();
         model.addAttribute("toxicityOk", toxicityOk);
-        model.addAttribute("generatedSentence", sc.getSentenceDesc());
-        model.addAttribute("input", sentence);
-        model.addAttribute("showTree", form.isShowTree());
+
+        if (toxicityOk) {
+            model.addAttribute("generatedSentence", sc.getSentenceDesc());
+            model.addAttribute("toxicityDetails", Validator.getInstance().getToxicityDetails());
+        } else
+            model.addAttribute("generatedSentence", null); // o non aggiungere proprio l’attributo
         return "result";
     }
 
-    // Comodo: se qualcuno va su /process senza prefisso, lo porto alla home
-    // corretta
+    // comodo: se qualcuno va su /process senza prefisso,
+    // lo porto alla home corretta
     @GetMapping("/process")
     public String getProcessDirect() {
         return "redirect:/nonsense";
     }
 
-    // Ancora più comodo: / → redirect alla home /nonsense
+    // ancora più comodo: / → redirect alla home /nonsense
     @GetMapping(path = { "/", "" }, params = "redirect")
     public String rootRedirect() {
         return "redirect:/nonsense";

@@ -165,7 +165,7 @@ public final class SystemDictionary {
     // seleziona un sottoinsieme di parole dal dizionario
     public Map<String, List<String>> pickDictionaryWords(int[] words) {
         if (nouns == null || verbs == null || adjectives == null) {
-            throw new DictionaryNotInitialized("ERRORE: Il dizionario non e' stato inizializzato");
+            throw new DictionaryNotInitialized("ERRORE: Il dizionario non è stato inizializzato");
         }
         for (int tmp : words) {
             if (tmp < 0)

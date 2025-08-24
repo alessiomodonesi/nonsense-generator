@@ -4,14 +4,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>GMMS - NonSense Generator</title>
+    <title>Generatore non-sense</title>
     <link rel="stylesheet" href="/app.css" />
 </head>
 
 <body class="bg">
     <main class="container">
         <section class="card">
-            <h1 class="title">NonSense Generator</h1>
+            <h1 class="title">Generatore non-sense</h1>
             <p class="subtitle">Inserisci una frase di input e scegli se mostrare il Syntactic Tree.</p>
 
             <div th:if="${error}" class="alert">
@@ -23,10 +23,13 @@
                 <textarea id="sentence" name="sentence" class="textarea" rows="4"
                     placeholder="Scrivi qui la tua frase..." th:text="${form.sentence}"></textarea>
 
-                <label class="switch">
-                    <input type="checkbox" name="showTree" th:checked="${form.showTree}" />
-                    <span>Mostra Syntactic Tree</span>
-                </label>
+                <div class="switch-row">
+                    <label class="toggle">
+                        <input type="checkbox" name="showTree" th:checked="${form.showTree}" />
+                        <span class="slider"></span>
+                    </label>
+                    <span class="switch-label">Mostra Syntactic Tree</span>
+                </div>
 
                 <button type="submit" class="btn-primary">Conferma &amp; Genera</button>
             </form>
@@ -37,5 +40,15 @@
         </footer>
     </main>
 </body>
+
+<script>
+    const textarea = document.getElementById("sentence");
+    textarea.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault(); // blocca il newline
+            this.form.submit(); // invia il form
+        }
+    });
+</script>
 
 </html>

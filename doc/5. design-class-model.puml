@@ -94,8 +94,10 @@
         buildSyntacticTree(jsonInput : String) : SyntacticNode
     }
 
-    ' STATIC
+    ' SINGLETON
     class Validator {
+        instance : Validator
+        getInstance() : Validator
         verifySentence(input : String) : boolean
         validateSentenceStructure(syntacticTree : SyntacticNode) : boolean
         verifyToxicity(sentenceDesc : String) : boolean

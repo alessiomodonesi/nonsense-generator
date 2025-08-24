@@ -7,26 +7,26 @@ class ValidatorTest {
 
     @Test
     void testVerifySentenceWithValidInput() {
-        assertTrue(Validator.verifySentence("Ciao mondo"));
-        assertTrue(Validator.verifySentence("Hello123"));
+        assertTrue(Validator.getInstance().verifySentence("Ciao mondo"));
+        assertTrue(Validator.getInstance().verifySentence("Hello123"));
     }
 
     @Test
     void testVerifySentenceWithInvalidInput() {
-        assertFalse(Validator.verifySentence("     ")); // solo spazi
-        assertFalse(Validator.verifySentence("123456")); // numeri senza lettere
-        assertFalse(Validator.verifySentence("")); // stringa vuota
+        assertFalse(Validator.getInstance().verifySentence("     ")); // solo spazi
+        assertFalse(Validator.getInstance().verifySentence("123456")); // numeri senza lettere
+        assertFalse(Validator.getInstance().verifySentence("")); // stringa vuota
     }
 
     @Test
     void testValidateSentenceStructure() {
         SyntacticNode root = new SyntacticNode("Mangio", "mangiare", "VERB");
-        assertTrue(Validator.validateSentenceStructure(root));
+        assertTrue(Validator.getInstance().validateSentenceStructure(root));
     }
 
     @Test
     void testValidateSentenceStructureWithNull() {
-        assertTrue(Validator.validateSentenceStructure(null));
+        assertTrue(Validator.getInstance().validateSentenceStructure(null));
     }
 
     @Test

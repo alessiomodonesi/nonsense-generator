@@ -76,11 +76,11 @@ public final class SentenceController {
     }
 
     public boolean validationProcess() {
-        return Validator.validateSentenceStructure(currentSentence.getSentenceTree());
+        return Validator.getInstance().validateSentenceStructure(currentSentence.getSentenceTree());
     }
 
     public boolean toxicityProcess() throws Exception {
-        return Validator.verifyToxicity(currentSentence.getSentenceDesc());
+        return Validator.getInstance().verifyToxicity(currentSentence.getSentenceDesc());
     }
 
     // metodi solo per testing

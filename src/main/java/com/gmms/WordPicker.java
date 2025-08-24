@@ -67,7 +67,7 @@ public final class WordPicker {
             tmp.addAll(pickedDictWords.get(typesGeneratedWords.get(i)));
             if (tmp.size() < templateWords[i]) {
                 if (tmp.size() == 0) {
-                    throw new TemplateNotFillable("ERRORE: non e` possibile riempire il template");
+                    throw new TemplateNotFillable("ERRORE: non è possibile riempire il template");
                 }
                 for (int j = 0; tmp.size() < templateWords[i]; j++) {
                     // - j per non scegliere tra le parole appena aggiunte
@@ -77,7 +77,10 @@ public final class WordPicker {
             generatedWords.put(typesGeneratedWords.get(i), tmp);
         }
 
-        System.out.println(generatedWords);
+        System.out.println("Parole scelte:");
+        generatedWords.forEach((pos, words) -> {
+            System.out.println(" - " + pos + ": " + String.join(", ", words));
+        });
     }
 
     private void pickSentenceWords() {

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Risultato - GMMS</title>
+    <title>Risultato</title>
     <link rel="stylesheet" href="/app.css" />
 </head>
 
@@ -13,52 +13,62 @@
         <section class="card">
             <div class="header-row">
                 <h1 class="title">Risultati</h1>
-                <a href="/nonsense" class="btn-ghost">Nuova frase</a>
             </div>
 
             <div class="grid">
-                <!-- 1) INPUT -->
+                <!-- INPUT -->
                 <div class="panel">
-                    <h2 class="panel-title">Input</h2>
-                    <p class="mono" th:text="${input}">Testo input</p>
+                    <h2 class="panel-title">Frase da analizzare</h2>
+                    <p class="mono" th:text="${input}"></p>
                 </div>
 
-                <!-- 2) SYNTACTIC TREE (mostra solo se presente) -->
+                <!-- SYNTACTIC TREE (mostra solo se presente) -->
                 <div class="panel" th:if="${syntacticTree}">
-                    <h2 class="panel-title">Syntactic Tree</h2>
-                    <pre class="pre" th:text="${syntacticTree}">(albero sintattico)</pre>
+                    <h2 class="panel-title">Syntactic tree</h2>
+                    <pre class="pre" th:text="${syntacticTree}"></pre>
                 </div>
 
-                <!-- 3) TEMPLATE -->
+                <!-- TEMPLATE -->
                 <div class="panel">
                     <h2 class="panel-title">Template</h2>
-                    <p class="template" th:text="${template}">[template]</p>
+                    <p class="template" th:text="${template}"></p>
                     <div class="badge-row">
                         <span class="badge">Parole necessarie:</span>
-                        <span class="chip" th:text="${wordCount}">[1, 2, 3]</span>
+                        <span class="chip" th:text="${wordCount}"></span>
                     </div>
                 </div>
 
-                <!-- 4) TOSSICITÀ -->
+                <!-- PAROLE SCELTE -->
+                <div class="panel">
+                    <h2 class="panel-title">Parole scelte</h2>
+                    <ul>
+                        <li th:each="entry : ${chosenWords}">
+                            <strong th:text="${entry.key}"></strong>:
+                            <span th:text="${#strings.listJoin(entry.value, ', ')}"></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- TOSSICITÀ -->
                 <div class="panel ok" th:if="${toxicityOk}">
                     <h2 class="panel-title">Tossicità</h2>
-                    <p class="status-ok">OK - livello accettabile</p>
+                    <p class="status-ok">OK - Livello accettabile</p>
+                    <li><span th:text="${toxicityDetails}"></span></li>
                 </div>
                 <div class="panel warn" th:if="${!toxicityOk}">
                     <h2 class="panel-title">Tossicità</h2>
-                    <p class="status-warn">Troppo alta – inserisci una nuova frase.</p>
+                    <p class="status-warn">Troppo alta - Inserisci una nuova frase</p>
                     <a th:href="@{/nonsense(err=${'Tossicità troppo alta, riprova'})}" class="btn-primary">
                         Torna all'input
                     </a>
                 </div>
 
-                <!-- 5) FRASE NONSENSE -->
-                <div class="panel">
-                    <h2 class="panel-title">Frase generata (nonsense)</h2>
-                    <blockquote class="quote" th:text="${generatedSentence}">
-                        La penna cade.
-                    </blockquote>
+                <!-- FRASE NONSENSE -->
+                <div class="panel" th:if="${toxicityOk}">
+                    <h2 class="panel-title">Frase non-sense</h2>
+                    <blockquote class="quote" th:text="${generatedSentence}"></blockquote>
                 </div>
+
             </div>
 
         </section>

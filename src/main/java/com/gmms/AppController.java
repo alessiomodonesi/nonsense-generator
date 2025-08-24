@@ -44,7 +44,6 @@ public final class AppController {
             do {
                 try {
                     // --- WORDS EXTRACTION PHASE ---
-                    System.out.print("\nParole scelte: ");
                     wp.startWordsExtraction();
 
                     // --- SENTENCE GENERATION PHASE ---
@@ -79,10 +78,10 @@ public final class AppController {
         String input = new String();
         do {
             input = io.inputSentence();
-            if (!Validator.verifySentence(input)) {
+            if (!Validator.getInstance().verifySentence(input)) {
                 io.showInputError();
             }
-        } while (!Validator.verifySentence(input));
+        } while (!Validator.getInstance().verifySentence(input));
         return input;
     }
 }
