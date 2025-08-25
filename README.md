@@ -53,16 +53,16 @@ L'applicazione sfrutta le API **Google Cloud Natural Language**:
 
 ## Installazione
 
-1. Scarica la release v1.0.0 da GitHub con `curl`:
+1. Scarica la release v1.0.1 da GitHub con `curl`:
 
    ```bash
-   curl -L -o release-v1.0.0.zip https://github.com/alessiomodonesi/nonsense-generator/archive/refs/tags/v1.0.0.zip
+   curl -L -o release-v1.0.1.zip https://github.com/alessiomodonesi/nonsense-generator/archive/refs/tags/v1.0.1.zip
    ```
 
 2. Unzippa la cartella con `unzip`:
 
    ```bash
-   unzip release-v1.0.0.zip
+   unzip release-v1.0.1.zip
    ```
    
    Questo comando funziona solo su `Linux/MacOS`, in alternativa utilizza un tool integrato nel tuo OS.
@@ -70,7 +70,7 @@ L'applicazione sfrutta le API **Google Cloud Natural Language**:
 3. Entra nella cartella:
 
    ```bash
-   cd nonsense-generator-1.0.0
+   cd nonsense-generator-1.0.1
    ```
 
 4. Configura la tua API Key creando un file `.api_key` nella root del progetto:
