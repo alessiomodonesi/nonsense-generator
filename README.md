@@ -135,6 +135,28 @@ Oppure:
 
 ---
 
+### Report dei test
+
+Modalità di running dei vari test.
+
+---
+
+   Compilare tutti i test:
+
+   ```bash
+   mvn clean test
+   ```
+
+---
+
+   Generare il report totale in formato hmtl in ``:
+
+   ```bash
+   mvn surefire-report:report
+   ```
+
+---
+
 ## Dipendenze principali
 
 Dal file `pom.xml`:
