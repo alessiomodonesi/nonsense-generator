@@ -78,7 +78,7 @@ L'applicazione sfrutta le API **Google Cloud Natural Language**:
    Utilizza direttamente `shell`:
    
    ```bash
-   echo "LA_TUA_API_KEY" > .api_key
+   echo "YOUR_API_KEY" > .api_key
    ```
 
    Oppure crea il file con `nano`:
