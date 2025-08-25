@@ -20,7 +20,7 @@ public class SystemDictionaryTest {
         File tempJsonFile = File.createTempFile("test_dict", ".json");
         tempJsonFile.deleteOnExit(); // lo rimuove automaticamente al termine del test
 
-        // scrivi un JSON malformato dato che mancano i verbi
+        // JSON malformato dato che mancano i verbi
         String malformedJson = """
                     {
                         "NOUN": ["cane", "gatto"],
@@ -56,8 +56,7 @@ public class SystemDictionaryTest {
                     }
                 """;
         SystemDictionary.getInstance().reset();
-        try {
-            // crea ed inizializza il dizionario di sistema
+        try { // crea ed inizializza il dizionario di sistema
             SystemDictionary.getInstance().initializeDic(createTempDictionaryFile(json).getAbsolutePath());
         } catch (Exception e) {
             System.err.println("Errore durante l'inizializzazione: " + e.getMessage());
