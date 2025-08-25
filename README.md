@@ -125,8 +125,10 @@ Oppure:
 3. Apri il browser su:
 
    ```bash
-   http://localhost:*port_number*/nonsense
+   http://localhost:"port_number"/nonsense
    ```
+
+   La porta di default resta comunque la numero `8080`
 
 4. Dall’interfaccia potrai:
    - inserire la frase in input
@@ -135,25 +137,25 @@ Oppure:
 
 ---
 
-### Report dei test
+### 🔹 Report dei test
 
-Modalità di running dei vari test.
+Modalità di running dei vari test:
 
----
-
-   Compilare tutti i test:
+1. Compilare tutti i test:
 
    ```bash
    mvn clean test
    ```
 
----
+   Prima esegue la fase clean (cancella la cartella `/target`), poi la fase test.
 
-   Generare il report totale in formato hmtl in ``:
+2. Generare il report totale in formato hmtl:
 
    ```bash
    mvn surefire-report:report
    ```
+
+   👉 Otterrai un report HTML in `target/site/surefire-report.html`
 
 ---
 

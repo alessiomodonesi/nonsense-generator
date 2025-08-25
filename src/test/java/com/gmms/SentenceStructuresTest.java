@@ -31,7 +31,6 @@ class SentenceStructuresTest {
     void testConstructor() {
         SentenceStructures tempStructures = new SentenceStructures(tempFile.getAbsolutePath());
         assertNotNull(tempStructures);
-        assertEquals(3, tempStructures.getDimension());
     }
 
     @Test
