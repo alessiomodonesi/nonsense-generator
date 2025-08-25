@@ -36,7 +36,7 @@ public class SentenceStructures {
         try {
             Scanner sc = new Scanner(structures);
             while (selectedStructure > 0) {
-                sc.hasNextLine();
+                sc.nextLine();
                 selectedStructure--;
             }
             randomStructure = sc.nextLine();

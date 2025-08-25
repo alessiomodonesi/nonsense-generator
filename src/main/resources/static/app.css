@@ -15,9 +15,14 @@
     box-sizing: border-box
 }
 
+/* Impedisci scroll verticale */
 html,
 body {
-    height: 100%
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 body.bg {
