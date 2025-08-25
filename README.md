@@ -95,13 +95,13 @@ L'applicazione sfrutta le API **Google Cloud Natural Language**:
 
 Il progetto può essere eseguito in due modalità: **CLI** (da terminale) oppure **WebApp** (interfaccia web con Spring Boot + Thymeleaf).
 
----
-
 ### 🔹 Modalità CLI (terminale)
 
-La versione a riga di comando utilizza la classe `App`.
+La versione CLI utilizza la classe `App` e viene eseguita da Maven con l’`exec-maven-plugin`.
 
-1. Prima compila ed impacchetta l’applicazione:
+#### Opzione A — 2 passaggi
+   
+1. Compila/impacchetta:
 
    ```bash
    mvn -q -DskipTests clean package
@@ -110,10 +110,20 @@ La versione a riga di comando utilizza la classe `App`.
 2. Avvia la CLI con Maven:
 
    ```bash
-   mvn exec:java -Dexec.mainClass=com.gmms.App
+   mvn -q exec:java -Dexec.mainClass=com.gmms.App
    ```
 
-👉 Verrà richiesto l’input direttamente da terminale.
+### Opzione B — One-liner
+
+1. Compila e avvia in un colpo:
+
+   ```bash
+   mvn -q -DskipTests clean compile exec:java -Dexec.mainClass=com.gmms.App
+   ```
+   
+   Nota: `exec:java` non esegue la compilazione da solo. Per questo negli esempi sopra richiamiamo anche le fasi `compile/package`.
+   
+👉 In entrambi i casi ti verrà richiesto l’input direttamente da terminale.
 
 ---
 
@@ -121,7 +131,7 @@ La versione a riga di comando utilizza la classe `App`.
 
 La versione web utilizza la classe `WebApp` e fornisce un’interfaccia browser.
 
-1. Avvio rapido in sviluppo, esegui direttamente con Maven:
+1. (A) Avvio rapido in sviluppo, esegui direttamente con Maven:
 
    ```bash
    mvn spring-boot:run
@@ -129,7 +139,7 @@ La versione web utilizza la classe `WebApp` e fornisce un’interfaccia browser.
 
 Oppure:
 
-1. Avvio da JAR, prima compila ed impacchetta l’applicazione:
+1. (B) Avvio da JAR, prima compila ed impacchetta l’applicazione:
 
    ```bash
    mvn -q -DskipTests clean package
@@ -154,10 +164,10 @@ Oppure:
 3. Apri il browser su:
 
    ```bash
-   http://localhost:"port_number"/nonsense
+   http://localhost:PORT_NUMBER/nonsense   # <--- sostituisci PORT_NUMBER con la tua porta
    ```
 
-   La porta di default resta comunque la numero `8080`
+   👉 La porta di default su cui si espone il servizio resta comunque la `8080`.
 
 4. Dall’interfaccia potrai:
    - inserire la frase in input
