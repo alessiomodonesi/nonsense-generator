@@ -101,7 +101,13 @@ Il progetto può essere eseguito in due modalità: **CLI** (da terminale) oppure
 
 La versione a riga di comando utilizza la classe `App`.
 
-1. Avvia la CLI con Maven:
+1. Prima compila ed impacchetta l’applicazione:
+
+   ```bash
+   mvn -q -DskipTests clean package
+   ```
+   
+2. Avvia la CLI con Maven:
 
    ```bash
    mvn exec:java -Dexec.mainClass=com.gmms.App
