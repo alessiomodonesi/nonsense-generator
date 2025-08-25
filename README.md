@@ -110,7 +110,7 @@ La versione CLI utilizza la classe `App` e viene eseguita da Maven con l’`exec
 2. Avvia la CLI con Maven:
 
    ```bash
-   mvn -q exec:java -Dexec.mainClass=com.gmms.App
+   mvn exec:java -Dexec.mainClass=com.gmms.App
    ```
 
 ### Opzione B — One-liner
@@ -118,7 +118,7 @@ La versione CLI utilizza la classe `App` e viene eseguita da Maven con l’`exec
 1. Compila e avvia in un colpo:
 
    ```bash
-   mvn -q -DskipTests clean compile exec:java -Dexec.mainClass=com.gmms.App
+   mvn -DskipTests clean compile exec:java -Dexec.mainClass=com.gmms.App
    ```
    
    Nota: `exec:java` non esegue la compilazione da solo. Per questo negli esempi sopra richiamiamo anche le fasi `compile/package`.
