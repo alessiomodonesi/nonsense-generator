@@ -114,13 +114,21 @@ Oppure:
    java -jar target/nonsense-generator-1.0-SNAPSHOT.jar
    ```
 
-2. Apri il browser su:
+2. L'applicazione dispone di un controllo automatico delle porte occupate.
+
+   Controlla quindi la shell e cerca il log contenente la porta del server:
 
    ```bash
-   http://localhost:8080/nonsense
+   Tomcat started on port 8080 (http)
    ```
 
-3. Dall’interfaccia potrai:
+3. Apri il browser su:
+
+   ```bash
+   http://localhost:`port`/nonsense
+   ```
+
+4. Dall’interfaccia potrai:
    - inserire la frase in input
    - decidere se mostrare il Syntactic Tree
    - visualizzare template, parole selezionate, tossicità e frase nonsense.
