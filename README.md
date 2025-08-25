@@ -75,16 +75,20 @@ L'applicazione sfrutta le API **Google Cloud Natural Language**:
 
 4. Configura la tua API Key creando un file `.api_key` nella root del progetto:
 
+   Utilizza direttamente `shell`:
+   
    ```bash
    echo "LA_TUA_API_KEY" > .api_key
    ```
 
-   Oppure crea il file con `nano``:
+   Oppure crea il file con `nano`:
 
    ```bash
    nano .api_key
    ```
 
+   E incollaci poi la tua API Key.
+   
 ---
 
 ## Esecuzione
