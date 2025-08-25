@@ -6,9 +6,9 @@ import java.util.List;
 // --- SINGLETON ---
 public final class SentenceController {
     private static final SentenceController instance = new SentenceController();
-    private Sentence inputSentence;
-    private Sentence nonsenseSentence;
-    private Sentence currentSentence;
+    private Sentence inputSentence; // frase in input dall'utente
+    private Sentence nonsenseSentence; // frase in output generata
+    private Sentence currentSentence; // frase in utilizzo
 
     // costruttore
     private SentenceController() {
@@ -20,21 +20,22 @@ public final class SentenceController {
     }
 
     // crea una nuova Sentence
-    public void createSentence(String desc) {
-        Sentence s = new Sentence(desc);
+    public void createSentence(String sentenceDesc) {
+        Sentence s = new Sentence(sentenceDesc);
 
         if (inputSentence == null) {
-            // prima chiamata: è l'input "buono"
+            // prima chiamata: l'input "buono"
             inputSentence = s;
             currentSentence = inputSentence;
             return;
         }
 
-        // chiamate successive: considerale "nonsense/rigenerate"
+        // chiamate successive: "nonsense/rigenerate"
         nonsenseSentence = s;
         currentSentence = nonsenseSentence;
     }
 
+    // chiama il Generator per generare la frase nonsense
     public void generateSentence() {
         SentenceGenerator.getInstance().generateSentence();
     }
@@ -51,7 +52,7 @@ public final class SentenceController {
         return TemplateController.getInstance().getTemplateDesc();
     }
 
-    // metodi di supporto non presenti nel design class model
+    // metodi di supporto
 
     public void setSentenceTree(SyntacticNode syntacticTree) {
         // a seconda delle esigenze potrebbe anche solo trattarsi di inputSentence
@@ -74,18 +75,22 @@ public final class SentenceController {
 
     // chiamate ad altri sottosistemi
 
+    // chiama l'IOController per mostrare la frase in utilizzo
     public void displayProcess(int flag) {
         IOController.getInstance().displaySentence(currentSentence.getSentenceDesc(), flag);
     }
 
+    // chiama l'Analyzer per il processo di analisi
     public void analysisProcess() throws Exception {
         Analyzer.analyzeSentence(currentSentence.getSentenceDesc());
     }
 
+    // chiama il Validator per la validazione del SentenceTree
     public boolean validationProcess() {
         return Validator.getInstance().validateSentenceStructure(currentSentence.getSentenceTree());
     }
 
+    // chiama il Validator per il processo di verifica della tossicità
     public boolean toxicityProcess() throws Exception {
         return Validator.getInstance().verifyToxicity(currentSentence.getSentenceDesc());
     }

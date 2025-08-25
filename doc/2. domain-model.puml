@@ -35,7 +35,7 @@
 
     class SentenceStructures {}
 
-    SentenceStructures o- TemplateGenerator
+    SentenceStructures -o TemplateGenerator
     Nouns -* SystemDictionary
     Verbs -* SystemDictionary
     Adjectives -* SystemDictionary

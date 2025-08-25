@@ -4,10 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('showTreeInput');
     const textarea = document.getElementById('sentence');
 
-    // Focus iniziale sulla textarea
+    // focus iniziale sulla textarea
     if (textarea) textarea.focus();
 
-    // Toggle ON/OFF + rimozione focus dal bottone
+    // toggle ON/OFF + rimozione focus dal bottone
     btn.addEventListener('click', () => {
         const on = btn.getAttribute('aria-pressed') === 'true';
         btn.setAttribute('aria-pressed', String(!on));
@@ -18,20 +18,20 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.blur(); // evita che Enter successivo ri-attivi il toggle
     });
 
-    // Il toggle non reagisce a Enter
+    // il toggle non reagisce a Enter
     btn.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.keyCode === 13) e.preventDefault();
     });
 
-    // Nella textarea: Enter invia, Shift+Enter va a capo
+    // nella textarea: Enter invia, Shift+Enter va a capo
     textarea.addEventListener('keydown', (e) => {
         if ((e.key === 'Enter' || e.keyCode === 13) && !e.shiftKey) {
             e.preventDefault();
-            form.requestSubmit(); // migliore di form.submit()
+            form.requestSubmit();
         }
     });
 
-    // Fallback globale: se premi Enter e NON sei su un bottone, invia il form
+    // fallback globale: se premi Enter e NON sei su un bottone, invia il form
     document.addEventListener('keydown', (e) => {
         if ((e.key === 'Enter' || e.keyCode === 13) && !e.shiftKey) {
             const el = document.activeElement;
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!modal) return;
 
-    // Se Thymeleaf ha messo la classe is-open (c'è un error), rendi visibile il modal e gestisci focus
+    // se c'è un errore, rende visibile il modal e gestisce focus
     const isOpen = modal.classList.contains('is-open');
 
     function closeModal() {
@@ -86,9 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Se è aperto all'arrivo (flash attribute presente)
+    // se è aperto all'arrivo (flash attribute presente)
     if (isOpen) openModal();
-
-    // (opzionale) autoclose dopo 4s
-    // if (isOpen) setTimeout(closeModal, 4000);
 });

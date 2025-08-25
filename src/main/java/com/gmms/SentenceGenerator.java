@@ -9,7 +9,7 @@ import java.util.Random;
 public final class SentenceGenerator {
     private static final SentenceGenerator instance = new SentenceGenerator();
     private String sentenceDesc;
-    private Map<String, List<String>> fillingWords;
+    private Map<String, List<String>> fillingWords; // parole da inserire nel template
 
     // costruttore
     private SentenceGenerator() {
@@ -20,18 +20,18 @@ public final class SentenceGenerator {
         return instance;
     }
 
-    // metodi di supporto non presenti nel design class model (metodi di
-    // SentenceGenerator)
+    // generazione della frase nonsense a partire da template e
+    // parole scelte da WordPicker
     public void generateSentence() {
         // modifiche fatte per rendere fattibile il testing
         if (sentenceDesc == null || !sentenceDesc.contains("template di test")) {
             getTemplateDesc();
             getWords();
         } else
-            sentenceDesc = sentenceDesc.replaceFirst("template di test :", "");
+            sentenceDesc = sentenceDesc.replaceFirst("template di test: ", "");
         // fine della correzione per il testing
-        Random r = new Random();
 
+        Random r = new Random();
         String[] wordsCategories = fillingWords.keySet().toArray(new String[fillingWords.keySet().size()]);
 
         // interi usati per scorrere lungo l'array sopra
@@ -40,21 +40,19 @@ public final class SentenceGenerator {
 
         // while annidato -> per ogni categoria di parola (cambiata ad ogni iterazione
         // del ciclo esterno) viene ricercata la parola indicante la
-        // categoria (es. "[noun]") nella description e sostituita con un termine di
-        // quella categoria scelto randomicamente dal dizionario(Map)
+        // categoria (es. "[NOUN]") nella description e sostituita con un termine di
+        // quella categoria scelto randomicamente dal dizionario (Map)
         while (categoryIndex < categoryTotalNumber) {
             String wordToBeReplaced = wordsCategories[categoryIndex];
             List<String> sameTypeWords = fillingWords.get(wordToBeReplaced);
             int dimension = sameTypeWords.size();
 
-            // basandosi sul fatto che il WordPicker ha scelto il corretto numero di
-            // nomi/parole
             while (dimension > 0) {
                 // (gli # mancanti nel template)
                 int index = r.nextInt(dimension);
                 String wordToBeInserted = sameTypeWords.get(index);
                 sentenceDesc = sentenceDesc.replaceFirst(wordToBeReplaced, wordToBeInserted);
-                sentenceDesc = sentenceDesc.replaceAll("[\\[\\]]", ""); // RIMUOVE LE [] DALLA FRASE NON SENSE
+                sentenceDesc = sentenceDesc.replaceAll("[\\[\\]]", ""); // rimuove le [] dalla frase nonsense
                 sameTypeWords.remove(index);
                 dimension--;
             }
@@ -63,24 +61,18 @@ public final class SentenceGenerator {
         createSentence();
     }
 
-    // metodo solo per WebController
-    public void resetVar() {
-        sentenceDesc = new String();
-        fillingWords = new HashMap<>();
+    // metodi di supporto
+
+    private void createSentence() {
+        SentenceController.getInstance().createSentence(sentenceDesc);
     }
 
-    // metodi di supporto non presenti nel design class model (chiamate ad altri
-    // sottosistemi)
     private void getTemplateDesc() {
         sentenceDesc = SentenceController.getInstance().getTemplateDesc();
     }
 
     private void getWords() {
         fillingWords = SentenceController.getInstance().getWords();
-    }
-
-    private void createSentence() {
-        SentenceController.getInstance().createSentence(sentenceDesc);
     }
 
     // metodi per il testing
@@ -92,4 +84,9 @@ public final class SentenceGenerator {
         fillingWords = testFillingWords;
     }
 
+    // metodo solo per WebController
+    public void resetVar() {
+        sentenceDesc = new String();
+        fillingWords = new HashMap<>();
+    }
 }

@@ -72,6 +72,7 @@ public final class IOController {
         System.err.println("\nERRORE: La frase generata ha un livello di tossicità non accettabile");
     }
 
+    // mostra risultati inerenti al livello di tossicità
     public void showToxicityResults(String toxicityLabel, double toxicityLevel) {
         String roundedLevel = String.format("%.3f", toxicityLevel);
         System.out.println(

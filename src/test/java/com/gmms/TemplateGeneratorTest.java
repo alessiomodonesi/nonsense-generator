@@ -53,14 +53,14 @@ class TemplateGeneratorTest {
 
         Template t = TemplateGenerator.getInstance().generateTemplate(s);
 
-        assertEquals("Ciao mondo.", t.templateDesc);
-        assertEquals(3, t.templateWords.length);
-        assertArrayEquals(new int[] { 0, 0, 0 }, t.templateWords);
+        assertEquals("Ciao mondo.", t.getTemplateDesc());
+        assertEquals(3, t.getTemplateWords().length);
+        assertArrayEquals(new int[] { 0, 0, 0 }, t.getTemplateWords());
 
-        assertFalse(t.templateDesc.contains("%s"));
-        assertEquals(0, countOccurrences(t.templateDesc, "[NOUN]"));
-        assertEquals(0, countOccurrences(t.templateDesc, "[VERB]"));
-        assertEquals(0, countOccurrences(t.templateDesc, "[ADJECTIVE]"));
+        assertFalse(t.getTemplateDesc().contains("%s"));
+        assertEquals(0, countOccurrences(t.getTemplateDesc(), "[NOUN]"));
+        assertEquals(0, countOccurrences(t.getTemplateDesc(), "[VERB]"));
+        assertEquals(0, countOccurrences(t.getTemplateDesc(), "[ADJECTIVE]"));
     }
 
     @Test
@@ -71,11 +71,11 @@ class TemplateGeneratorTest {
 
         Template t = TemplateGenerator.getInstance().generateTemplate(s);
 
-        assertFalse(t.templateDesc.contains("%s"), "Non dovrebbero rimanere %s nella descrizione.");
+        assertFalse(t.getTemplateDesc().contains("%s"), "Non dovrebbero rimanere %s nella descrizione.");
 
-        int nN = countOccurrences(t.templateDesc, "[NOUN]");
-        int nV = countOccurrences(t.templateDesc, "[VERB]");
-        int nA = countOccurrences(t.templateDesc, "[ADJECTIVE]");
+        int nN = countOccurrences(t.getTemplateDesc(), "[NOUN]");
+        int nV = countOccurrences(t.getTemplateDesc(), "[VERB]");
+        int nA = countOccurrences(t.getTemplateDesc(), "[ADJECTIVE]");
         int totalTags = nN + nV + nA;
 
         // 1 slot genera 1..3 tag
@@ -83,10 +83,10 @@ class TemplateGeneratorTest {
                 "Con un singolo %s ci si attende da 1 a 3 tag.");
 
         // i contatori devono corrispondere al numero di tag
-        assertEquals(nN, t.templateWords[0], "Conteggio NOUN non coerente.");
-        assertEquals(nV, t.templateWords[1], "Conteggio VERB non coerente.");
-        assertEquals(nA, t.templateWords[2], "Conteggio ADJECTIVE non coerente.");
-        assertEquals(totalTags, t.templateWords[0] + t.templateWords[1] + t.templateWords[2],
+        assertEquals(nN, t.getTemplateWords()[0], "Conteggio NOUN non coerente.");
+        assertEquals(nV, t.getTemplateWords()[1], "Conteggio VERB non coerente.");
+        assertEquals(nA, t.getTemplateWords()[2], "Conteggio ADJECTIVE non coerente.");
+        assertEquals(totalTags, t.getTemplateWords()[0] + t.getTemplateWords()[1] + t.getTemplateWords()[2],
                 "La somma dei contatori deve eguagliare i tag trovati.");
     }
 
@@ -98,21 +98,21 @@ class TemplateGeneratorTest {
 
         Template t = TemplateGenerator.getInstance().generateTemplate(s);
 
-        assertFalse(t.templateDesc.contains("%s"));
+        assertFalse(t.getTemplateDesc().contains("%s"));
 
-        int nN = countOccurrences(t.templateDesc, "[NOUN]");
-        int nV = countOccurrences(t.templateDesc, "[VERB]");
-        int nA = countOccurrences(t.templateDesc, "[ADJECTIVE]");
+        int nN = countOccurrences(t.getTemplateDesc(), "[NOUN]");
+        int nV = countOccurrences(t.getTemplateDesc(), "[VERB]");
+        int nA = countOccurrences(t.getTemplateDesc(), "[ADJECTIVE]");
         int totalTags = nN + nV + nA;
 
         // 2 slot => ciascuno 1..3 -> totale 2..6
         assertTrue(totalTags >= 2 && totalTags <= 6,
                 "Con due %s ci si attende da 2 a 6 tag complessivi.");
 
-        assertEquals(nN, t.templateWords[0]);
-        assertEquals(nV, t.templateWords[1]);
-        assertEquals(nA, t.templateWords[2]);
-        assertEquals(totalTags, t.templateWords[0] + t.templateWords[1] + t.templateWords[2]);
+        assertEquals(nN, t.getTemplateWords()[0]);
+        assertEquals(nV, t.getTemplateWords()[1]);
+        assertEquals(nA, t.getTemplateWords()[2]);
+        assertEquals(totalTags, t.getTemplateWords()[0] + t.getTemplateWords()[1] + t.getTemplateWords()[2]);
     }
 
     @Test
@@ -124,9 +124,9 @@ class TemplateGeneratorTest {
         for (int i = 0; i < 20; i++) {
             Template t = TemplateGenerator.getInstance().generateTemplate(s);
 
-            int nN = countOccurrences(t.templateDesc, "[NOUN]");
-            int nV = countOccurrences(t.templateDesc, "[VERB]");
-            int nA = countOccurrences(t.templateDesc, "[ADJECTIVE]");
+            int nN = countOccurrences(t.getTemplateDesc(), "[NOUN]");
+            int nV = countOccurrences(t.getTemplateDesc(), "[VERB]");
+            int nA = countOccurrences(t.getTemplateDesc(), "[ADJECTIVE]");
             int totalTags = nN + nV + nA;
 
             // 3 slot => 3..9 tag complessivi
@@ -134,13 +134,13 @@ class TemplateGeneratorTest {
                     "Con tre %s ci si attende da 3 a 9 tag complessivi.");
 
             // coerenza contatori
-            assertEquals(nN, t.templateWords[0]);
-            assertEquals(nV, t.templateWords[1]);
-            assertEquals(nA, t.templateWords[2]);
-            assertEquals(totalTags, t.templateWords[0] + t.templateWords[1] + t.templateWords[2]);
+            assertEquals(nN, t.getTemplateWords()[0]);
+            assertEquals(nV, t.getTemplateWords()[1]);
+            assertEquals(nA, t.getTemplateWords()[2]);
+            assertEquals(totalTags, t.getTemplateWords()[0] + t.getTemplateWords()[1] + t.getTemplateWords()[2]);
 
             // sanity check: contiene solo tag previsti (oltre al testo fisso)
-            String payload = t.templateDesc.replace("A ", "")
+            String payload = t.getTemplateDesc().replace("A ", "")
                     .replace(" B ", " ")
                     .replace(" C ", " ")
                     .replace(" D.", "")

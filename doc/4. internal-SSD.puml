@@ -84,7 +84,7 @@ participant TemplateGenerator
 participant SentenceStructures
 
 user -> TemplateController : inputProcess
-TemplateController -> TemplateGenerator: generateTemplate(sentenceStructure)
+TemplateController -> TemplateGenerator: generateTemplate(SentenceStructures)
 TemplateGenerator -> SentenceStructures: getRandomStructure()
 SentenceStructures --> TemplateGenerator: randomStructure
 TemplateGenerator -> Template ++: create(templateDesc, templateWords[])

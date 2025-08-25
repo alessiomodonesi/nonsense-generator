@@ -98,7 +98,7 @@ public class WordPickerTest {
         NoGeneratedWordsException ng = assertThrows(NoGeneratedWordsException.class,
                 () -> WordPicker.getInstance().getWords(),
                 "NoGeneratedWordsException non e' stato lanciato");
-        assertTrue(ng.getMessage().contains("ERRORE: non sono state generate parole in precedenza"));
+        assertTrue(ng.getMessage().contains("ERRORE: nessuna parola generata in precedenza"));
     }
 
     @Test

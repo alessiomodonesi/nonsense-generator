@@ -1,9 +1,8 @@
 package com.gmms;
 
 public final class Sentence {
-
-    private String sentenceDesc;
-    private SyntacticNode syntacticTree;
+    private String sentenceDesc; // testo della frase
+    private SyntacticNode syntacticTree; // albero sintattico della frase
 
     // costruttore
     public Sentence(String sentenceDesc) {

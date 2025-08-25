@@ -8,9 +8,9 @@ import com.google.gson.JsonParser;
 // -- SINGLETON ---
 public final class Validator {
     private static final Validator instance = new Validator();
-    private String maxName = new String();
-    private double maxConfidence = 0.0;
-    private double criticValue = 0.75;
+    private String maxName = new String(); // campo con valore massimo risultante dall'analisi della tossicità
+    private double maxConfidence = 0.0; // valore del campo sopra citato
+    private double criticValue = 0.60; // valore massimo accettato per la tossicità
 
     // costruttore
     private Validator() {
@@ -21,16 +21,19 @@ public final class Validator {
         return instance;
     }
 
+    // metodo che verifica l'input iniziale dell'utente
     public boolean verifySentence(String input) {
-        // Prima controlliamo che l'input non sia nullo.
+        // controlla che l'input non sia nullo
         if (input.trim().isEmpty())
             return false;
 
         // ".*[a-zA-Z].*" è una regular expression che cerca almeno una lettera
-        // (maiuscola o minuscola) in qualsiasi punto della stringa.
+        // (maiuscola o minuscola) in qualsiasi punto della stringa
         return input.matches(".*[a-zA-Z].*");
     }
 
+    // metodo che valida la struttura sintattica della frase in input
+    // implementato di facciata, la logica del controllo è da individuare
     public boolean validateSentenceStructure(SyntacticNode syntacticTree) {
         boolean checkSentenceStructure = true;
         if (!checkSentenceStructure) {
@@ -40,6 +43,7 @@ public final class Validator {
         return true;
     }
 
+    // metodo che chiama l'ApiCaller per la verifica della tossicità
     public boolean verifyToxicity(String sentenceDesc) throws Exception {
         // invocazione della funzione getToxicityAnalysis dalla classe ApiCaller
         String toxicityAnalysis = ApiCaller.getToxicityAnalysis(sentenceDesc);
@@ -75,6 +79,7 @@ public final class Validator {
     }
 
     // metodi solo per WebController
+
     public String getToxicityDetails() {
         String roundedLevel = String.format("%.3f", maxConfidence);
         return maxName + " = " + roundedLevel;

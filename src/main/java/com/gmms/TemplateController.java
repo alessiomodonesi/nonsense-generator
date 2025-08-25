@@ -16,20 +16,20 @@ public final class TemplateController {
         return instance;
     }
 
-    // chiama il generatore per il template
+    // chiama il Generator per il template
     public void generateTemplate() {
         template = TemplateGenerator.getInstance().generateTemplate(s);
     }
 
-    // restituisce l'array di interi che rappresenta quanti nomi, verbi e aggettivi
-    // sono richiesti nel template
+    // restituisce l'array di interi che rappresenta quanti nomi, verbi
+    // e aggettivi sono richiesti nel template
     public int[] getWordCount() {
-        return template.templateWords;
+        return template.getTemplateWords();
     }
 
     // restituisce la descrizione del template
     public String getTemplateDesc() {
-        return template.templateDesc;
+        return template.getTemplateDesc();
     }
 
     // metodo solo per WebController

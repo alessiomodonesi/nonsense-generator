@@ -6,18 +6,19 @@ import java.util.Scanner;
 import java.util.Random;
 
 public class SentenceStructures {
-    private File structures;
-    private int dimension;
+    private File structures; // file contenente le possibili strutture della frase nonsense
+    private int dimension; // dimensione del file sopra citato
 
     // costruttore
     public SentenceStructures(String path) {
-        dimension = 0;
+        this.dimension = 0;
         this.structures = new File(path);
         try {
             Scanner sc = new Scanner(structures);
+            // scorre lungo il file e misura la dimensione
             while (sc.hasNextLine()) {
-                sc.nextLine(); // leggi la riga e sposta il "cursore" in avanti
-                dimension++; // ora puoi incrementare il contatore
+                sc.nextLine();
+                this.dimension++;
             }
             sc.close();
         } catch (FileNotFoundException e) {
@@ -26,10 +27,12 @@ public class SentenceStructures {
         }
     }
 
+    // metodo che restituisce una struttura selezionata in modo randomico dal file
     public String getRandomStructure() {
         String randomStructure = "";
         Random r = new Random();
         int selectedStructure = r.nextInt(dimension);
+
         try {
             Scanner sc = new Scanner(structures);
             while (selectedStructure > 0) {

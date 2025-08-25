@@ -14,6 +14,7 @@ public final class ApiCaller {
   private ApiCaller() {
   }
 
+  // metodo che chiama l'API analyzeSyntax e passa il payload
   public static String getSyntaxAnalysis(String sentenceDesc) throws Exception {
     String url = "https://language.googleapis.com/v1/documents:analyzeSyntax?key=" + getApiKey();
     String jsonPayload = String.format("""
@@ -30,6 +31,7 @@ public final class ApiCaller {
     return syntaxAnalysis;
   }
 
+  // metodo che chiama l'API moderateText e passa il payload
   public static String getToxicityAnalysis(String sentenceDesc) throws Exception {
     String url = "https://language.googleapis.com/v1/documents:moderateText?key=" + getApiKey();
     String jsonPayload = String.format("""
@@ -45,6 +47,7 @@ public final class ApiCaller {
     return toxicityAnalysis;
   }
 
+  // metodo privato per ottenere l'API key dal file in locale
   private static String getApiKey() {
     String apiKey = "";
     try {
@@ -66,6 +69,7 @@ public final class ApiCaller {
     }
   }
 
+  // metodo privato che si occupa dell'http request e gestisce il POST
   private static String makeCall(String url, String payload) throws Exception {
     HttpClient client = HttpClient.newHttpClient();
     HttpRequest request = HttpRequest.newBuilder()

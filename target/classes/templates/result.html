@@ -56,20 +56,13 @@
                     <p class="status-ok">OK - Livello accettabile</p>
                     <li><span th:text="${toxicityDetails}"></span></li>
                 </div>
-                <div class="panel warn" th:if="${!toxicityOk}">
-                    <h2 class="panel-title">Tossicità</h2>
-                    <p class="status-warn">Troppo alta - Inserisci una nuova frase</p>
-                    <a th:href="@{/nonsense/retry}" class="btn-primary">Torna all'input</a>
-                </div>
 
                 <!-- FRASE NONSENSE -->
                 <div class="panel" th:if="${toxicityOk}">
                     <h2 class="panel-title">Frase non-sense</h2>
                     <blockquote class="quote" th:text="${generatedSentence}"></blockquote>
                 </div>
-
             </div>
-
         </section>
 
         <footer class="footer">

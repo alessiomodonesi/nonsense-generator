@@ -125,7 +125,7 @@ Oppure:
 3. Apri il browser su:
 
    ```bash
-   http://localhost:`port`/nonsense
+   http://localhost:*port_number*/nonsense
    ```
 
 4. Dall’interfaccia potrai:

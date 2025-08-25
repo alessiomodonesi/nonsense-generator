@@ -12,6 +12,11 @@ import java.util.Map;
 import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 
+/*
+ * versione alternativa dell'AppController
+ * stessi metodi invocati, semplicemente non chiama l'IOController,
+ * ma salva nel model di spring
+ */
 @Controller
 @RequestMapping("/nonsense") // <— prefisso unico
 public class WebController {
@@ -40,6 +45,7 @@ public class WebController {
         sc.createSentence(sentence);
         model.addAttribute("input", sentence);
         sc.analysisProcess();
+
         if (!sc.validationProcess()) {
             model.addAttribute("error", "Validazione fallita. Inserisci un'altra frase.");
             return "index";

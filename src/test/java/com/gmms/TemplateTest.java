@@ -14,9 +14,9 @@ class TemplateTest {
 
         Template t = new Template(desc, words);
 
-        assertEquals(desc, t.templateDesc);
-        assertSame(words, t.templateWords, "L'array deve essere lo stesso riferimento passato (nessuna copia).");
-        assertArrayEquals(new int[] { 2, 1, 1 }, t.templateWords);
+        assertEquals(desc, t.getTemplateDesc());
+        assertSame(words, t.getTemplateWords(), "L'array deve essere lo stesso riferimento passato (nessuna copia).");
+        assertArrayEquals(new int[] { 2, 1, 1 }, t.getTemplateWords());
     }
 
     @Test
@@ -28,7 +28,7 @@ class TemplateTest {
         // mutazione esterna
         words[2] = 4;
 
-        assertArrayEquals(new int[] { 1, 0, 4 }, t.templateWords,
+        assertArrayEquals(new int[] { 1, 0, 4 }, t.getTemplateWords(),
                 "Poiché l'array non viene copiato, la modifica esterna si riflette nel campo pubblico.");
     }
 
@@ -36,15 +36,15 @@ class TemplateTest {
     @DisplayName("Supporta descrizione null e array null")
     void allowsNullInputs() {
         Template t1 = new Template(null, null);
-        assertNull(t1.templateDesc);
-        assertNull(t1.templateWords);
+        assertNull(t1.getTemplateDesc());
+        assertNull(t1.getTemplateWords());
     }
 
     @Test
     @DisplayName("Supporta array vuoto")
     void allowsEmptyArray() {
         Template t = new Template("only desc", new int[0]);
-        assertNotNull(t.templateWords);
-        assertEquals(0, t.templateWords.length);
+        assertNotNull(t.getTemplateWords());
+        assertEquals(0, t.getTemplateWords().length);
     }
 }

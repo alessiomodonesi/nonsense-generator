@@ -8,16 +8,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class WebApp {
     public static void main(String[] args) {
-        int port = findAvailablePort(8080, 8999); // range preferito
+        int port = findAvailablePort(8080, 8999); // range di porte selezionabili
         SpringApplication app = new SpringApplication(WebApp.class);
         app.setDefaultProperties(java.util.Map.of("server.port", port));
         app.run(args);
     }
 
     @PostConstruct
-    public static void initDictionary() {
+    public static void initDictionary() { // crea ed inizializza il dizionario di sistema
         try {
-            // crea ed inizializza il dizionario di sistema
             SystemDictionary.getInstance().initializeDic("./src/main/resources/data/Dictionary.json");
         } catch (Exception e) {
             System.err.println("Errore durante l'inizializzazione: " + e.getMessage());
