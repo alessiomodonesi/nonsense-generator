@@ -86,7 +86,9 @@ public class WebController {
                     sc.generateSentence();
 
                     // --- TOXICITY EVALUATION PHASE ---
-                    if (!sc.toxicityProcess()) {
+                    boolean toxicityOk = sc.toxicityProcess();
+                    model.addAttribute("toxicityOk", toxicityOk);
+                    if (!toxicityOk) {
                         // ra.addFlashAttribute("error", "Tossicità troppo alta, riprova");
                         continue; // ricomincia il ciclo interno
                     }
