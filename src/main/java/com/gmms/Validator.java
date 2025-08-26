@@ -55,6 +55,9 @@ public final class Validator {
         // estrai l'array di 'moderationCategories'
         JsonArray categories = rootObject.getAsJsonArray("moderationCategories");
 
+        // resetto le variabili per il salvataggio della tossicità
+        resetVar();
+
         // itera su ogni elemento dell'array
         for (JsonElement categoryElement : categories) {
             JsonObject categoryObject = categoryElement.getAsJsonObject();
