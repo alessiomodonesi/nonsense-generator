@@ -32,62 +32,83 @@ public class WebController {
 
     @PostMapping("/process") // POST /nonsense/process
     public String process(@ModelAttribute("form") InputForm form, Model model, RedirectAttributes ra) throws Exception {
-        String sentence = form.getSentence() == null ? "" : form.getSentence().trim();
-        if (!Validator.getInstance().verifySentence(sentence)) {
-            model.addAttribute("error", "Input non valido. Inserisci una frase corretta.");
-            return "index";
-        }
-
         SentenceController sc = SentenceController.getInstance();
         TemplateController tc = TemplateController.getInstance();
         WordPicker wp = WordPicker.getInstance();
+        String sentence = new String();
 
-        sc.createSentence(sentence);
-        model.addAttribute("input", sentence);
-        sc.analysisProcess();
+        while (true) {
+            boolean backToStart = false;
 
-        if (!sc.validationProcess()) {
-            model.addAttribute("error", "Validazione fallita. Inserisci un'altra frase.");
-            return "index";
+            // --- INPUT PHASE ---
+            sentence = form.getSentence() == null ? "" : form.getSentence().trim();
+
+            if (!Validator.getInstance().verifySentence(sentence)) {
+                model.addAttribute("error", "Input non valido. Inserisci una frase corretta.");
+                return "index";
+            }
+
+            sc.createSentence(sentence);
+            model.addAttribute("input", sentence);
+
+            // --- ANALYSIS PHASE ---
+            sc.analysisProcess();
+
+            if (!sc.validationProcess()) {
+                model.addAttribute("error", "Validazione fallita. Inserisci un'altra frase.");
+                continue; // torna al ciclo while esterno
+            }
+
+            if (form.isShowTree())
+                model.addAttribute("syntacticTree", sc.getSyntacticTree());
+
+            model.addAttribute("showTree", form.isShowTree());
+
+            // --- TEMPLATE GENERATION PHASE ---
+            tc.generateTemplate();
+            model.addAttribute("template", tc.getTemplateDesc());
+            model.addAttribute("wordCount", Arrays.toString(tc.getWordCount()));
+
+            do {
+                try {
+                    // --- WORDS EXTRACTION PHASE ---
+                    wp.startWordsExtraction();
+                    Map<String, List<String>> chosenSnapshot = wp.getWords().entrySet().stream()
+                            .collect(Collectors.toMap(
+                                    Map.Entry::getKey,
+                                    e -> List.copyOf(e.getValue()), // copia immutabile della lista
+                                    (a, b) -> a,
+                                    LinkedHashMap::new // mantieni l’ordine
+                            ));
+                    model.addAttribute("chosenWords", chosenSnapshot);
+
+                    // --- SENTENCE GENERATION PHASE ---
+                    sc.generateSentence();
+
+                    // --- TOXICITY EVALUATION PHASE ---
+                    if (!sc.toxicityProcess()) {
+                        // ra.addFlashAttribute("error", "Tossicità troppo alta, riprova");
+                        continue; // ricomincia il ciclo interno
+                    }
+
+                    model.addAttribute("generatedSentence", sc.getSentenceDesc());
+                    model.addAttribute("toxicityDetails", Validator.getInstance().getToxicityDetails());
+                    break; // esce dal ciclo interno se tutto è ok
+                } catch (RetryInputException e) {
+                    // RESET AND RESTART
+                    sc.resetSentenceState();
+                    wp.resetNumOfRetries();
+                    System.out.println(e.getMessage());
+                    backToStart = true;
+                    break; // esce dal ciclo interno, ma segna restart
+                }
+            } while (true);
+
+            if (!backToStart)
+                break; // esce dal ciclo principale
         }
 
-        if (form.isShowTree())
-            model.addAttribute("syntacticTree", sc.getSyntacticTree());
-
-        model.addAttribute("showTree", form.isShowTree());
-        tc.generateTemplate();
-        model.addAttribute("template", tc.getTemplateDesc());
-        model.addAttribute("wordCount", Arrays.toString(tc.getWordCount()));
-
-        try {
-            wp.startWordsExtraction();
-            Map<String, List<String>> chosenSnapshot = wp.getWords().entrySet().stream()
-                    .collect(Collectors.toMap(
-                            Map.Entry::getKey,
-                            e -> List.copyOf(e.getValue()), // copia immutabile della lista
-                            (a, b) -> a,
-                            LinkedHashMap::new // mantieni l’ordine
-                    ));
-            model.addAttribute("chosenWords", chosenSnapshot);
-            sc.generateSentence();
-        } catch (RetryInputException e) {
-            sc.resetSentenceState();
-            wp.resetNumOfRetries();
-            model.addAttribute("error", e.getMessage());
-            return "index";
-        }
-
-        boolean toxicityOk = sc.toxicityProcess();
-        model.addAttribute("toxicityOk", toxicityOk);
-
-        if (toxicityOk) {
-            model.addAttribute("generatedSentence", sc.getSentenceDesc());
-            model.addAttribute("toxicityDetails", Validator.getInstance().getToxicityDetails());
-        } else {
-            ra.addFlashAttribute("error", "Tossicità troppo alta, riprova");
-            return "redirect:/nonsense"; // URL pulito
-        }
-
+        // --- DISPLAY SENTENCE PHASE ---
         return "result";
     }
 
