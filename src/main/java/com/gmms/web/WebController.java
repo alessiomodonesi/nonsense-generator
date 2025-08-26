@@ -32,16 +32,17 @@ public class WebController {
 
     @PostMapping("/process") // POST /nonsense/process
     public String process(@ModelAttribute("form") InputForm form, Model model, RedirectAttributes ra) throws Exception {
+        // alias statici ai singleton
         SentenceController sc = SentenceController.getInstance();
         TemplateController tc = TemplateController.getInstance();
         WordPicker wp = WordPicker.getInstance();
+
         String sentence = new String();
-        boolean retryInput = false; // scritto solo per testare in caso la tossicità richieda di ripartire
-                                    // dall'input, sennò la rigenerazione da worrdpicker loopa
+
         while (true) {
             boolean backToStart = false;
-            if (retryInput)
-                return "index";
+            boolean toxicityOk = true;
+
             // --- INPUT PHASE ---
             sentence = form.getSentence() == null ? "" : form.getSentence().trim();
 
@@ -63,7 +64,6 @@ public class WebController {
 
             if (form.isShowTree())
                 model.addAttribute("syntacticTree", sc.getSyntacticTree());
-
             model.addAttribute("showTree", form.isShowTree());
 
             // --- TEMPLATE GENERATION PHASE ---
@@ -88,53 +88,35 @@ public class WebController {
                     sc.generateSentence();
 
                     // --- TOXICITY EVALUATION PHASE ---
-                    if (!sc.toxicityProcess()) {
-
+                    toxicityOk = sc.toxicityProcess();
+                    if (!toxicityOk)
                         continue; // ricomincia il ciclo interno
-                    }
 
-                    sc.displayProcess(1);
-                    model.addAttribute("generatedSentence", sc.getSentenceDesc());
-                    model.addAttribute("toxicityDetails", Validator.getInstance().getToxicityDetails());
                     break; // esce dal ciclo interno se tutto è ok
                 } catch (RetryInputException e) {
                     // RESET AND RESTART
                     sc.resetSentenceState();
                     wp.resetNumOfRetries();
-                    System.out.println(e.getMessage());
                     backToStart = true;
-                    ra.addFlashAttribute("error", "Tossicità troppo alta, riprova");
-                    retryInput = true;
+
+                    if (!toxicityOk)
+                        model.addAttribute("error", "Tossicità troppo alta, riprova.");
+                    else
+                        model.addAttribute("error", "Nessuna parola dell'user selezionata.");
+
                     break; // esce dal ciclo interno, ma segna restart
                 }
             } while (true);
 
             if (!backToStart)
                 break; // esce dal ciclo principale
+            return "index";
         }
 
         // --- DISPLAY SENTENCE PHASE ---
+        model.addAttribute("generatedSentence", sc.getSentenceDesc());
+        model.addAttribute("toxicityDetails", Validator.getInstance().getToxicityDetails());
         return "result";
-    }
-
-    // se qualcuno va su /process senza prefisso,
-    // lo porto alla home corretta
-    @GetMapping("/process")
-    public String getProcessDirect() {
-        return "redirect:/nonsense";
-    }
-
-    // address: / → redirect alla home /nonsense
-    @GetMapping(path = { "/", "" }, params = "redirect")
-    public String rootRedirect() {
-        return "redirect:/nonsense";
-    }
-
-    // redirect in caso di tossicità troppo elevata
-    @GetMapping("/retry")
-    public String retry(RedirectAttributes ra) {
-        ra.addFlashAttribute("error", "Tossicità troppo alta, riprova");
-        return "redirect:/nonsense";
     }
 
     // per reset globale

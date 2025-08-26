@@ -51,14 +51,14 @@
                 </div>
 
                 <!-- TOSSICITÀ -->
-                <div class="panel ok" th:if="${toxicityOk}">
+                <div class="panel ok">
                     <h2 class="panel-title">Tossicità</h2>
                     <p class="status-ok">OK - Livello accettabile</p>
                     <li><span th:text="${toxicityDetails}"></span></li>
                 </div>
 
                 <!-- FRASE NONSENSE -->
-                <div class="panel" th:if="${toxicityOk}">
+                <div class="panel">
                     <h2 class="panel-title">Frase non-sense</h2>
                     <blockquote class="quote" th:text="${generatedSentence}"></blockquote>
                 </div>
