@@ -36,10 +36,12 @@ public class WebController {
         TemplateController tc = TemplateController.getInstance();
         WordPicker wp = WordPicker.getInstance();
         String sentence = new String();
-
+        boolean retryInput = false; // scritto solo per testare in caso la tossicità richieda di ripartire
+                                    // dall'input, sennò la rigenerazione da worrdpicker loopa
         while (true) {
             boolean backToStart = false;
-
+            if (retryInput)
+                return "index";
             // --- INPUT PHASE ---
             sentence = form.getSentence() == null ? "" : form.getSentence().trim();
 
@@ -87,10 +89,11 @@ public class WebController {
 
                     // --- TOXICITY EVALUATION PHASE ---
                     if (!sc.toxicityProcess()) {
-                        // ra.addFlashAttribute("error", "Tossicità troppo alta, riprova");
+
                         continue; // ricomincia il ciclo interno
                     }
 
+                    sc.displayProcess(1);
                     model.addAttribute("generatedSentence", sc.getSentenceDesc());
                     model.addAttribute("toxicityDetails", Validator.getInstance().getToxicityDetails());
                     break; // esce dal ciclo interno se tutto è ok
@@ -100,6 +103,8 @@ public class WebController {
                     wp.resetNumOfRetries();
                     System.out.println(e.getMessage());
                     backToStart = true;
+                    ra.addFlashAttribute("error", "Tossicità troppo alta, riprova");
+                    retryInput = true;
                     break; // esce dal ciclo interno, ma segna restart
                 }
             } while (true);
