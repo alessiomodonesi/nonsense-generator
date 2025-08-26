@@ -64,7 +64,7 @@ L'applicazione sfrutta le API **Google Cloud Natural Language**:
    ```bash
    unzip release-v1.0.zip
    ```
-   
+
    Questo comando funziona solo su `Linux/MacOS`, in alternativa utilizza un tool integrato nel tuo OS.
 
 3. Entra nella cartella:
@@ -75,8 +75,8 @@ L'applicazione sfrutta le API **Google Cloud Natural Language**:
 
 4. Configura la tua API Key creando un file `.api_key` nella root del progetto:
 
-   Utilizza direttamente `shell`:
-   
+   Utilizza direttamente `shell` (su Windows Prompt omettere le virgolette):
+
    ```bash
    echo "YOUR_API_KEY" > .api_key
    ```
@@ -88,7 +88,7 @@ L'applicazione sfrutta le API **Google Cloud Natural Language**:
    ```
 
    E incollaci poi la tua API Key.
-   
+
 ---
 
 ## Esecuzione
@@ -100,13 +100,13 @@ Il progetto può essere eseguito in due modalità: **CLI** (da terminale) oppure
 La versione CLI utilizza la classe `App` e viene eseguita da Maven con l’`exec-maven-plugin`.
 
 #### Opzione A — 2 passaggi
-   
+
 1. Compila/impacchetta:
 
    ```bash
    mvn -q -DskipTests clean package
    ```
-   
+
 2. Avvia la CLI con Maven:
 
    ```bash
@@ -120,9 +120,9 @@ La versione CLI utilizza la classe `App` e viene eseguita da Maven con l’`exec
    ```bash
    mvn -DskipTests clean compile exec:java -Dexec.mainClass=com.gmms.App
    ```
-   
+
    Nota: `exec:java` non esegue la compilazione da solo. Per questo negli esempi sopra richiamiamo anche le fasi `compile/package`.
-   
+
 👉 In entrambi i casi ti verrà richiesto l’input direttamente da terminale.
 
 ---
