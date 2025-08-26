@@ -110,7 +110,7 @@ public class IOControllerTest {
         assertTrue(actualOutput.contains("\nLivello di tossicità della frase generata: "));
         assertTrue(actualOutput.contains("Profanity"));
         assertTrue(actualOutput.contains(" = "));
-        assertTrue(actualOutput.contains("0.233"));
+        assertTrue(actualOutput.contains("0.233") || actualOutput.contains("0,233")); // MacOS o Windows
     }
 
 }
