@@ -10,7 +10,7 @@ public final class Validator {
     private static final Validator instance = new Validator();
     private String maxName = new String(); // campo con valore massimo risultante dall'analisi della tossicità
     private double maxConfidence = 0.0; // valore del campo sopra citato
-    private double criticValue = 0.60; // valore massimo accettato per la tossicità
+    private double criticValue = 0.65; // valore massimo accettato per la tossicità
 
     // costruttore
     private Validator() {

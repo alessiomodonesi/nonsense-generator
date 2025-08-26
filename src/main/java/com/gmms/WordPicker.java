@@ -52,9 +52,9 @@ public final class WordPicker {
         if (numOfRetries == 0) {
             wordsInput = SentenceController.getInstance().getSyntacticTree();
             pickedWordsSen = new HashMap<>();
-            analyzeSyntacticTree(wordsInput); // analizza la frase in input solo la prima volta
         }
 
+        analyzeSyntacticTree(wordsInput); // analizza la frase in input solo la prima volta
         pickSentenceWords(); // seleziona le parole dalla frase in input
 
         // conta quante parole devono essere estratte dal dizionario
